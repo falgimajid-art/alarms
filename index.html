@@ -42,7 +42,7 @@ max-width: 480px; width: 100%;
 box-shadow: 0 20px 60px rgba(0,0,0,0.6);
 }
 .selector-logo {
-width: 300px; height: 150px;
+width: 100px; height: 100px;
 margin: 0 auto 20px auto;
 }
 .selector-logo img { width: 100%; height: 100%; object-fit: contain; }
@@ -243,6 +243,71 @@ border: 1px solid;
 .badge-ab { color: #3b82f6; border-color: #3b82f6; background: rgba(59,130,246,0.1); }
 .badge-c { color: #10b981; border-color: #10b981; background: rgba(16,185,129,0.1); }
 
+/* ===== IMAGES SECTION ===== */
+.images-section {
+background: var(--cell-bg); border: 1px solid var(--border);
+border-radius: 10px; padding: 15px;
+display: flex; flex-direction: column; gap: 12px;
+margin-top: 4px;
+}
+.images-section h4 { margin: 0; color: var(--text-dim); font-size: 13px; font-weight: bold; }
+.img-admin-row {
+display: flex; gap: 8px; align-items: center; flex-wrap: wrap;
+}
+.img-url-input {
+flex: 1; min-width: 200px; padding: 9px 12px;
+background: var(--bg-dark); border: 1px solid var(--border);
+border-radius: 6px; color: white; font-family: inherit; font-size: 13px;
+outline: none; box-sizing: border-box;
+}
+.img-url-input::placeholder { color: #475569; }
+.btn-add-img {
+padding: 9px 16px; border-radius: 6px; border: none;
+background: var(--primary); color: #020617;
+cursor: pointer; font-weight: bold; font-family: inherit; font-size: 13px;
+white-space: nowrap;
+}
+.images-gallery {
+display: grid;
+grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+gap: 10px;
+}
+.img-thumb-wrap {
+position: relative; border-radius: 8px; overflow: hidden;
+border: 1px solid var(--border); background: var(--bg-dark);
+aspect-ratio: 4/3; cursor: pointer;
+}
+.img-thumb-wrap img {
+width: 100%; height: 100%; object-fit: cover;
+transition: transform 0.2s;
+}
+.img-thumb-wrap:hover img { transform: scale(1.05); }
+.img-delete-btn {
+position: absolute; top: 4px; left: 4px;
+background: rgba(220,38,38,0.85); color: white;
+border: none; border-radius: 4px; width: 22px; height: 22px;
+cursor: pointer; font-size: 12px; display: flex; align-items: center; justify-content: center;
+}
+.img-empty { color: #475569; font-size: 12px; padding: 10px 0; }
+
+/* ===== LIGHTBOX ===== */
+#lightbox {
+display: none; position: fixed; top:0; left:0; right:0; bottom:0;
+background: rgba(0,0,0,0.92); z-index: 99999;
+align-items: center; justify-content: center; padding: 20px;
+}
+#lightbox img {
+max-width: 95vw; max-height: 90vh;
+border-radius: 10px; object-fit: contain;
+box-shadow: 0 10px 60px rgba(0,0,0,0.8);
+}
+#lightbox-close {
+position: absolute; top: 15px; left: 15px;
+background: rgba(255,255,255,0.15); color: white;
+border: none; border-radius: 50%; width: 38px; height: 38px;
+font-size: 20px; cursor: pointer; display: flex; align-items: center; justify-content: center;
+}
+
 .export-modal {
 display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
 background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(5px);
@@ -266,23 +331,29 @@ direction: ltr; text-align: left;
 <div id="lineSelectorScreen">
 <div class="selector-box">
 <div class="selector-logo">
-<img src="https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true" alt="شعار" onerror="this.style.display='none'">
+<img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="شعار" onerror="this.style.display='none'">
 </div>
-<h1>منظومة نقل المياه - الجبيل</h1>
-<p></p>
+<h1>شركة نقل المياه</h1>
+<p>اختر الخط لعرض إنذاراته</p>
 <div class="line-buttons">
 <button class="line-btn line-btn-ab" onclick="selectLine('AB')">
 <span class="btn-icon"></span>
 <span class="btn-label">LINE AB</span>
-<span class="btn-sub">UNITALARMS</span>
+<span class="btn-sub">UNITALARM</span>
 </button>
 <button class="line-btn line-btn-c" onclick="selectLine('C')">
 <span class="btn-icon"></span>
 <span class="btn-label">LINE C</span>
-<span class="btn-sub">UNITALARMS</span>
+<span class="btn-sub">UNITALARM</span>
 </button>
 </div>
 </div>
+</div>
+
+<!-- LIGHTBOX -->
+<div id="lightbox" onclick="closeLightbox()">
+<button id="lightbox-close" onclick="closeLightbox()">✕</button>
+<img id="lightbox-img" src="" alt="">
 </div>
 
 <!-- ===== EXPORT MODAL ===== -->
@@ -309,7 +380,7 @@ direction: ltr; text-align: left;
 <input type="text" class="search-box" placeholder="ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
 </div>
 <div class="company-logo">
-<img id="logoImg" src="https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true" alt="شعار الشركة" onerror="this.style.display='none'" style="display: block;">
+<img id="logoImg" src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="شعار الشركة" onerror="this.style.display='none'" style="display: block;">
 </div>
 </div>
 
@@ -317,6 +388,7 @@ direction: ltr; text-align: left;
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px; flex-wrap:wrap; gap:10px;">
 <div class="section-title">🎛️ مصفوفة الإنذارات النشطة</div>
 <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
+<button class="line-tab" style="border-color:#64748b; color:#94a3b8; background:rgba(100,116,139,0.1);" onclick="goHome()">🏠 الرئيسية</button>
 <div class="line-switcher">
 <button class="line-tab line-tab-ab" id="tabAB" onclick="switchLine('AB')">LINE AB</button>
 <button class="line-tab line-tab-c active" id="tabC" onclick="switchLine('C')">LINE C</button>
@@ -336,7 +408,7 @@ direction: ltr; text-align: left;
 
 <script>
 const MY_NAME = "MAJED M.FALQI";
-const LOGO_URL = "https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true";
+const LOGO_URL = "https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png";
 
 // ============================================================
 // LINE C ALARMS (الكود الأصلي)
@@ -450,11 +522,11 @@ document.getElementById('tabC').classList.toggle('active', line === 'C');
 function applyLineTheme(line) {
 var badge = document.getElementById('activeLineBadge');
 if(line === 'AB') {
-badge.textContent = ' LINE AB';
+badge.textContent = '⚡ LINE AB';
 badge.className = 'active-line-badge badge-ab';
 document.querySelector(':root').style.setProperty('--primary', '#3b82f6');
 } else {
-badge.textContent = ' LINE C';
+badge.textContent = '🔧 LINE C';
 badge.className = 'active-line-badge badge-c';
 document.querySelector(':root').style.setProperty('--primary', '#10b981');
 }
@@ -514,7 +586,8 @@ var cells = document.querySelectorAll('.cell');
 if(cells[index]) cells[index].classList.add(isAB ? 'active-ab' : 'active');
 
 var db = getCurrentDB();
-var data = db[index] || { cause:'', action:'', dwg:'', notes:'' };
+var data = db[index] || { cause:'', action:'', dwg:'', notes:'', images:[] };
+if(!data.images) data.images = [];
 var dis = isAdmin ? '' : 'disabled';
 
 var adminHtml = isAdmin
@@ -527,6 +600,8 @@ var adminHtml = isAdmin
 var titleClass = isAB ? 'alarm-header-title-ab' : 'alarm-header-title';
 var lineTag = '<span style="font-size:13px; opacity:0.7; margin-right:10px;">[' + currentLine + ']</span>';
 
+var imagesHtml = makeImagesSection(index, data.images);
+
 document.getElementById('detailsSection').innerHTML =
 '<div><h2 class="' + titleClass + '">' + lineTag + name + '</h2></div>'
 + '<div class="info-cards-container">'
@@ -535,6 +610,7 @@ document.getElementById('detailsSection').innerHTML =
 + makeCard('📑 القسم المسؤول (Depart Resp)', index, 'dwg', data.dwg, dis)
 + makeCard('📝 ملاحظات إضافية', index, 'notes', data.notes, dis)
 + '</div>'
++ imagesHtml
 + adminHtml;
 
 if(window.innerWidth < 768) {
@@ -547,6 +623,96 @@ return '<div class="info-card">'
 + '<h4>' + title + '</h4>'
 + '<textarea ' + dis + ' placeholder="لا توجد بيانات مسجلة..." oninput="updateDB(' + index + ',\'' + field + '\',this.value)">' + (value||'') + '</textarea>'
 + '</div>';
+}
+
+function makeImagesSection(index, images) {
+var thumbsHtml = '';
+if(images && images.length > 0) {
+images.forEach(function(url, i) {
+var delBtn = isAdmin
+? '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف الصورة">✕</button>'
+: '';
+thumbsHtml += '<div class="img-thumb-wrap">'
++ delBtn
++ '<img src="' + url + '" alt="صورة ' + (i+1) + '" onclick="openLightbox(\'' + url.replace(/'/g,"\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">'
++ '</div>';
+});
+} else {
+thumbsHtml = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
+}
+
+var addRowHtml = isAdmin
+? '<div class="img-admin-row">'
++ '<input class="img-url-input" id="imgUrlInput_' + index + '" type="text" placeholder="أدخل رابط الصورة URL هنا..." />'
++ '<button class="btn-add-img" onclick="addImage(' + index + ')">+ إضافة صورة</button>'
++ '</div>'
+: '';
+
+return '<div class="images-section">'
++ '<h4>🖼️ الصور التوضيحية</h4>'
++ addRowHtml
++ '<div class="images-gallery" id="gallery_' + index + '">' + thumbsHtml + '</div>'
++ '</div>';
+}
+
+function addImage(index) {
+var input = document.getElementById('imgUrlInput_' + index);
+var url = input ? input.value.trim() : '';
+if(!url) { alert('أدخل رابط الصورة أولاً'); return; }
+var db = getCurrentDB();
+if(!db[index]) db[index] = {};
+if(!db[index].images) db[index].images = [];
+db[index].images.push(url);
+if(input) input.value = '';
+// re-render gallery only
+var gallery = document.getElementById('gallery_' + index);
+if(gallery) {
+var imgs = db[index].images;
+gallery.innerHTML = '';
+imgs.forEach(function(u, i) {
+var wrap = document.createElement('div');
+wrap.className = 'img-thumb-wrap';
+wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
++ '<img src="' + u + '" alt="صورة ' + (i+1) + '" onclick="openLightbox(\'' + u.replace(/'/g,"\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+gallery.appendChild(wrap);
+});
+}
+}
+
+function deleteImage(index, imgIndex) {
+if(!confirm('هل تريد حذف هذه الصورة؟')) return;
+var db = getCurrentDB();
+if(db[index] && db[index].images) {
+db[index].images.splice(imgIndex, 1);
+// re-render
+var gallery = document.getElementById('gallery_' + index);
+if(gallery) {
+var imgs = db[index].images;
+if(imgs.length === 0) {
+gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
+} else {
+gallery.innerHTML = '';
+imgs.forEach(function(u, i) {
+var wrap = document.createElement('div');
+wrap.className = 'img-thumb-wrap';
+wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
++ '<img src="' + u + '" alt="صورة ' + (i+1) + '" onclick="openLightbox(\'' + u.replace(/'/g,"\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+gallery.appendChild(wrap);
+});
+}
+}
+}
+}
+
+function openLightbox(url) {
+document.getElementById('lightbox-img').src = url;
+var lb = document.getElementById('lightbox');
+lb.style.display = 'flex';
+}
+
+function closeLightbox() {
+document.getElementById('lightbox').style.display = 'none';
+document.getElementById('lightbox-img').src = '';
 }
 
 function updateDB(index, field, value) {
@@ -596,6 +762,14 @@ navigator.clipboard.writeText(copyText.value).then(function() {
 alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
 closeExportModal();
 });
+}
+
+function goHome() {
+document.getElementById('detailsSection').innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+var screen = document.getElementById('lineSelectorScreen');
+screen.style.display = 'flex';
+screen.style.opacity = '0';
+setTimeout(function() { screen.style.opacity = '1'; }, 10);
 }
 
 // Start with selector visible
