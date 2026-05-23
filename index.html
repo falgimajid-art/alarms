@@ -522,11 +522,11 @@ document.getElementById('tabC').classList.toggle('active', line === 'C');
 function applyLineTheme(line) {
 var badge = document.getElementById('activeLineBadge');
 if(line === 'AB') {
-badge.textContent = '⚡ LINE AB';
+badge.textContent = ' LINE AB';
 badge.className = 'active-line-badge badge-ab';
 document.querySelector(':root').style.setProperty('--primary', '#3b82f6');
 } else {
-badge.textContent = '🔧 LINE C';
+badge.textContent = ' LINE C';
 badge.className = 'active-line-badge badge-c';
 document.querySelector(':root').style.setProperty('--primary', '#10b981');
 }
@@ -544,7 +544,7 @@ if(LOGO_URL) { logo.src = LOGO_URL; logo.style.display='block'; } else { logo.st
 
 var badge = document.getElementById('roleBadge');
 if(isAdmin) {
-badge.innerText = "وضع تعديل البيانات (أدمن)";
+badge.innerText = " (أدمن)";
 badge.style.color = "#f59e0b";
 badge.style.borderColor = "#f59e0b";
 badge.style.background = "rgba(245,158,11,0.1)";
