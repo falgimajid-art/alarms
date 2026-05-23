@@ -4,6 +4,13 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>LINEC ALARMS</title>
+
+<meta name="apple-mobile-web-app-capable" content="yes">
+<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+<meta name="apple-mobile-web-app-title" content="LINEC Alarms">
+<meta name="theme-color" content="#020617">
+<link rel="apple-touch-icon" href="https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true">
+
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans+Arabic:wght@400;700&amp;display=swap" rel="stylesheet">
 <style>
 :root {
@@ -22,6 +29,8 @@ font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
 margin: 0; padding: 0;
 display: flex; flex-direction: column;
 min-height: 100vh; box-sizing: border-box;
+padding-top: env(safe-area-inset-top);
+padding-bottom: env(safe-area-inset-bottom);
 }
 .app-container {
 display: flex; flex-direction: column;
@@ -36,7 +45,8 @@ border-radius: 12px; padding: 15px;
 }
 .brand-title h3 { margin: 0; font-size: 20px; color: var(--text-light); }
 .company-logo {
-width: 150px; height: 150px; background:;
+width: 55px; height: 55px; background: #1e293b;
+border: 1px dashed var(--primary); border-radius: 8px;
 display: flex; align-items: center; justify-content: center; overflow: hidden;
 }
 .company-logo img { width: 100%; height: 100%; object-fit: contain; }
@@ -112,14 +122,9 @@ textarea:disabled {
 background: rgba(15, 23, 42, 0.6);
 color: #cbd5e1; cursor: not-allowed; border-style: dashed;
 }
-.admin-controls {
-display: flex; justify-content: space-between; align-items: center;
-margin-top: 10px; padding-top: 15px;
-border-top: 1px solid var(--border);
-flex-wrap: wrap; gap: 10px; width: 100%;
+.sync-status {
+font-size: 12px; color: #f59e0b; display: flex; align-items: center; gap: 5px;
 }
-.btn { padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: inherit; font-size: 13px; }
-.btn-primary { background: var(--primary); color: #020617; }
 .placeholder-text { text-align: center; color: var(--text-dim); padding: 40px 10px; }
 .developer-signature { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 10px; font-weight: 600; letter-spacing: 0.5px; }
 .developer-signature span { color: var(--primary); font-weight: bold; }
@@ -136,22 +141,6 @@ border-radius: 16px; padding: 40px 30px; text-align: center;
 max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
 }
 .modal-content h1 { color: var(--primary); margin: 0 0 8px 0; font-size: 28px; font-weight: 700; }
-
-.export-modal {
-display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(5px);
-z-index: 20000; align-items: center; justify-content: center; padding: 20px;
-}
-.export-box {
-background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px;
-padding: 25px; width: 100%; max-width: 600px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-}
-.code-output {
-width: 100%; height: 250px; background: #020617; border: 1px solid var(--border);
-border-radius: 8px; color: #34d399; font-family: monospace; font-size: 12px;
-padding: 15px; box-sizing: border-box; overflow: auto; white-space: pre-wrap; margin: 15px 0;
-direction: ltr; text-align: left;
-}
 </style>
 </head>
 <body>
@@ -159,19 +148,7 @@ direction: ltr; text-align: left;
 <div id="welcomeModal" class="welcome-modal" style="opacity: 0; visibility: hidden;">
 <div class="modal-content">
 <h1>شركة نقل المياه</h1>
-<p>لوحة الإنذارات</p>
-</div>
-</div>
-
-<div id="exportModal" class="export-modal" style="display: none;">
-<div class="export-box">
-<h3 style="margin:0; color:var(--primary);">📋 تم توليد الكود المحدث بنجاح!</h3>
-<p style="font-size:13px; color:var(--text-dim); margin: 5px 0 15px 0;">انسخ الكود بالأسفل بالكامل واستبدله في GitHub لحفظ معلوماتك بشكل دائم:</p>
-<textarea id="codeOutputArea" class="code-output" readonly=""></textarea>
-<div style="display:flex; gap:10px; justify-content:flex-end;">
-<button class="btn" style="background:#334155; color:white;" onclick="closeExportModal()">إغلاق النافذة</button>
-<button class="btn btn-primary" onclick="copyGeneratedCode()">📋 نسخ الكود بالكامل</button>
-</div>
+<p>لوحة الإنذارات الذكية</p>
 </div>
 </div>
 
@@ -189,7 +166,7 @@ direction: ltr; text-align: left;
 <div class="panel-section">
 <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
 <div class="section-title">🎛️ مصفوفة الإنذارات النشطة</div>
-<div id="roleBadge" class="status-badge">وضع استعراض البيانات (المشغلين)</div>
+<div id="roleBadge" class="status-badge">جاري الاتصال بالسحابة...</div>
 </div>
 <div id="grid" class="annunciator-grid"></div>
 </div>
@@ -204,6 +181,8 @@ direction: ltr; text-align: left;
 <script>
 const MY_NAME = "MAJED M.FALQI";
 const LOGO_URL = "https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true";
+// 🔗 رابط قاعدة البيانات السحابية الخاصة بك
+const FIREBASE_URL = "https://alarms-1e2d2-default-rtdb.firebaseio.com/alarms.json";
 
 const alarmNames = [
 "Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
@@ -214,83 +193,70 @@ const alarmNames = [
 "Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
 ];
 
-const embeddedDB = {
-"0": { "cause": "إنذار أساسي مصاحب له إنذار آخر", "action": "التأكد من لوحة الإنذارات لوجود إنذار آخر", "dwg": "", "notes": "" },
-"1": { "cause": "- إنذار يؤكد بأن الوحدة على السرعة الثابتة", "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة" },
-"2": { "cause": "- وحدة التحكم ربالسرعات ليست جاهزة على الوضع التلقائي", "action": "- التأكد من المفتاح على الوضع التلقائي\n- إعادة ضبط لوحة التحكم بالسرعات SIC" },
-"3": { "cause": "- وحدة التحكم في السرعات ليست جاهزة للتشغيل على السرعة الثابتة", "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة" },
-"4": { "cause": "- وجود مشكلة في مفتاح الوحدة وليست على الوضع المركزي", "action": "- تغيير المفتاح الى الوضع التلقائي وإبلاغ مركز التحكم" },
-"5": { "cause": "- حرارة خزان الزيت منخفضة", "action": "- التحقق من المسخن المتصل بالخزان\n- تغيير SETPOINT لصمام التحكم بالحرارة " },
-"6": { "cause": "- عطل في مانع التسرب الميكانيكي", "action": "- التحقق من الموقع في حال وجود تسريب MECHANICAL SEAL ", "dwg": "- قسم المكيانيكا" },
-"7": { "cause": "- ضغط الزيت منخفض قبل صمام التحكم بالحرارة", "action": "- التحقق من مستوى الخزان\n- التحقق من صمام التحكم بالحرارة TCV ", "dwg": "قسم الأجهزة" },
-"8": { "cause": "دلالة على وجود إنذار في لوحة التحكم بالسرعات في SIC", "action": "- التأكد من الإنذارات في لوحة التحكم بالسرعات SIC\n- عمل اعادة ضبط ( RESET ) لمرة واحدة فقط \n- تسجيل وكتابة الإنذار ", "dwg": "قسم الكهرباء" },
-"9": { "cause": "- وجود تآكل في الفرش الكربونية الى 50% \n- تحتاج الى", "action": "- إطفاء الوحدة وتبليغ القسم المختص\n- تشغيل الوحدة الإحتياطية ", "dwg": "- قسم الكهرباء" },
-"10": { "cause": "- الوحدة ليست على الوضع التلقائي", "action": "- التأكد من المفتاح على الوضع التلقائي AUTO" },
-"11": { "cause": "- وجود مشكلة في نظام التشغيل PLC ولا يؤثر على عملية التشغيل", "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ", "dwg": "- قسم الأجهزة" },
-"12": { "cause": "- فشل في أحد الصمامات الخاصة بالوحدة", "action": "- التحقق من جميع الصمامات للوحدة أنها على الوضع الطبيعي\n- التحقق من قواطع الصمامات في غرفة الجهد المنخفض" },
-"13": { "cause": "- حرارة خزان الزيت مرتفعة", "action": "- التأكد من دائرة التبريد في النظام \n- عمل تفريغ بسيط من نقطة التفريغ للمبادل الحراري" },
-"14": { "cause": "- مستوى الزيت في الخزان منخفض", "action": "- التحقق في حالة وجود تسريب في النظام \n- تعبئة الخزان بالزيت T46", "dwg": "- قسم الميكانيكا" },
-"15": { "cause": "- انسداد في الفلتر ووصول اختلاف الضغط الى 0.6بار ", "action": "- يتم تغيير خدمة الفلتر CHANGE OIL FILTER FUTY\n- تأكد من خلو الفلتر من الهواء بواسطة صمام التنفيس\n- إبلاغ الصيانة لتغيير الفلاتر", "dwg": "- قسم الميكانيكا" },
-"16": { "cause": "- وجود حرارة في غرفة الحقات المنزلقة ( SLIPRING )\n", "action": "- وجود إشكالية في المروحة SLIPR FAN\n- وجود إشكالية في حساس الحرارة ", "dwg": "- presidential\n- قسم الكهرباء\n- قسم الأجهزة", "notes": "" },
-"17": { "cause": "- اختلاف ضغط الهواء داخل غرفة الحلقات المنزلقة", "action": "- تنظيف الفلاتر التي بأعلى الغرفة كحل مؤقت\n- فتح الأبواب العلوية ليتساوى الضغط ", "dwg": "- قسم الكهرباء" },
-"18": { "cause": "- درجة حرارة الماطور مرتفعة \n- الهواء الداخل على الماطور ساخن", "action": "- التحقق من نظام التبريد في المحطة\n- يتم زيادة كفاءة نظام التبريد ( تشغيل مضخات spray ) ( تشغيل المراوح )" },
-"19": { "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- وجود مشكلة في الحساس ", "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 90 درجة مئوية", "dwg": "- قسم الأجهزة", "notes": "- قسم الأجهزة عندما ترتفع درجة الحرارة بشكل مبالغ فيه بسرعة عالية." },
-"20": { "cause": "- ارتفاع في درجة حرارة الملفات الى 132 درجة مئوية", "action": "- التحقق من حالة المبادل الحراري ووصول المياه إليه \n- التأكد من صمامات المبادل الحراري\n- التأكد من صمام التحكم بالحرارة الداخل على الماطور\n- التحقق من حالة نظام التبريد في المحطة", "dwg": "- قسم الكهرباء" },
-"21": { "cause": "- حرارة الزيت في كراسي التحميل للمضخة مرتفعة 80 درجة مئوية", "action": "- التحقق من نظام التزييت بأنه في الخدمة والضغوطات سليمة\n- التحقق من دائرة التبريد في النظام" },
-"22": { "cause": "- حرارة المياه في المضخة مرتفعة", "action": "- عدم وجود كمية ماء كافية داخل المضخة \n- يتم فتح صمامات التفريغ للمضخة\n- مشكلة في الحساس" },
-"23": { "cause": "- وجود اهتزاز عالي في المضخة", "action": "- فحص حساس الاهتزاز هل هو بالوضع الصحيح او لا\n- الفحص من الموقع لوجود إهتزاز فعلي " },
-"24": { "cause": "- وجود عطل في إحدى مرحلات المحرك", "action": "- تبليغ مشرف المحطة فورًا", "dwg": "- قسم الكهرباء" },
-"25": { "cause": "- زر الطوارئ للوحدة مضغوط ", "action": "- التأكد من إعادته لوضعه " },
-"26": { "cause": "- خطأ في مراحل التشغيل", "action": "- دلالة على وجود مشكلة في مراحل بدء الحركة او الإيقاف للوحدة \n- المحاولة بالتشغيل مرة واحدة فقط وبعد ذلك يتم إبلاغ القسم المختص", "dwg": "- قسم الأجهزة" },
-"27": { "cause": "- وجود مشكلة in نظام التشغيل PLC يؤثر على عملية التشغيل", "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ", "dwg": "- قسم الأجهزة " },
-"28": { "cause": "- ضغط الدخول للوحدة منخفض", "action": "- التأكد من صمام الدخول بأنه على الوضع الطبيعي للتشغيل\n- التحقق من مقياس الضغط الداخل \n- وجود مشكلة في مقياس الضغط", "dwg": "- قسم الأجهزة" },
-"29": { "cause": "- ارتفاع ضغط الخروج من المضخة", "action": "- التأكد من صمام الخروج بأنه مفتوح كامل \n- التأكد من مقياس الضغط للخروج ", "dwg": "- قسم الأجهزة" },
-"30": { "cause": "- ضغط الزيت منخفض بعد صمام التحكم بالحرارة", "action": "- التحقق من مستوى الخزان\n- التحقق من صمام التحكم بالحرارة TCV ", "dwg": "- قسم الأجهزة" },
-"31": { "cause": "- وجود عطل في وحدة التحكم بالسرعات SIC", "action": "- التحقق من الإنذارات في لوحة التحكم بالسرعات \n- إعادة ضبط لمرة واحدة ", "dwg": "- قسم الكهرباء" },
-"32": { "cause": "- إنذار عند تشغيل الوحدة " },
-"33": { "cause": "- دلالة على أن الوحدة متصلة مع القاطع في الجهد المتوسط", "action": "" },
-"34": { "cause": "- حرارة الزيت في النظام مرتفعة الى 75 درجة مئوية", "action": "- التحقق بعلى دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في الحساس ", "dwg": "- قسم الأجهزة" },
-"35": { "cause": "- مستوى الزيت في الخزان منخفض جدًّا", "action": "- التحقق في حالة وجود تسريب في النظام \n- تعبئة الخزان بالزيت T46", "dwg": "- قسم الميكانيكا" },
-"36": { "cause": "- إرتفاع حرارة غرفة الحلقات المنزلقة الى 65 درجة مئوية", "action": "- وجود إشكالية في المروحة SLIPR FAN\n- وجود إشكالية in حساس الحرارة \n- التأكد بعد انطفاء الوحدة بأن الحرارة فعلية", "dwg": "- قسم الكهرباء \n- قسم الأجهزة" },
-"37": { "cause": "- درجة حرارة الماطور مرتفعة جدًّا الى \n- الهواء الداخل على الماطور ساخن", "action": "- التحقق من نظام التبريد في المحطة\n- يتم زيادة كفاءة نظام التبريد ( تشغيل مضخات spray ) ( تشغيل المراوح )" },
-"38": { "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 100 درجة مئوية", "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- تشغيل الوحدة الإحتياطية\n- وجود مشكلة في الحساس ", "notes": "- قسم الأجهزة عندما ترتفع درجة الحرارة بشكل مبالغ فيه بسرعة عالية.", "dwg": "- قسم الأجهزة" },
-"39": { "cause": "- ارتفاع في درجة حرارة الملفات الى 137 درجة مئوية", "action": "- التحقق من حالة المبادل الحراري ووصول المياه إليه \n- التأكد من صمامات المبادل الحراري\n- التأكد من صمام التحكم بالحرارة الداخل على الماطور\n- التحقق من حالة نظام التبريد في المحطة\n- تشغيل الوحدة الإحتياطية", "dwg": "- قسم الكهرباء" },
-"40": { "cause": "- حرارة الزيت في كراسي التحميل للمضخة مرتفعة 85 درجة مئوية", "action": "- التحقق من نظام التزييت بأنه في الخدمة والضغوطات سليمة\n- التحقق من دائرة التبريد في النظام" },
-"41": { "cause": "- حرارة المياه في المضخة مرتفعة جدًّا", "action": "- عدم وجود كمية ماء كافية داخل المضخة \n- يتم فتح صمامات التفريغ للمضخة\n- مشكلة في الحساس", "dwg": "- قسم الأجهزة" },
+// القاعدة الاحتياطية في حال انقطاع الإنترنت لأول مرة
+const fallbackDB = {
 "42": { "cause": "- وجود اهتزاز عالي جدًّا في المضخة", "action": "- فحص حساس الاهتزاز هل هو بالوضع الصحيح او لا\n- لا يتم تشغيل المضخة حتى إبلاغ قسم الأجهزة \n- إبلاغ قسم الميكانيكا في حالة وجود اهتزاز فعلي عالي", "dwg": "- قسم الأجهزة\n- قسم الميكانيكا" }
 };
 
-let db = Object.assign({}, embeddedDB);
+let db = Object.assign({}, fallbackDB);
 let isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
+let saveTimeout = null;
+
+// 🛠️ حقن ملف المانيفست ليدعم الـ PWA تلقائياً
+(function injectManifest() {
+const myManifest = {
+"short_name": "LINEC Alarms",
+"name": "لوحة إنذارات شركة نقل المياه",
+"icons": [{ "src": LOGO_URL, "type": "image/png", "sizes": "512x512" }],
+"start_url": ".",
+"background_color": "#020617",
+"theme-color": "#020617",
+"display": "standalone",
+"orientation": "portrait"
+};
+const blob = new Blob([JSON.stringify(myManifest)], {type: 'application/json'});
+const link = document.createElement('link');
+link.rel = 'manifest'; link.href = URL.createObjectURL(blob);
+document.head.appendChild(link);
+})();
 
 window.addEventListener('DOMContentLoaded', function() {
 setTimeout(function() {
 var modal = document.getElementById('welcomeModal');
-if(modal) {
-modal.style.opacity = '0';
-setTimeout(function() { modal.style.visibility = 'hidden'; }, 400);
-}
+if(modal) { modal.style.opacity = '0'; setTimeout(function() { modal.style.visibility = 'hidden'; }, 400); }
 }, 1000);
+fetchCloudData();
 });
 
-function initApp() {
-document.getElementById('designerName').innerText = MY_NAME;
-var logo = document.getElementById('logoImg');
-if(LOGO_URL) { logo.src = LOGO_URL; logo.style.display='block'; } else { logo.style.display = 'none'; }
-
-var badge = document.getElementById('roleBadge');
-if(isAdmin) {
-badge.innerText = "وضع تعديل البيانات (أدمن)";
-badge.style.color = "#f59e0b";
-badge.style.borderColor = "#f59e0b";
-badge.style.background = "rgba(245,158,11,0.1)";
-} else {
-badge.innerText = "وضع استعراض البيانات (المشغلين)";
-badge.style.color = "#10b981";
-badge.style.borderColor = "#10b981";
-badge.style.background = "rgba(16, 185, 129, 0.1)";
+// ☁️ جلب البيانات الفورية من السحابة
+function fetchCloudData() {
+fetch(FIREBASE_URL)
+.then(res => res.json())
+.then(data => {
+if (data) { db = data; }
+updateRoleBadge();
+initGrid();
+})
+.catch(err => {
+console.log("فشل الاتصال المباشر بالسحابة، تم تشغيل البيانات المحلية:", err);
+updateRoleBadge();
+initGrid();
+});
 }
 
+function updateRoleBadge() {
+var badge = document.getElementById('roleBadge');
+if(isAdmin) {
+badge.innerText = "وضع تعديل سحابي فوري (أدمن)";
+badge.style.cssText = "color: #f59e0b; border-color: #f59e0b; background: rgba(245,158,11,0.1);";
+} else {
+badge.innerText = "وضع استعراض سحابي (المشغلين)";
+badge.style.cssText = "color: #10b981; border-color: #10b981; background: rgba(16, 185, 129, 0.1);";
+}
+}
+
+function initGrid() {
+document.getElementById('designerName').innerText = MY_NAME;
 var grid = document.getElementById('grid');
 grid.innerHTML = '';
 alarmNames.forEach(function(name, index) {
@@ -313,22 +279,16 @@ if(cells[index]) cells[index].classList.add('active');
 var data = db[index] || { cause:'', action:'', dwg:'', notes:'' };
 var dis = isAdmin ? '' : 'disabled';
 
-var adminHtml = isAdmin
-? '<div class="admin-controls">'
-+ '<span style="color:#f59e0b;font-size:12px;">⚠️ عدّل البيانات ثم اضغط الزر لتوليد الكود الجديد لحفظه في GitHub</span>'
-+ '<button class="btn btn-primary" onclick="exportDB()">📋 تصدير وتحديث الكود</button>'
-+ '</div>'
-: '';
+var syncHtml = isAdmin ? '<div class="sync-status" id="syncStatus">☁️ نظام الحفظ السحابي التلقائي نشط وجاهز...</div>' : '';
 
 document.getElementById('detailsSection').innerHTML =
-'<div><h2 class="alarm-header-title">' + name + '</h2></div>'
+'<div><h2 class="alarm-header-title">' + name + '</h2>' + syncHtml + '</div>'
 + '<div class="info-cards-container">'
 + makeCard('⚠️ أسباب الإنذار (Root Cause)', index, 'cause', data.cause, dis)
 + makeCard('🛠️ الإجراءات التصحيحية (Actions)', index, 'action', data.action, dis)
 + makeCard('📑 القسم المسؤول (Depart Resp)', index, 'dwg', data.dwg, dis)
 + makeCard('📝 ملاحظات إضافية', index, 'notes', data.notes, dis)
-+ '</div>'
-+ adminHtml;
++ '</div>';
 
 if(window.innerWidth < 768) {
 document.getElementById('detailsSection').scrollIntoView({ behavior:'smooth' });
@@ -342,12 +302,34 @@ return '<div class="info-card">'
 + '</div>';
 }
 
+// 🔄 تعديل وحفظ تلقائي في السحابة بمجرد الكتابة وبدون أزرار (Debounce 1 second)
 function updateDB(index, field, value) {
 if(!isAdmin) return;
 if(!db[index]) db[index] = {};
 db[index][field] = value;
+
 var cells = document.querySelectorAll('.cell');
 if(cells[index]) cells[index].classList.add('has-data');
+
+const statusText = document.getElementById('syncStatus');
+if(statusText) statusText.innerHTML = "⏳ جاري الكتابة...";
+
+clearTimeout(saveTimeout);
+saveTimeout = setTimeout(() => {
+if(statusText) statusText.innerHTML = "🔄 جاري الحفظ في السحابة...";
+fetch(FIREBASE_URL, {
+method: 'PUT',
+body: JSON.stringify(db),
+headers: { 'Content-Type': 'application/json' }
+})
+.then(res => {
+if(res.ok) { if(statusText) statusText.innerHTML = "✅ تم الحفظ سحابياً بنجاح الفوري!"; }
+else { if(statusText) statusText.innerHTML = "❌ فشل الحفظ السحابي!"; }
+})
+.catch(err => {
+if(statusText) statusText.innerHTML = "❌ خطأ في الاتصال بالشبكة!";
+});
+}, 1000);
 }
 
 function filterAlarms(val) {
@@ -355,47 +337,6 @@ document.querySelectorAll('.cell').forEach(function(cell) {
 cell.style.opacity = cell.innerText.toLowerCase().includes(val.toLowerCase()) ? '1' : '0.15';
 });
 }
-
-function exportDB() {
-var cleanDB = JSON.stringify(db, null, 2);
-var regex = /const embeddedDB = \s*\{[\s\S]*?\};/;
-
-var parser = new DOMParser();
-var doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
-
-var badge = doc.getElementById('roleBadge');
-if(badge) {
-badge.innerText = "وضع استعراض البيانات (المشغلين)";
-badge.style.cssText = "color: #10b981; border-color: #10b981; background: rgba(16, 185, 129, 0.1);";
-}
-
-var details = doc.getElementById('detailsSection');
-if(details) {
-details.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
-}
-
-var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
-var updatedHtml = finalHtml.replace(regex, "const embeddedDB = " + cleanDB + ";");
-
-document.getElementById('codeOutputArea').value = updatedHtml;
-document.getElementById('exportModal').style.display = 'flex';
-}
-
-function closeExportModal() {
-document.getElementById('exportModal').style.display = 'none';
-}
-
-function copyGeneratedCode() {
-var copyText = document.getElementById('codeOutputArea');
-copyText.select();
-copyText.setSelectionRange(0, 99999);
-navigator.clipboard.writeText(copyText.value).then(function() {
-alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
-closeExportModal();
-});
-}
-
-initApp();
 </script>
 </body>
 </html>
