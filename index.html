@@ -1,356 +1,354 @@
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-    <title>LINEC ALARMS</title>
-    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans+Arabic:wght@400;700&amp;display=swap" rel="stylesheet">
-    <style>
-        :root {
-            --primary: #10b981;
-            --bg-dark: #020617;
-            --panel-bg: #0f172a;
-            --cell-bg: #1e293b;
-            --border: #334155;
-            --text-light: #f8fafc;
-            --text-dim: #94a3b8;
-        }
-        body {
-            background-color: var(--bg-dark);
-            color: var(--text-light);
-            font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
-            margin: 0; padding: 0;
-            display: flex; flex-direction: column;
-            min-height: 100vh; box-sizing: border-box;
-        }
-        .app-container {
-            display: flex; flex-direction: column;
-            width: 100%; max-width: 1200px;
-            margin: 0 auto; padding: 15px;
-            box-sizing: border-box; gap: 15px;
-        }
-        .brand-header {
-            display: flex; justify-content: space-between; align-items: center;
-            background: var(--panel-bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 15px;
-        }
-        .brand-title h3 { margin: 0; font-size: 20px; color: var(--text-light); }
-        .company-logo {
-            width: 55px; height: 55px; background: #1e293b;
-            border: 1px dashed var(--primary); border-radius: 8px;
-            display: flex; align-items: center; justify-content: center; overflow: hidden;
-        }
-        .company-logo img { width: 100%; height: 100%; object-fit: contain; }
-        .search-box {
-            flex-grow: 1; padding: 12px;
-            background: var(--bg-dark); border: 1px solid var(--border);
-            color: white; border-radius: 8px;
-            font-family: inherit; font-size: 14px;
-            box-sizing: border-box; width: 100%; margin-top: 10px;
-        }
-        .status-badge {
-            font-size: 12px; color: var(--primary);
-            background: rgba(16, 185, 129, 0.1);
-            padding: 6px 12px; border-radius: 20px;
-            border: 1px solid var(--primary); white-space: nowrap;
-        }
-        .panel-section {
-            background: var(--panel-bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 15px;
-        }
-        .section-title { margin: 0; font-size: 14px; color: var(--text-dim); font-weight: 600; }
-        .annunciator-grid {
-            display: grid;
-            grid-template-columns: repeat(4, 1fr);
-            gap: 6px;
-        }
-        @media (min-width: 768px) {
-            .annunciator-grid { grid-template-columns: repeat(8, 1fr); }
-        }
-        .cell {
-            aspect-ratio: 1 / 0.8;
-            background: var(--cell-bg); border: 1px solid var(--border);
-            border-radius: 6px; display: flex; align-items: center;
-            justify-content: center; text-align: center;
-            font-size: 10px; font-weight: bold; padding: 4px;
-            cursor: pointer; transition: all 0.2s;
-            text-transform: uppercase; overflow: hidden;
-            word-break: break-word; user-select: none;
-        }
-        .cell:hover { border-color: var(--primary); background: #243146; }
-        .cell.active {
-            border-color: var(--primary);
-            box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
-            background: rgba(16, 185, 129, 0.15); color: var(--primary);
-        }
-        .cell.has-data { border-right: 3px solid #34d399; }
-        .cell.empty { opacity: 0.15; pointer-events: none; }
-        .details-section {
-            background: var(--panel-bg); border: 1px solid var(--border);
-            border-radius: 12px; padding: 20px;
-            display: flex; flex-direction: column; gap: 15px;
-        }
-        .alarm-header-title { font-size: 22px; color: var(--primary); margin: 0; font-weight: 700; }
-        .info-cards-container { display: grid; grid-template-columns: 1fr; gap: 15px; }
-        @media (min-width: 768px) {
-            .info-cards-container { grid-template-columns: 1fr 1fr; }
-        }
-        .info-card {
-            background: var(--cell-bg); border: 1px solid var(--border);
-            border-radius: 10px; padding: 15px;
-            display: flex; flex-direction: column; gap: 8px;
-        }
-        .info-card h4 { margin: 0; color: var(--text-dim); font-size: 13px; font-weight: bold; }
-        textarea {
-            width: 100%; min-height: 90px;
-            background: var(--bg-dark); border: 1px solid var(--border);
-            border-radius: 6px; color: white;
-            font-family: inherit; padding: 10px;
-            resize: vertical; outline: none;
-            font-size: 13px; line-height: 1.5; box-sizing: border-box;
-        }
-        textarea:disabled {
-            background: rgba(15, 23, 42, 0.6);
-            color: #cbd5e1; cursor: not-allowed; border-style: dashed;
-        }
-        .admin-controls {
-            display: flex; justify-content: space-between; align-items: center;
-            margin-top: 10px; padding-top: 15px;
-            border-top: 1px solid var(--border);
-            flex-wrap: wrap; gap: 10px; width: 100%;
-        }
-        .btn { padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: inherit; font-size: 13px; }
-        .btn-primary { background: var(--primary); color: #020617; }
-        .placeholder-text { text-align: center; color: var(--text-dim); padding: 40px 10px; }
-        .developer-signature { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 10px; font-weight: 600; letter-spacing: 0.5px; }
-        .developer-signature span { color: var(--primary); font-weight: bold; }
-        
-        .welcome-modal {
-            position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px);
-            z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px;
-            transition: opacity 0.4s ease, visibility 0.4s ease;
-        }
-        .modal-content {
-            background: var(--panel-bg); border: 2px solid var(--primary);
-            border-radius: 16px; padding: 40px 30px; text-align: center;
-            max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
-        }
-        .modal-content h1 { color: var(--primary); margin: 0 0 8px 0; font-size: 28px; font-weight: 700; }
-        
-        .export-modal {
-            display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
-            background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(5px);
-            z-index: 20000; align-items: center; justify-content: center; padding: 20px;
-        }
-        .export-box {
-            background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px;
-            padding: 25px; width: 100%; max-width: 600px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
-        }
-        .code-output {
-            width: 100%; height: 250px; background: #020617; border: 1px solid var(--border);
-            border-radius: 8px; color: #34d399; font-family: monospace; font-size: 12px;
-            padding: 15px; box-sizing: border-box; overflow: auto; white-space: pre-wrap; margin: 15px 0;
-            direction: ltr; text-align: left;
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<title>LINEC ALARMS</title>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;600;700&amp;family=Noto+Sans+Arabic:wght@400;700&amp;display=swap" rel="stylesheet">
+<style>
+:root {
+--primary: #10b981;
+--bg-dark: #020617;
+--panel-bg: #0f172a;
+--cell-bg: #1e293b;
+--border: #334155;
+--text-light: #f8fafc;
+--text-dim: #94a3b8;
+}
+body {
+background-color: var(--bg-dark);
+color: var(--text-light);
+font-family: 'Noto Sans Arabic', 'Inter', sans-serif;
+margin: 0; padding: 0;
+display: flex; flex-direction: column;
+min-height: 100vh; box-sizing: border-box;
+}
+.app-container {
+display: flex; flex-direction: column;
+width: 100%; max-width: 1200px;
+margin: 0 auto; padding: 15px;
+box-sizing: border-box; gap: 15px;
+}
+.brand-header {
+display: flex; justify-content: space-between; align-items: center;
+background: var(--panel-bg); border: 1px solid var(--border);
+border-radius: 12px; padding: 15px;
+}
+.brand-title h3 { margin: 0; font-size: 20px; color: var(--text-light); }
+.company-logo {
+width: 55px; height: 55px; background: #1e293b;
+border: 1px dashed var(--primary); border-radius: 8px;
+display: flex; align-items: center; justify-content: center; overflow: hidden;
+}
+.company-logo img { width: 100%; height: 100%; object-fit: contain; }
+.search-box {
+flex-grow: 1; padding: 12px;
+background: var(--bg-dark); border: 1px solid var(--border);
+color: white; border-radius: 8px;
+font-family: inherit; font-size: 14px;
+box-sizing: border-box; width: 100%; margin-top: 10px;
+}
+.status-badge {
+font-size: 12px; color: var(--primary);
+background: rgba(16, 185, 129, 0.1);
+padding: 6px 12px; border-radius: 20px;
+border: 1px solid var(--primary); white-space: nowrap;
+}
+.panel-section {
+background: var(--panel-bg); border: 1px solid var(--border);
+border-radius: 12px; padding: 15px;
+}
+.section-title { margin: 0; font-size: 14px; color: var(--text-dim); font-weight: 600; }
+.annunciator-grid {
+display: grid;
+grid-template-columns: repeat(4, 1fr);
+gap: 6px;
+}
+@media (min-width: 768px) {
+.annunciator-grid { grid-template-columns: repeat(8, 1fr); }
+}
+.cell {
+aspect-ratio: 1 / 0.8;
+background: var(--cell-bg); border: 1px solid var(--border);
+border-radius: 6px; display: flex; align-items: center;
+justify-content: center; text-align: center;
+font-size: 10px; font-weight: bold; padding: 4px;
+cursor: pointer; transition: all 0.2s;
+text-transform: uppercase; overflow: hidden;
+word-break: break-word; user-select: none;
+}
+.cell:hover { border-color: var(--primary); background: #243146; }
+.cell.active {
+border-color: var(--primary);
+box-shadow: 0 0 12px rgba(16, 185, 129, 0.4);
+background: rgba(16, 185, 129, 0.15); color: var(--primary);
+}
+.cell.has-data { border-right: 3px solid #34d399; }
+.cell.empty { opacity: 0.15; pointer-events: none; }
+.details-section {
+background: var(--panel-bg); border: 1px solid var(--border);
+border-radius: 12px; padding: 20px;
+display: flex; flex-direction: column; gap: 15px;
+}
+.alarm-header-title { font-size: 22px; color: var(--primary); margin: 0; font-weight: 700; }
+.info-cards-container { display: grid; grid-template-columns: 1fr; gap: 15px; }
+@media (min-width: 768px) {
+.info-cards-container { grid-template-columns: 1fr 1fr; }
+}
+.info-card {
+background: var(--cell-bg); border: 1px solid var(--border);
+border-radius: 10px; padding: 15px;
+display: flex; flex-direction: column; gap: 8px;
+}
+.info-card h4 { margin: 0; color: var(--text-dim); font-size: 13px; font-weight: bold; }
+textarea {
+width: 100%; min-height: 90px;
+background: var(--bg-dark); border: 1px solid var(--border);
+border-radius: 6px; color: white;
+font-family: inherit; padding: 10px;
+resize: vertical; outline: none;
+font-size: 13px; line-height: 1.5; box-sizing: border-box;
+}
+textarea:disabled {
+background: rgba(15, 23, 42, 0.6);
+color: #cbd5e1; cursor: not-allowed; border-style: dashed;
+}
+.admin-controls {
+display: flex; justify-content: space-between; align-items: center;
+margin-top: 10px; padding-top: 15px;
+border-top: 1px solid var(--border);
+flex-wrap: wrap; gap: 10px; width: 100%;
+}
+.btn { padding: 10px 20px; border-radius: 6px; border: none; cursor: pointer; font-weight: bold; font-family: inherit; font-size: 13px; }
+.btn-primary { background: var(--primary); color: #020617; }
+.placeholder-text { text-align: center; color: var(--text-dim); padding: 40px 10px; }
+.developer-signature { font-size: 11px; color: var(--text-dim); text-align: center; margin-top: 10px; font-weight: 600; letter-spacing: 0.5px; }
+.developer-signature span { color: var(--primary); font-weight: bold; }
+
+.welcome-modal {
+position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(2, 6, 23, 0.95); backdrop-filter: blur(10px);
+z-index: 10000; display: flex; align-items: center; justify-content: center; padding: 20px;
+transition: opacity 0.4s ease, visibility 0.4s ease;
+}
+.modal-content {
+background: var(--panel-bg); border: 2px solid var(--primary);
+border-radius: 16px; padding: 40px 30px; text-align: center;
+max-width: 400px; width: 100%; box-shadow: 0 10px 30px rgba(16, 185, 129, 0.25);
+}
+.modal-content h1 { color: var(--primary); margin: 0 0 8px 0; font-size: 28px; font-weight: 700; }
+
+.export-modal {
+display: none; position: fixed; top: 0; left: 0; right: 0; bottom: 0;
+background: rgba(2, 6, 23, 0.85); backdrop-filter: blur(5px);
+z-index: 20000; align-items: center; justify-content: center; padding: 20px;
+}
+.export-box {
+background: var(--panel-bg); border: 1px solid var(--border); border-radius: 16px;
+padding: 25px; width: 100%; max-width: 600px; box-shadow: 0 20px 40px rgba(0,0,0,0.5);
+}
+.code-output {
+width: 100%; height: 250px; background: #020617; border: 1px solid var(--border);
+border-radius: 8px; color: #34d399; font-family: monospace; font-size: 12px;
+padding: 15px; box-sizing: border-box; overflow: auto; white-space: pre-wrap; margin: 15px 0;
+direction: ltr; text-align: left;
+}
+</style>
 </head>
 <body>
 
-    <div id="welcomeModal" class="welcome-modal" style="opacity: 0; visibility: hidden;">
-        <div class="modal-content">
-            <h1>شركة نقل المياه</h1>
-            <p>لوحة الإنذارات</p>
-        </div>
-    </div>
+<div id="welcomeModal" class="welcome-modal" style="opacity: 0; visibility: hidden;">
+<div class="modal-content">
+<h1>شركة نقل المياه</h1>
+<p>لوحة الإنذارات</p>
+</div>
+</div>
 
-    <div id="exportModal" class="export-modal" style="display: none;">
-        <div class="export-box">
-            <h3 style="margin:0; color:var(--primary);">📋 تم توليد الكود المحدث بنجاح!</h3>
-            <p style="font-size:13px; color:var(--text-dim); margin: 5px 0 15px 0;">انسخ الكود بالأسفل بالكامل واستبدله في GitHub لحفظ معلوماتك بشكل دائم:</p>
-            <textarea id="codeOutputArea" class="code-output" readonly=""></textarea>
-            <div style="display:flex; gap:10px; justify-content:flex-end;">
-                <button class="btn" style="background:#334155; color:white;" onclick="closeExportModal()">إغلاق النافذة</button>
-                <button class="btn btn-primary" onclick="copyGeneratedCode()">📋 نسخ الكود بالكامل</button>
-            </div>
-        </div>
-    </div>
+<div id="exportModal" class="export-modal" style="display: none;">
+<div class="export-box">
+<h3 style="margin:0; color:var(--primary);">📋 تم توليد الكود المحدث بنجاح!</h3>
+<p style="font-size:13px; color:var(--text-dim); margin: 5px 0 15px 0;">انسخ الكود بالأسفل بالكامل واستبدله في GitHub لحفظ معلوماتك بشكل دائم:</p>
+<textarea id="codeOutputArea" class="code-output" readonly=""></textarea>
+<div style="display:flex; gap:10px; justify-content:flex-end;">
+<button class="btn" style="background:#334155; color:white;" onclick="closeExportModal()">إغلاق النافذة</button>
+<button class="btn btn-primary" onclick="copyGeneratedCode()">📋 نسخ الكود بالكامل</button>
+</div>
+</div>
+</div>
 
-    <div class="app-container">
-        <div class="brand-header">
-            <div class="brand-title">
-                <h3>لوحة الإنذارات للوحدة</h3>
-                <input type="text" class="search-box" placeholder="ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
-            </div>
-            <div class="company-logo">
-                <img id="logoImg" src="" alt="شعار الشركة" onerror="this.style.display='none'">
-            </div>
-        </div>
+<div class="app-container">
+<div class="brand-header">
+<div class="brand-title">
+<h3>لوحة الإنذارات للوحدة</h3>
+<input type="text" class="search-box" placeholder="ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
+</div>
+<div class="company-logo">
+<img id="logoImg" src="" alt="شعار الشركة" onerror="this.style.display='none'">
+</div>
+</div>
 
-        <div class="panel-section">
-            <div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
-                <div class="section-title">🎛️ مصفوفة الإنذارات النشطة</div>
-                <div id="roleBadge" class="status-badge">وضع استعراض البيانات (المشغلين)</div>
-            </div>
-            <div id="grid" class="annunciator-grid"></div>
-        </div>
+<div class="panel-section">
+<div style="display:flex; justify-content:space-between; align-items:center; margin-bottom:10px;">
+<div class="section-title">🎛️ مصفوفة الإنذارات النشطة</div>
+<div id="roleBadge" class="status-badge">وضع استعراض البيانات (المشغلين)</div>
+</div>
+<div id="grid" class="annunciator-grid"></div>
+</div>
 
-        <div id="detailsSection" class="details-section">
-            <div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>
-        </div>
+<div id="detailsSection" class="details-section">
+<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>
+</div>
 
-        <div class="developer-signature">By: <span id="designerName">MAJED M.FALQI</span></div>
-    </div>
+<div class="developer-signature">By: <span id="designerName">MAJED M.FALQI</span></div>
+</div>
 
-    <script>
-        const MY_NAME = "MAJED M.FALQI";
-        const LOGO_URL = "https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true";
+<script>
+const MY_NAME = "MAJED M.FALQI";
+const LOGO_URL = "https://instasize.com/api/image/468677e3bce3b1be1a34b8102f883c0773080e96f92413004b530bee9d1dd44b.png?download=true";
 
-        const alarmNames = [
-            "Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
-            "SIC MV Warning","Brush Length","Unit Not On Auto","Uncon Non Urg Fail","MOV Sequence Fail","Lube Res Temp High","Lube Res Level Low","Filter Diff Pres High",
-            "Slipr Case Temp High","Cool Air Dif Press","Motor Air Temp High","Motor Bear Temp High","Motor Wind Temp High","Pump Bear Temp High","Pump Water Temp High","Pump Vibration High",
-            "Unit Tripped","Unit ESD","Seq Fail","Uncon Urg Fail","Suction Press Low","Discharge Press High","Lube Pres After Low",
-            "SIC MV Starter SD","DREAV On Command","MV Breaker Close","LO Temp High","LO Level Low Low",
-            "Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
-        ];
+const alarmNames = [
+"Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
+"SIC MV Warning","Brush Length","Unit Not On Auto","Uncon Non Urg Fail","MOV Sequence Fail","Lube Res Temp High","Lube Res Level Low","Filter Diff Pres High",
+"Slipr Case Temp High","Cool Air Dif Press","Motor Air Temp High","Motor Bear Temp High","Motor Wind Temp High","Pump Bear Temp High","Pump Water Temp High","Pump Vibration High",
+"Unit Tripped","Unit ESD","Seq Fail","Uncon Urg Fail","Suction Press Low","Discharge Press High","Lube Pres After Low",
+"SIC MV Starter SD","DREAV On Command","MV Breaker Close","LO Temp High","LO Level Low Low",
+"Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
+];
 
-        const embeddedDB = {};
+const embeddedDB = {};
 
-        let db = Object.assign({}, embeddedDB);
-        let isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
+let db = Object.assign({}, embeddedDB);
+let isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
 
-        window.addEventListener('DOMContentLoaded', function() {
-            setTimeout(function() {
-                var modal = document.getElementById('welcomeModal');
-                if(modal) {
-                    modal.style.opacity = '0';
-                    setTimeout(function() { modal.style.visibility = 'hidden'; }, 400);
-                }
-            }, 1000);
-        });
+window.addEventListener('DOMContentLoaded', function() {
+setTimeout(function() {
+var modal = document.getElementById('welcomeModal');
+if(modal) {
+modal.style.opacity = '0';
+setTimeout(function() { modal.style.visibility = 'hidden'; }, 400);
+}
+}, 1000);
+});
 
-        function initApp() {
-            document.getElementById('designerName').innerText = MY_NAME;
-            var logo = document.getElementById('logoImg');
-            if(LOGO_URL) { logo.src = LOGO_URL; logo.style.display='block'; } else { logo.style.display = 'none'; }
+function initApp() {
+document.getElementById('designerName').innerText = MY_NAME;
+var logo = document.getElementById('logoImg');
+if(LOGO_URL) { logo.src = LOGO_URL; logo.style.display='block'; } else { logo.style.display = 'none'; }
 
-            var badge = document.getElementById('roleBadge');
-            if(isAdmin) {
-                badge.innerText = "وضع تعديل البيانات (أدمن)";
-                badge.style.color = "#f59e0b";
-                badge.style.borderColor = "#f59e0b";
-                badge.style.background = "rgba(245,158,11,0.1)";
-            } else {
-                badge.innerText = "وضع استعراض البيانات (المشغلين)";
-                badge.style.color = "#10b981";
-                badge.style.borderColor = "#10b981";
-                badge.style.background = "rgba(16, 185, 129, 0.1)";
-            }
+var badge = document.getElementById('roleBadge');
+if(isAdmin) {
+badge.innerText = "وضع تعديل البيانات (أدمن)";
+badge.style.color = "#f59e0b";
+badge.style.borderColor = "#f59e0b";
+badge.style.background = "rgba(245,158,11,0.1)";
+} else {
+badge.innerText = "وضع استعراض البيانات (المشغلين)";
+badge.style.color = "#10b981";
+badge.style.borderColor = "#10b981";
+badge.style.background = "rgba(16, 185, 129, 0.1)";
+}
 
-            var grid = document.getElementById('grid');
-            grid.innerHTML = '';
-            alarmNames.forEach(function(name, index) {
-                var cell = document.createElement('div');
-                cell.className = 'cell' + (name === "" ? ' empty' : '');
-                if(db[index] && (db[index].cause || db[index].action || db[index].dwg || db[index].notes)) {
-                    cell.classList.add('has-data');
-                }
-                cell.innerText = name;
-                cell.onclick = function() { showDetails(index, name); };
-                grid.appendChild(cell);
-            });
-        }
+var grid = document.getElementById('grid');
+grid.innerHTML = '';
+alarmNames.forEach(function(name, index) {
+var cell = document.createElement('div');
+cell.className = 'cell' + (name === "" ? ' empty' : '');
+if(db[index] && (db[index].cause || db[index].action || db[index].dwg || db[index].notes)) {
+cell.classList.add('has-data');
+}
+cell.innerText = name;
+cell.onclick = function() { showDetails(index, name); };
+grid.appendChild(cell);
+});
+}
 
-        function showDetails(index, name) {
-            document.querySelectorAll('.cell').forEach(function(c) { c.classList.remove('active'); });
-            var cells = document.querySelectorAll('.cell');
-            if(cells[index]) cells[index].classList.add('active');
+function showDetails(index, name) {
+document.querySelectorAll('.cell').forEach(function(c) { c.classList.remove('active'); });
+var cells = document.querySelectorAll('.cell');
+if(cells[index]) cells[index].classList.add('active');
 
-            var data = db[index] || { cause:'', action:'', dwg:'', notes:'' };
-            var dis = isAdmin ? '' : 'disabled';
+var data = db[index] || { cause:'', action:'', dwg:'', notes:'' };
+var dis = isAdmin ? '' : 'disabled';
 
-            var adminHtml = isAdmin
-                ? '<div class="admin-controls">'
-                    + '<span style="color:#f59e0b;font-size:12px;">⚠️ عدّل البيانات ثم اضغط الزر لتوليد الكود الجديد لحفظه في GitHub</span>'
-                    + '<button class="btn btn-primary" onclick="exportDB()">📋 تصدير وتحديث الكود</button>'
-                  + '</div>'
-                : '';
+var adminHtml = isAdmin
+? '<div class="admin-controls">'
++ '<span style="color:#f59e0b;font-size:12px;">⚠️ عدّل البيانات ثم اضغط الزر لتوليد الكود الجديد لحفظه في GitHub</span>'
++ '<button class="btn btn-primary" onclick="exportDB()">📋 تصدير وتحديث الكود</button>'
++ '</div>'
+: '';
 
-            document.getElementById('detailsSection').innerHTML =
-                '<div><h2 class="alarm-header-title">' + name + '</h2></div>'
-                + '<div class="info-cards-container">'
-                    + makeCard('⚠️ أسباب الإنذار (Root Cause)', index, 'cause', data.cause, dis)
-                    + makeCard('🛠️ الإجراءات التصحيحية (Actions)', index, 'action', data.action, dis)
-                    + makeCard('📑 القسم المسؤول (Depart Resp)', index, 'dwg', data.dwg, dis)
-                    + makeCard('📝 ملاحظات إضافية', index, 'notes', data.notes, dis)
-                + '</div>'
-                + adminHtml;
+document.getElementById('detailsSection').innerHTML =
+'<div><h2 class="alarm-header-title">' + name + '</h2></div>'
++ '<div class="info-cards-container">'
++ makeCard('⚠️ أسباب الإنذار (Root Cause)', index, 'cause', data.cause, dis)
++ makeCard('🛠️ الإجراءات التصحيحية (Actions)', index, 'action', data.action, dis)
++ makeCard('📑 القسم المسؤول (Depart Resp)', index, 'dwg', data.dwg, dis)
++ makeCard('📝 ملاحظات إضافية', index, 'notes', data.notes, dis)
++ '</div>'
++ adminHtml;
 
-            if(window.innerWidth < 768) {
-                document.getElementById('detailsSection').scrollIntoView({ behavior:'smooth' });
-            }
-        }
+if(window.innerWidth < 768) {
+document.getElementById('detailsSection').scrollIntoView({ behavior:'smooth' });
+}
+}
 
-        function makeCard(title, index, field, value, dis) {
-            return '<div class="info-card">'
-                + '<h4>' + title + '</h4>'
-                + '<textarea ' + dis + ' placeholder="لا توجد بيانات مسجلة..." oninput="updateDB(' + index + ',\'' + field + '\',this.value)">' + (value||'') + '</textarea>'
-                + '</div>';
-        }
+function makeCard(title, index, field, value, dis) {
+return '<div class="info-card">'
++ '<h4>' + title + '</h4>'
++ '<textarea ' + dis + ' placeholder="لا توجد بيانات مسجلة..." oninput="updateDB(' + index + ',\'' + field + '\',this.value)">' + (value||'') + '</textarea>'
++ '</div>';
+}
 
-        function updateDB(index, field, value) {
-            if(!isAdmin) return;
-            if(!db[index]) db[index] = {};
-            db[index][field] = value;
-            var cells = document.querySelectorAll('.cell');
-            if(cells[index]) cells[index].classList.add('has-data');
-        }
+function updateDB(index, field, value) {
+if(!isAdmin) return;
+if(!db[index]) db[index] = {};
+db[index][field] = value;
+var cells = document.querySelectorAll('.cell');
+if(cells[index]) cells[index].classList.add('has-data');
+}
 
-        function filterAlarms(val) {
-            document.querySelectorAll('.cell').forEach(function(cell) {
-                cell.style.opacity = cell.innerText.toLowerCase().includes(val.toLowerCase()) ? '1' : '0.15';
-            });
-        }
+function filterAlarms(val) {
+document.querySelectorAll('.cell').forEach(function(cell) {
+cell.style.opacity = cell.innerText.toLowerCase().includes(val.toLowerCase()) ? '1' : '0.15';
+});
+}
 
-        function exportDB() {
-            // كود ذكي: يقوم بتعطيل شارة الأدمن مؤقتاً أثناء النسخ حتى لا تظهر للمستخدمين
-            var currentBadgeText = document.getElementById('roleBadge').innerText;
-            var currentBadgeStyle = document.getElementById('roleBadge').style.cssText;
-            
-            // تحويل الشارة لوضع الاستعراض قبل أخذ الكود الخارجي
-            document.getElementById('roleBadge').innerText = "وضع استعراض البيانات (المشغلين)";
-            document.getElementById('roleBadge').style.cssText = "color: #10b981; border-color: #10b981; background: rgba(16, 185, 129, 0.1);";
-            
-            var fullHtml = document.documentElement.outerHTML;
-            var dbString = JSON.stringify(db, null, 2);
-            
-            var regex = /const embeddedDB = \s*\{[\s\S]*?\};/;
-            var updatedHtml = "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n" + fullHtml.replace(regex, "const embeddedDB = " + dbString + ";");
-            
-            // إعادة الشارة لوضعها الأصلي للأدمن لمتابعة العمل بشكل طبيعي
-            document.getElementById('roleBadge').innerText = currentBadgeText;
-            document.getElementById('roleBadge').style.cssText = currentBadgeStyle;
-            
-            document.getElementById('codeOutputArea').value = updatedHtml;
-            document.getElementById('exportModal').style.display = 'flex';
-        }
+function exportDB() {
+// كود ذكي: يقوم بتعطيل شارة الأدمن مؤقتاً أثناء النسخ حتى لا تظهر للمستخدمين
+var currentBadgeText = document.getElementById('roleBadge').innerText;
+var currentBadgeStyle = document.getElementById('roleBadge').style.cssText;
+// تحويل الشارة لوضع الاستعراض قبل أخذ الكود الخارجي
+document.getElementById('roleBadge').innerText = "وضع استعراض البيانات (المشغلين)";
+document.getElementById('roleBadge').style.cssText = "color: #10b981; border-color: #10b981; background: rgba(16, 185, 129, 0.1);";
 
-        function closeExportModal() {
-            document.getElementById('exportModal').style.display = 'none';
-        }
+var fullHtml = document.documentElement.outerHTML;
+var dbString = JSON.stringify(db, null, 2);
 
-        function copyGeneratedCode() {
-            var copyText = document.getElementById('codeOutputArea');
-            copyText.select();
-            copyText.setSelectionRange(0, 99999);
-            navigator.clipboard.writeText(copyText.value).then(function() {
-                alert("🎯 ممتاز يا غالي! تم نسخ الكود الذكي.\n\nالآن استبدله في GitHub واحفظ؛ وسيفتح عند المشغلين مقفلاً تلقائياً!");
-                closeExportModal();
-            });
-        }
+var regex = /const embeddedDB = \s*\{[\s\S]*?\};/;
+var updatedHtml = "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n" + fullHtml.replace(regex, "const embeddedDB = " + dbString + ";");
+// إعادة الشارة لوضعها الأصلي للأدمن لمتابعة العمل بشكل طبيعي
+document.getElementById('roleBadge').innerText = currentBadgeText;
+document.getElementById('roleBadge').style.cssText = currentBadgeStyle;
 
-        initApp();
-    </script>
+document.getElementById('codeOutputArea').value = updatedHtml;
+document.getElementById('exportModal').style.display = 'flex';
+}
+
+function closeExportModal() {
+document.getElementById('exportModal').style.display = 'none';
+}
+
+function copyGeneratedCode() {
+var copyText = document.getElementById('codeOutputArea');
+copyText.select();
+copyText.setSelectionRange(0, 99999);
+navigator.clipboard.writeText(copyText.value).then(function() {
+alert("🎯 ممتاز يا غالي! تم نسخ الكود الذكي.\n\nالآن استبدله في GitHub واحفظ؛ وسيفتح عند المشغلين مقفلاً تلقائياً!");
+closeExportModal();
+});
+}
+
+initApp();
+</script>
 </body>
 </html>
