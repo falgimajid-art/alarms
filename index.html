@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="ar" dir="rtl" style="--primary: #3b82f6;"><head>
+<html lang="ar" dir="rtl" style="--primary: #10b981;"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
 <title>لوحة الإنذارات - LINE AB &amp; LINE C</title>
@@ -376,7 +376,7 @@ direction: ltr; text-align: left;
 <div class="brand-title" style="flex:1;">
 <div style="display:flex; align-items:center; gap:12px; flex-wrap:wrap;">
 <h3 id="pageTitle">لوحة الإنذارات للوحدة</h3>
-<span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
+<span id="activeLineBadge" class="active-line-badge badge-c"> LINE C</span>
 </div>
 <input type="text" class="search-box" placeholder="ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
 </div>
@@ -391,13 +391,13 @@ direction: ltr; text-align: left;
 <div style="display:flex; align-items:center; gap:10px; flex-wrap:wrap;">
 <button class="line-tab" style="border-color:#64748b; color:#94a3b8; background:rgba(100,116,139,0.1);" onclick="goHome()">🏠 الرئيسية</button>
 <div class="line-switcher">
-<button class="line-tab line-tab-ab active" id="tabAB" onclick="switchLine('AB')">LINE AB</button>
-<button class="line-tab line-tab-c" id="tabC" onclick="switchLine('C')">LINE C</button>
+<button class="line-tab line-tab-ab" id="tabAB" onclick="switchLine('AB')">LINE AB</button>
+<button class="line-tab line-tab-c active" id="tabC" onclick="switchLine('C')">LINE C</button>
 </div>
 <div id="roleBadge" class="status-badge" style="color: rgb(245, 158, 11); border-color: rgb(245, 158, 11); background: rgba(245, 158, 11, 0.1);"> (أدمن)</div>
 </div>
 </div>
-<div id="grid" class="annunciator-grid"><div class="cell has-data-ab">Unit In Alarm</div><div class="cell has-data-ab">COOLING AIR SLIPRING CASE</div><div class="cell has-data-ab">COOLING AIR MOTOR COLD</div><div class="cell has-data-ab">COOLING AIR MOTOR WARM</div><div class="cell has-data-ab">COOLING AIR PRESSURE</div><div class="cell has-data-ab">Lube OIL TANK LOW TEMP</div><div class="cell has-data-ab">LUBE OIL TANK LOW LOW</div><div class="cell has-data-ab">LUBE OIL PRESS LOW</div><div class="cell has-data-ab">BRUSH LENGTH</div><div class="cell has-data-ab">BUNIT TRIPPED</div><div class="cell has-data-ab">WINDING TEMP.R</div><div class="cell has-data-ab">WINDING TEMP.S</div><div class="cell has-data-ab">WINDING TEMP.T</div><div class="cell has-data-ab">SEAL FAILURE</div><div class="cell has-data-ab">SUCTION PRESS LOW</div><div class="cell has-data-ab">DISCH PRESS High</div><div class="cell has-data-ab">VIBRATION</div><div class="cell has-data-ab">MOTOR TEMP IBB</div><div class="cell has-data-ab">MOTOR TEMP OBB</div><div class="cell has-data-ab">DISCH MOV FAIL</div><div class="cell has-data-ab">SUCTION PRESS S/D</div><div class="cell has-data-ab">PUMPE TEMP CASE</div><div class="cell has-data-ab">CASCADE NOT REMOTE</div><div class="cell has-data-ab">STARTER HIGH TEMP</div><div class="cell has-data-ab">STARTER LOW LEVEL</div><div class="cell has-data-ab">STARTER WARN</div><div class="cell has-data-ab">CASCADE WARN</div><div class="cell has-data-ab">LUBE OIL FILTER</div><div class="cell has-data-ab">SPEED NOT REACHED</div><div class="cell has-data-ab">UNIT E.SD</div><div class="cell has-data-ab">COOLING NOT STARTED</div><div class="cell has-data-ab">SCOLSED LOOP NOT REMOTE</div><div class="cell has-data-ab">UNIT SYST FAULT</div><div class="cell has-data-ab">PUMP TEMP IBBI</div><div class="cell has-data-ab">PUMP TEMP IBTR</div><div class="cell has-data-ab">PUMP TEMP OBBI</div><div class="cell has-data-ab">PUMP TEMP OBTR</div><div class="cell has-data-ab">DISCHARGE PRESS SD</div><div class="cell has-data-ab">LUBE OIL PRESS SD</div><div class="cell has-data-ab">LUBE OIL HIGH TEMP</div><div class="cell has-data-ab">STARTER SD</div><div class="cell has-data-ab">CASCADE SD</div><div class="cell has-data-ab">SEQ FAULT</div><div class="cell active-ab has-data-ab">PRE-START CONDITIONS INCOMPL</div></div>
+<div id="grid" class="annunciator-grid"><div class="cell has-data" style="opacity: 1;">Unit In Alarm</div><div class="cell has-data" style="opacity: 1;">SIC On Fixed Speed</div><div class="cell has-data" style="opacity: 1;">SIC Not Ready Auto</div><div class="cell has-data" style="opacity: 1;">SIC Not Ready Fix SP</div><div class="cell has-data" style="opacity: 1;">Control Mode Error</div><div class="cell has-data" style="opacity: 1;">Lube Res Temp Low</div><div class="cell has-data active" style="opacity: 1;">Pump Seal Fail</div><div class="cell has-data" style="opacity: 1;">Lube Pres Before TCV Low</div><div class="cell has-data" style="opacity: 1;">SIC MV Warning</div><div class="cell has-data" style="opacity: 1;">Brush Length</div><div class="cell has-data" style="opacity: 1;">Unit Not On Auto</div><div class="cell has-data" style="opacity: 1;">Uncon Non Urg Fail</div><div class="cell has-data" style="opacity: 1;">MOV Sequence Fail</div><div class="cell has-data" style="opacity: 1;">Lube Res Temp High</div><div class="cell has-data" style="opacity: 1;">Lube Res Level Low</div><div class="cell has-data" style="opacity: 1;">Filter Diff Pres High</div><div class="cell has-data" style="opacity: 1;">Slipr Case Temp High</div><div class="cell has-data" style="opacity: 1;">Cool Air Dif Press</div><div class="cell has-data" style="opacity: 1;">Motor Air Temp High</div><div class="cell has-data" style="opacity: 1;">Motor Bear Temp High</div><div class="cell has-data" style="opacity: 1;">Motor Wind Temp High</div><div class="cell has-data" style="opacity: 1;">Pump Bear Temp High</div><div class="cell has-data" style="opacity: 1;">Pump Water Temp High</div><div class="cell has-data" style="opacity: 1;">Pump Vibration High</div><div class="cell has-data" style="opacity: 1;">Unit Tripped</div><div class="cell has-data" style="opacity: 1;">Unit ESD</div><div class="cell has-data" style="opacity: 1;">Seq Fail</div><div class="cell has-data" style="opacity: 1;">Uncon Urg Fail</div><div class="cell has-data" style="opacity: 1;">Suction Press Low</div><div class="cell has-data" style="opacity: 1;">Discharge Press High</div><div class="cell has-data" style="opacity: 1;">Lube Pres After Low</div><div class="cell has-data" style="opacity: 1;">SIC MV Starter SD</div><div class="cell has-data" style="opacity: 1;">DREAV On Command</div><div class="cell has-data" style="opacity: 1;">MV Breaker Close</div><div class="cell has-data" style="opacity: 1;">Lube Temp High</div><div class="cell has-data" style="opacity: 1;">Lube Level Low Low</div><div class="cell has-data" style="opacity: 1;">Slipr Case Temp HH</div><div class="cell has-data" style="opacity: 1;">Motor Air Temp HH</div><div class="cell has-data" style="opacity: 1;">Motor Bear Temp HH</div><div class="cell has-data" style="opacity: 1;">Motor Wind Temp HH</div><div class="cell has-data" style="opacity: 1;">Pump Bear Temp HH</div><div class="cell has-data" style="opacity: 1;">Pump Water Temp HH</div><div class="cell has-data" style="opacity: 1;">Pump Vibration HH</div></div>
 </div>
 
 <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>
@@ -417,7 +417,7 @@ const alarmNamesC = [
 "SIC MV Warning","Brush Length","Unit Not On Auto","Uncon Non Urg Fail","MOV Sequence Fail","Lube Res Temp High","Lube Res Level Low","Filter Diff Pres High",
 "Slipr Case Temp High","Cool Air Dif Press","Motor Air Temp High","Motor Bear Temp High","Motor Wind Temp High","Pump Bear Temp High","Pump Water Temp High","Pump Vibration High",
 "Unit Tripped","Unit ESD","Seq Fail","Uncon Urg Fail","Suction Press Low","Discharge Press High","Lube Pres After Low",
-"SIC MV Starter SD","DREAV On Command","MV Breaker Close","Lube OIL Temp High","Lube OIL Level Low Low",
+"SIC MV Starter SD","DREAV On Command","MV Breaker Close","Lube Temp High","Lube Level Low Low",
 "Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
 ];
 
@@ -451,7 +451,10 @@ const embeddedDBC = {
   "6": {
     "cause": "- عطل في مانع التسرب الميكانيكي",
     "action": "- التحقق من الموقع في حال وجود تسريب MECHANICAL SEAL ",
-    "dwg": "- قسم المكيانيكا"
+    "dwg": "- قسم المكيانيكا",
+    "images": [
+      "https://cdn.phototourl.com/free/2026-05-24-d92f89fe-ddd7-4471-b209-374bc7fe7043.jpg"
+    ]
   },
   "7": {
     "cause": "- ضغط الزيت منخفض قبل صمام التحكم بالحرارة",
@@ -699,7 +702,10 @@ const embeddedDBAB = {
   },
   "13": {
     "cause": "يدل ذلك على وجود تهريب في مانع التسرب الميكانيكي ",
-    "action": "يجب عليك التأكد من كمية التهريب في مانع التسرب الميكانيكي وإذا كان التسرب كبير يجب عليك إيقاف المضخة ووضع المضخة الاحتياطية في الخدمة, وفي حالة عدم وجود مضخة احتياطية إبلاغ الفني الميكانيكي لفحص المضخة وتقرير إذا كان يجب إيقاف المضخة أم لا "
+    "action": "يجب عليك التأكد من كمية التهريب في مانع التسرب الميكانيكي وإذا كان التسرب كبير يجب عليك إيقاف المضخة ووضع المضخة الاحتياطية في الخدمة, وفي حالة عدم وجود مضخة احتياطية إبلاغ الفني الميكانيكي لفحص المضخة وتقرير إذا كان يجب إيقاف المضخة أم لا ",
+    "images": [
+      "https://cdn.phototourl.com/free/2026-05-24-d92f89fe-ddd7-4471-b209-374bc7fe7043.jpg"
+    ]
   },
   "14": {
     "cause": "يدل هذا على أن ضغط الدخول للمضخة أقل من نقطة التحديد الأولى ( LOW VALUE SET ) ",
@@ -1122,6 +1128,7 @@ currentLine = 'C';
 applyLineTheme('C');
 initApp();
 </script>
+
 
 
 </body></html>
