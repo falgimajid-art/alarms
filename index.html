@@ -1350,25 +1350,18 @@ function exportDB() {
   var cleanDBC = JSON.stringify(dbC, null, 2);
   var cleanDBAB = JSON.stringify(dbAB, null, 2);
 
-  var parser = new DOMParser();
-  var doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+  // استخدام الكود الأصلي المخزن عند التحميل
+  var finalHtml = window._originalHTML || ("<!DOCTYPE html>\n" + document.documentElement.outerHTML);
 
-  var details = doc.getElementById('detailsSection');
-  if (details) {
-    details.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
-  }
-
-  // إزالة أي textarea أو input مفتوح من واجهة الأدمن
-  var adminControls = doc.querySelectorAll('.admin-controls');
-  adminControls.forEach(function(el) { el.remove(); });
-
-  var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+  // استبدال قواعد البيانات
   finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
   finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
 
-  // حفظ الكود في متغير عام للنسخ لاحقاً
-  window._exportedCode = finalHtml;
+  // تنظيف قسم التفاصيل
+  finalHtml = finalHtml.replace(/<div id="detailsSection"[^>]*>[\s\S]*?(?=<div class="developer-signature)/, 
+    '<div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>\n    ');
 
+  window._exportedCode = finalHtml;
   document.getElementById('codeOutputArea').value = finalHtml;
   document.getElementById('exportModal').style.display = 'flex';
 }
@@ -1504,6 +1497,13 @@ function initApp() {
 }
 
 currentLine = 'C';
+
+// تخزين الكود الأصلي للصفحة قبل أي تعديل
+fetch(window.location.href)
+  .then(function(r){ return r.text(); })
+  .then(function(html){ window._originalHTML = html; })
+  .catch(function(){ window._originalHTML = null; });
+
 startIntro();
 </script>
 </body>
