@@ -1,11 +1,9 @@
-
 <!DOCTYPE html>
-<html lang="ar" dir="rtl">
-<head>
+<html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>لوحة الإنذارات - LINE AB & LINE C</title>
-<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&display=swap" rel="stylesheet">
+<title>لوحة الإنذارات - LINE AB &amp; LINE C</title>
+<link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&amp;display=swap" rel="stylesheet">
 <style>
 /* ======================================================
    WTCO — Water Transmission Company
@@ -587,7 +585,7 @@ textarea:disabled {
 <!-- ======================================================
      INTRO FEED — Cinematic 2026 loader
 ====================================================== -->
-<div id="introFeed">
+<div id="introFeed" style="transition: opacity 0.7s; opacity: 0; display: none;">
   <div class="intro-scan-line"></div>
   <div class="intro-frame">
     <div class="corner corner-tl"></div>
@@ -600,12 +598,12 @@ textarea:disabled {
       </div>
       <div class="intro-system-label">WATER TRANSMISSION COMPANY — JUBAIL</div>
       <div class="intro-title">لوحة <span>الإنذارات</span><br></div>
-      <div class="intro-subtitle">UNIT ALARMS LINE AB & LINE C</div>
+      <div class="intro-subtitle">UNIT ALARMS LINE AB &amp; LINE C</div>
       <div class="intro-bar-wrap">
         <div class="intro-bar-track">
           <div class="intro-bar-fill"></div>
         </div>
-        <div class="intro-bar-pct" id="barPct">0%</div>
+        <div class="intro-bar-pct" id="barPct">100%</div>
       </div>
     </div>
   </div>
@@ -621,16 +619,16 @@ textarea:disabled {
   <div id="appTopBar">
     <img class="top-logo" src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     <div class="top-sys-label">Water Transmission Company — Jubail</div>
-    <div id="activeLinePill">LINE C</div>
+    <div id="activeLinePill" style="display: flex;">LINE C</div>
   </div>
 
   <!-- WELCOME STAGE -->
-  <div id="welcomeStage">
+  <div id="welcomeStage" class="hidden">
     <div class="welcome-logo">
       <img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     </div>
     <div class="welcome-title">لوحة الإنذارات </div>
-    <div class="welcome-sub">UNITALARM SYSTEM · LINE AB & LINE C</div>
+    <div class="welcome-sub">UNITALARM SYSTEM · LINE AB &amp; LINE C</div>
     <div class="line-cards">
       <div class="line-card" onclick="selectLine('AB')">
         <div class="card-dot"></div>
@@ -648,7 +646,7 @@ textarea:disabled {
   </div>
 
   <!-- APP STAGE -->
-  <div id="appStage">
+  <div id="appStage" class="visible">
     <div class="app-panel">
       <div class="app-panel-header">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
@@ -659,18 +657,16 @@ textarea:disabled {
           <button class="home-btn" onclick="goHome()">⌂ الرئيسية</button>
           <button class="mini-tab" id="tabAB" onclick="switchLine('AB')">LINE AB</button>
           <button class="mini-tab active" id="tabC" onclick="switchLine('C')">LINE C</button>
-          <div id="roleBadge" class="status-badge"> (أدمن)</div>
+          <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"> (أدمن)</div>
         </div>
       </div>
       <input type="text" class="app-search" placeholder="🔍 ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"></div>
+        <div id="grid" class="annunciator-grid"><div class="cell has-data" style="opacity: 1;">Unit In Alarm</div><div class="cell has-data" style="opacity: 0.15;">SIC On Fixed Speed</div><div class="cell has-data" style="opacity: 0.15;">SIC Not Ready Auto</div><div class="cell has-data" style="opacity: 0.15;">SIC Not Ready Fix SP</div><div class="cell has-data" style="opacity: 0.15;">Control Mode Error</div><div class="cell has-data" style="opacity: 0.15;">Lube Res Temp Low</div><div class="cell has-data" style="opacity: 0.15;">Pump Seal Fail</div><div class="cell has-data" style="opacity: 0.15;">Lube Pres Before TCV Low</div><div class="cell has-data" style="opacity: 0.15;">SIC MV Warning</div><div class="cell has-data" style="opacity: 0.15;">Brush Length</div><div class="cell has-data" style="opacity: 1;">Unit Not On Auto</div><div class="cell has-data" style="opacity: 1;">Uncon Non Urg Fail</div><div class="cell has-data" style="opacity: 0.15;">MOV Sequence Fail</div><div class="cell has-data" style="opacity: 0.15;">Lube Res Temp High</div><div class="cell has-data" style="opacity: 0.15;">Lube Res Level Low</div><div class="cell has-data" style="opacity: 0.15;">Filter Diff Pres High</div><div class="cell has-data" style="opacity: 0.15;">Slipr Case Temp High</div><div class="cell has-data" style="opacity: 0.15;">Cool Air Dif Press</div><div class="cell has-data" style="opacity: 0.15;">Motor Air Temp High</div><div class="cell has-data" style="opacity: 0.15;">Motor Bear Temp High</div><div class="cell has-data" style="opacity: 0.15;">Motor Wind Temp High</div><div class="cell has-data" style="opacity: 0.15;">Pump Bear Temp High</div><div class="cell has-data" style="opacity: 0.15;">Pump Water Temp High</div><div class="cell has-data" style="opacity: 0.15;">Pump Vibration High</div><div class="cell has-data" style="opacity: 1;">Unit Tripped</div><div class="cell has-data" style="opacity: 1;">Unit ESD</div><div class="cell has-data" style="opacity: 0.15;">Seq Fail</div><div class="cell has-data active" style="opacity: 1;">Uncon Urg Fail</div><div class="cell has-data" style="opacity: 0.15;">Suction Press Low</div><div class="cell has-data" style="opacity: 0.15;">Discharge Press High</div><div class="cell has-data" style="opacity: 0.15;">Lube Pres After Low</div><div class="cell has-data" style="opacity: 0.15;">SIC MV Starter SD</div><div class="cell has-data" style="opacity: 0.15;">DREAV On Command</div><div class="cell has-data" style="opacity: 0.15;">MV Breaker Close</div><div class="cell has-data" style="opacity: 0.15;">Lube Temp High</div><div class="cell has-data" style="opacity: 0.15;">Lube Level Low Low</div><div class="cell has-data" style="opacity: 0.15;">Slipr Case Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Motor Air Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Motor Bear Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Motor Wind Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Pump Bear Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Pump Water Temp HH</div><div class="cell has-data" style="opacity: 0.15;">Pump Vibration HH</div></div>
       </div>
     </div>
 
-    <div id="detailsSection" class="details-section">
-      <div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>
-    </div>
+    <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>
 
     <div class="developer-signature">By: <span id="designerName">MAJED M.FALQI</span></div>
   </div>
@@ -688,7 +684,7 @@ textarea:disabled {
   <div class="export-box">
     <h3 style="margin:0; color:var(--gold);">📋 تم توليد الكود المحدث بنجاح!</h3>
     <p style="font-size:13px; color:var(--text-dim); margin: 5px 0 15px 0;">انسخ الكود بالأسفل بالكامل واستبدله في GitHub لحفظ معلوماتك بشكل دائم:</p>
-    <textarea id="codeOutputArea" class="code-output" readonly></textarea>
+    <textarea id="codeOutputArea" class="code-output" readonly=""></textarea>
     <div style="display:flex; gap:10px; justify-content:flex-end;">
       <button class="btn" style="background:var(--border); color:var(--text-light);" onclick="closeExportModal()">إغلاق النافذة</button>
       <button class="btn btn-primary" onclick="copyGeneratedCode()">📋 نسخ الكود بالكامل</button>
@@ -715,7 +711,8 @@ const embeddedDBC = {
     "cause": "إنذار أساسي مصاحب له إنذار آخر",
     "action": "التأكد من لوحة الإنذارات لوجود إنذار آخر",
     "dwg": "",
-    "notes": ""
+    "notes": "",
+    "images": []
   },
   "1": {
     "cause": "- إنذار يؤكد بأن الوحدة على السرعة الثابتة",
@@ -824,7 +821,8 @@ const embeddedDBC = {
   "20": {
     "cause": "- ارتفاع في درجة حرارة الملفات الى 132 درجة مئوية",
     "action": "- التحقق من حالة المبادل الحراري ووصول المياه إليه \n- التأكد من صمامات المبادل الحراري\n- التأكد من صمام التحكم بالحرارة الداخل على الماطور\n- التحقق من حالة نظام التبريد في المحطة",
-    "dwg": "- قسم الكهرباء"
+    "dwg": "- قسم الكهرباء",
+    "images": []
   },
   "21": {
     "cause": "- حرارة الزيت في كراسي التحميل للمضخة مرتفعة 80 درجة مئوية",
@@ -860,9 +858,10 @@ const embeddedDBC = {
     "images": []
   },
   "27": {
-    "cause": "- وجود مشكلة in نظام التشغيل PLC يؤثر على عملية التشغيل",
+    "cause": "- وجود مشكلة في نظام التشغيل PLC يؤثر على عملية التشغيل",
     "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ",
-    "dwg": "- قسم الأجهزة "
+    "dwg": "- قسم الأجهزة ",
+    "images": []
   },
   "28": {
     "cause": "- ضغط الدخول للوحدة منخفض",
@@ -874,7 +873,8 @@ const embeddedDBC = {
   "29": {
     "cause": "- ارتفاع ضغط الخروج من المضخة",
     "action": "- التأكد من صمام الخروج بأنه مفتوح كامل \n- التأكد من مقياس الضغط للخروج ",
-    "dwg": "- قسم الأجهزة"
+    "dwg": "- قسم الأجهزة",
+    "images": []
   },
   "30": {
     "cause": "- ضغط الزيت منخفض بعد صمام التحكم بالحرارة",
@@ -896,8 +896,9 @@ const embeddedDBC = {
   },
   "34": {
     "cause": "- حرارة الزيت في النظام مرتفعة الى 75 درجة مئوية",
-    "action": "- التحقق بعلى دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في الحساس ",
-    "dwg": "- قسم الأجهزة"
+    "action": "- التحقق من دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في الحساس ",
+    "dwg": "- قسم الأجهزة",
+    "images": []
   },
   "35": {
     "cause": "- مستوى الزيت في الخزان منخفض جدًّا",
@@ -917,7 +918,7 @@ const embeddedDBC = {
   "38": {
     "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 100 درجة مئوية",
     "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- تشغيل الوحدة الإحتياطية\n- وجود مشكلة في الحساس ",
-    "notes": "- قسم الأجهزة عندما ترتفع درجة الحرارة بشكل مبالغ فيه بسرعة عالية.",
+    "notes": "- قسم الأجهزة عندما ترتفع درجة الحرارة بشكل مفاجئ.",
     "dwg": "- قسم الأجهزة",
     "images": []
   },
@@ -1477,5 +1478,6 @@ function initApp() {
 currentLine = 'C';
 startIntro();
 </script>
-</body>
-</html>
+
+
+</body></html>
