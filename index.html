@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -683,18 +684,8 @@ textarea:disabled {
   <img id="lightbox-img" src="" alt="">
 </div>
 
-<!-- EXPORT MODAL -->
-<div id="exportModal" class="export-modal" style="display: none;">
-  <div class="export-box">
-    <h3 style="margin:0; color:var(--gold);">📋 تم توليد الكود المحدث بنجاح!</h3>
-    <p style="font-size:13px; color:var(--text-dim); margin: 5px 0 15px 0;">انسخ الكود بالأسفل بالكامل واستبدله في GitHub لحفظ معلوماتك بشكل دائم:</p>
-    <textarea id="codeOutputArea" class="code-output" readonly></textarea>
-    <div style="display:flex; gap:10px; justify-content:flex-end;">
-      <button class="btn" style="background:var(--border); color:var(--text-light);" onclick="closeExportModal()">إغلاق النافذة</button>
-      <button class="btn btn-primary" onclick="copyGeneratedCode()">📋 نسخ الكود بالكامل</button>
-    </div>
-  </div>
-</div>
+
+
 
 <script>
 
@@ -1200,7 +1191,7 @@ function showDetails(index, name) {
   var adminHtml = isAdmin
     ? '<div class="admin-controls">'
     + '<span style="color:#f59e0b;font-size:12px;">⚠️ عدّل البيانات ثم اضغط الزر لتوليد الكود الجديد لحفظه في GitHub</span>'
-    + '<button class="btn btn-primary" onclick="exportDB()">📋 تصدير وتحديث الكود</button>'
+    + '<button class="btn btn-primary" onclick="exportDB()">💾 حفظ وتحميل الملف</button>'
     + '</div>'
     : '';
 
@@ -1249,8 +1240,8 @@ function makeImagesSection(index, images) {
 
   var addRowHtml = isAdmin
     ? '<div class="img-admin-row">'
-    + '<input class="img-url-input" id="imgUrlInput_' + index + '" type="text" placeholder="أدخل رابط الصورة URL هنا..." />'
-    + '<button class="btn-add-img" onclick="addImage(' + index + ')">+ إضافة صورة</button>'
+    + '<input type="file" id="imgFileInput_' + index + '" accept="image/*" multiple style="display:none" onchange="addImageFromFile(' + index + ',this)">'
+    + '<button class="btn-add-img" onclick="document.getElementById(\'imgFileInput_' + index + '\').click()">📁 رفع صورة من الجهاز</button>'
     + '</div>'
     : '';
 
@@ -1261,27 +1252,42 @@ function makeImagesSection(index, images) {
     + '</div>';
 }
 
-function addImage(index) {
-  var input = document.getElementById('imgUrlInput_' + index);
-  var url = input ? input.value.trim() : '';
-  if (!url) { alert('أدخل رابط الصورة أولاً'); return; }
+function addImageFromFile(index, input) {
+  var files = Array.from(input.files);
+  if (!files.length) return;
   var db = getCurrentDB();
   if (!db[index]) db[index] = {};
   if (!db[index].images) db[index].images = [];
-  db[index].images.push(url);
-  if (input) input.value = '';
+  var pending = files.length;
+  files.forEach(function(file) {
+    var reader = new FileReader();
+    reader.onload = function(e) {
+      db[index].images.push(e.target.result);
+      pending--;
+      if (pending === 0) refreshGallery(index);
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+function refreshGallery(index) {
+  var db = getCurrentDB();
   var gallery = document.getElementById('gallery_' + index);
-  if (gallery) {
-    var imgs = db[index].images;
-    gallery.innerHTML = '';
-    imgs.forEach(function (u, i) {
-      var wrap = document.createElement('div');
-      wrap.className = 'img-thumb-wrap';
-      wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
-        + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
-      gallery.appendChild(wrap);
-    });
+  if (!gallery) return;
+  var imgs = db[index] && db[index].images ? db[index].images : [];
+  if (imgs.length === 0) {
+    gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
+    return;
   }
+  gallery.innerHTML = '';
+  imgs.forEach(function(u, i) {
+    var wrap = document.createElement('div');
+    wrap.className = 'img-thumb-wrap';
+    wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
+      + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + (u.startsWith('data:') ? 'data_' + index + '_' + i : u.replace(/'/g, "\\'")) + '\')" onerror="this.parentElement.style.display=\'none\'">';
+    gallery.appendChild(wrap);
+  });
 }
 
 function deleteImage(index, imgIndex) {
@@ -1289,27 +1295,21 @@ function deleteImage(index, imgIndex) {
   var db = getCurrentDB();
   if (db[index] && db[index].images) {
     db[index].images.splice(imgIndex, 1);
-    var gallery = document.getElementById('gallery_' + index);
-    if (gallery) {
-      var imgs = db[index].images;
-      if (imgs.length === 0) {
-        gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
-      } else {
-        gallery.innerHTML = '';
-        imgs.forEach(function (u, i) {
-          var wrap = document.createElement('div');
-          wrap.className = 'img-thumb-wrap';
-          wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
-            + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
-          gallery.appendChild(wrap);
-        });
-      }
-    }
+    refreshGallery(index);
   }
 }
 
-function openLightbox(url) {
-  document.getElementById('lightbox-img').src = url;
+function openLightbox(src) {
+  var imgEl = document.getElementById('lightbox-img');
+  if (src.startsWith('data_')) {
+    var parts = src.split('_');
+    var idx = parseInt(parts[1]);
+    var imgIdx = parseInt(parts[2]);
+    var db = getCurrentDB();
+    imgEl.src = db[idx] && db[idx].images ? db[idx].images[imgIdx] : '';
+  } else {
+    imgEl.src = src;
+  }
   document.getElementById('lightbox').style.display = 'flex';
 }
 
@@ -1349,23 +1349,17 @@ function exportDB() {
   finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
   finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
 
-  document.getElementById('codeOutputArea').value = finalHtml;
-  document.getElementById('exportModal').style.display = 'flex';
+  // تحميل مباشر بدون نافذة
+  var blob = new Blob([finalHtml], { type: 'text/html;charset=utf-8' });
+  var a = document.createElement('a');
+  a.href = URL.createObjectURL(blob);
+  a.download = 'alarms.html';
+  a.click();
+  URL.revokeObjectURL(a.href);
 }
 
-function closeExportModal() {
-  document.getElementById('exportModal').style.display = 'none';
-}
 
-function copyGeneratedCode() {
-  var copyText = document.getElementById('codeOutputArea');
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  navigator.clipboard.writeText(copyText.value).then(function () {
-    alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
-    closeExportModal();
-  });
-}
+
 
 // ============================================================
 // WELCOME → APP TRANSITION
