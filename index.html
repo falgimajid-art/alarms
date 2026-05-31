@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -373,8 +374,11 @@ body {
 .home-btn:hover { border-color: #1B8B8B; color: #5ECECE; background: #1B8B8B12; }
 
 /* ======================================================
-   MAIN APP ELEMENTS
+   MAIN APP
 ====================================================== */
+
+
+
 .brand-title h3 { margin: 0; font-size: 19px; font-weight: 700; color: var(--text-light); }
 .company-logo { width: 110px; height: 110px; display: flex; align-items: center; justify-content: center; overflow: hidden; }
 .company-logo img { width: 100%; height: 100%; object-fit: contain; filter: drop-shadow(0 2px 12px #1B8B8B44); }
@@ -580,6 +584,9 @@ textarea:disabled {
 </head>
 <body>
 
+<!-- ======================================================
+     INTRO FEED — Cinematic 2026 loader
+====================================================== -->
 <div id="introFeed">
   <div class="intro-scan-line"></div>
   <div class="intro-frame">
@@ -605,14 +612,19 @@ textarea:disabled {
   <div class="intro-year">SYSTEM 2026</div>
 </div>
 
+<!-- ======================================================
+     MAIN SCREEN — Single unified view
+====================================================== -->
 <div id="mainScreen">
 
+  <!-- TOP BAR (always visible) -->
   <div id="appTopBar">
     <img class="top-logo" src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     <div class="top-sys-label">Water Transmission Company — Jubail</div>
     <div id="activeLinePill">LINE C</div>
   </div>
 
+  <!-- WELCOME STAGE -->
   <div id="welcomeStage">
     <div class="welcome-logo">
       <img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
@@ -635,6 +647,7 @@ textarea:disabled {
     </div>
   </div>
 
+  <!-- APP STAGE -->
   <div id="appStage">
     <div class="app-panel">
       <div class="app-panel-header">
@@ -664,11 +677,13 @@ textarea:disabled {
 
 </div>
 
+<!-- LIGHTBOX -->
 <div id="lightbox" onclick="closeLightbox()">
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
 
+<!-- EXPORT MODAL -->
 <div id="exportModal" class="export-modal" style="display: none;">
   <div class="export-box">
     <h3 style="margin:0; color:var(--gold);">📋 تم توليد الكود المحدث بنجاح!</h3>
@@ -682,53 +697,252 @@ textarea:disabled {
 </div>
 
 <script>
-// ============================================================
-// CONFIG & CONSTANTS
-// ============================================================
-const MY_NAME = "MAJED M.FALQI";
-const LOGO_URL = "https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png";
-const isAdmin = false;
 
 // ============================================================
-// LINE C ALARMS
+// LINE C ALARMS (الكود الأصلي)
 // ============================================================
 const alarmNamesC = [
-  "Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
-  "SIC MV Warning","Brush Length","Unit Not On Auto","Uncon Non Urg Fail","MOV Sequence Fail","Lube Res Temp High","Lube Res Level Low","Filter Diff Pres High",
-  "Slipr Case Temp High","Cool Air Dif Press","Motor Air Temp High","Motor Bear Temp High","Motor Wind Temp High","Pump Bear Temp High","Pump Water Temp High","Pump Vibration High",
-  "Unit Tripped","Unit ESD","Seq Fail","Uncon Urg Fail","Suction Press Low","Discharge Press High","Lube Pres After Low",
-  "SIC MV Starter SD","DREAV On Command","MV Breaker Close","Lube Temp High","Lube Level Low Low",
-  "Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
+"Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
+"SIC MV Warning","Brush Length","Unit Not On Auto","Uncon Non Urg Fail","MOV Sequence Fail","Lube Res Temp High","Lube Res Level Low","Filter Diff Pres High",
+"Slipr Case Temp High","Cool Air Dif Press","Motor Air Temp High","Motor Bear Temp High","Motor Wind Temp High","Pump Bear Temp High","Pump Water Temp High","Pump Vibration High",
+"Unit Tripped","Unit ESD","Seq Fail","Uncon Urg Fail","Suction Press Low","Discharge Press High","Lube Pres After Low",
+"SIC MV Starter SD","DREAV On Command","MV Breaker Close","Lube Temp High","Lube Level Low Low",
+"Slipr Case Temp HH","Motor Air Temp HH","Motor Bear Temp HH","Motor Wind Temp HH","Pump Bear Temp HH","Pump Water Temp HH","Pump Vibration HH"
 ];
 
 const embeddedDBC = {
-  "0": { "cause": "إنذار أساسي مصاحب له إنذار آخر", "action": "التأكد من لوحة الإنذارات لوجود إنذار آخر", "dwg": "", "notes": "" },
-  "1": { "cause": "- إنذار يؤكد بأن الوحدة على السرعة الثابتة", "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة" },
-  "2": { "cause": "- وحدة التحكم بالسرعات ليست جاهزة على الوضع التلقائي", "action": "- التأكد من المفتاح على الوضع التلقائي\n- إعادة ضبط لوحة التحكم بالسرعات SIC", "images": [] },
-  "3": { "cause": "- وحدة التحكم في السرعات ليست جاهزة للتشغيل على السرعة الثابتة", "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة" },
-  "4": { "cause": "- وجود مشكلة في مفتاح الوحدة وليست على الوضع المركزي", "action": "- تغيير المفتاح الى الوضع التلقائي وإبلاغ مركز التحكم" },
-  "5": { "cause": "- حرارة خزان الزيت منخفضة الى أقل من 22 درجة مئوية", "action": "- التحقق من المسخن المتصل بالخزان\n- تغيير SETPOINT لصمام التحكم بالحرارة ", "images": [] },
-  "6": { "cause": "- عطل في مانع التسرب الميكانيكي", "action": "- التحقق من الموقع في حال وجود تسريب MECHANICAL SEAL ", "dwg": "- قسم المكيانيكا", "images": [ "https://cdn.phototourl.com/free/2026-05-24-d92f89fe-ddd7-4471-b209-374bc7fe7043.jpg" ] },
-  "7": { "cause": "- ضغط الزيت منخفض قبل صمام التحكم بالحرارة", "action": "- التحقق من مستوى الخزان\n- التحقق من مقياس الضغط قبل صمام التحكم بالحرارة", "dwg": "قسم الأجهزة", "images": [] },
-  "8": { "cause": "دلالة على وجود إنذار في لوحة التحكم بالسرعات في SIC", "action": "- التأكد من الإنذارات في لوحة التحكم بالسرعات SIC\n- عمل اعادة ضبط ( RESET ) لمرة واحدة فقط \n- تسجيل وكتابة الإنذار ", "dwg": "قسم الكهرباء" },
-  "9": { "cause": "- وجود تآكل في الفرش الكربونية الى 50% ", "action": "- إطفاء الوحدة وتبليغ القسم المختص\n- تشغيل الوحدة الإحتياطية ", "dwg": "- قسم الكهرباء", "images": [] },
-  "10": { "cause": "- الوحدة ليست على الوضع التلقائي", "action": "- التأكد من المفتاح على الوضع التلقائي AUTO", "images": [] },
-  "11": { "cause": "- وجود مشكلة في نظام التشغيل PLC ولا يؤثر على عملية التشغيل", "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ", "dwg": "- قسم الأجهزة", "images": [] },
-  "12": { "cause": "- فشل في أحد الصمامات الخاصة بالوحدة", "action": "- التحقق من جميع الصمامات للوحدة أنها على الوضع الطبيعي\n- التحقق من قواطع الصمامات في غرفة الجهد المنخفض", "images": [] },
-  "13": { "cause": "- حرارة خزان الزيت مرتفعة", "action": "- التأكد من دائرة التبريد في النظام \n- عمل تفريغ بسيط من نقطة التفريغ للمبادل الحراري", "images": [] },
-  "14": { "cause": "- مستوى الزيت في الخزان منخفض", "action": "- التحقق في حالة وجود تسريب في النظام \n- تعبئة الخزان بالزيت T46", "dwg": "- قسم الميكانيكا", "images": [] },
-  "15": { "cause": "- انسداد في الفلتر ووصول اختلاف الضغط الى 0.6بار ", "action": "- يتم تغيير خدمة الفلتر CHANGE OIL FILTER DUTY\n- تأكد من خلو الفلتر من الهواء بواسطة صمام التنفيس\n- إبلاغ الصيانة لتغيير الفلاتر", "dwg": "- قسم الميكانيكا", "images": [] },
-  "16": { "cause": "- وجود حرارة في غرفة الحقات المنزلقة ( SLIPRING )\n", "action": "- التحقق من في المروحة SLIPR FAN في غرفة الحلقات المنزلقة\n- التحقق إن كانت الحرارة ارتفعت بشكل مفاجئ \"قسم الأجهزة\"\n", "dwg": "- قسم الكهرباء\n- قسم الأجهزة", "notes": "", "images": [] },
-  "17": { "cause": "- اختلاف ضغط الهواء داخل غرفة الحلقات المنزلقة", "action": "- تنظيف الفلاتر التي بأعلى الغرفة كحل مؤقت\n- فتح الأبواب العلوية ليتساوى الضغط ", "dwg": "- قسم الكهرباء" },
-  "18": { "cause": "- درجة حرارة الماطور مرتفعة الى 60 درجة مئوية\n- الهواء الداخل على الماطور ساخن", "action": "- التحقق من نظام التبريد في المحطة\n- يتم زيادة كفاءة نظام التبريد ( تشغيل مضخات spray ) ( تشغيل المراوح )", "images": [] },
-  "19": { "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- وجود مشكلة في الحساس يتوجب إبلاغ قسم الأجهزة", "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 90 درجة مئوية", "dwg": "- قسم الأجهزة\n- قسم الميكانيكا" },
-  "20": { "cause": "- درجة حرارة ملفات الماطور مرتفعة الى 125 درجة مئوية\n- زيادة الأحمال على المضخة\n- ضعف التبريد الداخلي للماطور ", "action": "- خفض تدفق المضخة لتقليل الأمبير المستهلك\n- التأكد من فتح نوافذ التبريد بشكل كامل\n- التحقق من درجة حرارة المحامل والاهتزاز", "dwg": "- قسم التشغيل\n- قسم الكهرباء" },
-  "21": { "cause": "- حرارة كراسي تحميل المضخة مرتفعة الى 70 درجة مئوية", "action": "- التحقق من مضخة التبريد المساعدة ( AUXILIARY COOLING PUMP )\n- التحقق من التدفق والضغط لخط مياه التبريد للمضخة\n- التأكد من قراءة الحساس محلياً", "dwg": "- قسم الميكانيكا\n- قسم الأجهزة" },
-  "22": { "cause": "- حرارة مياه المضخة مرتفعة الى 45 درجة مئوية", "action": "- التحقق من تدفق المياه الفعلي داخل خط التبريد\n- التأكد من سلامة الصمامات على خط التبريد المار بالمضخة", "dwg": "- قسم التشغيل\n- قسم الميكانيكا" },
-  "23": { "cause": "- اهتزازات المضخة مرتفعة وتجاوزت الحد المسموح ALERT LEVEL", "action": "- التحقق ميدانياً من وجود أي أصوات غير طبيعية ( CAVITATION )\n- التحقق من تدفق ومستوى السحب ( SUCTION )\n- مراقبة مؤشر الاهتزاز بدقة وإبلاغ الميكانيكا للمعاينة الميدانية", "dwg": "- قسم الميكانيكا\n- قسم الأجهزة" },
-  "24": { "cause": "- خروج وتوقف المضخة عن العمل بسبب تفعيل أحد الحمايات الحرجة TRIP", "action": "- التوجه الفوري للموقع والتحقق من حالة المضخة ومستوى الزيت\n- التحقق من اللوحة الكهربائية لمعرفة السبب الرئيسي ( عطل محرك، زيادة تيار، إلخ )\n- إبلاغ مركز التحكم والأقسام الفنية المختصة فوراً لإعادة التشغيل الآمن", "dwg": "- جميع الأقسام المعنية" }
+  "0": {
+    "cause": "إنذار أساسي مصاحب له إنذار آخر",
+    "action": "التأكد من لوحة الإنذارات لوجود إنذار آخر",
+    "dwg": "",
+    "notes": ""
+  },
+  "1": {
+    "cause": "- إنذار يؤكد بأن الوحدة على السرعة الثابتة",
+    "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة"
+  },
+  "2": {
+    "cause": "- وحدة التحكم بالسرعات ليست جاهزة على الوضع التلقائي",
+    "action": "- التأكد من المفتاح على الوضع التلقائي\n- إعادة ضبط لوحة التحكم بالسرعات SIC",
+    "images": []
+  },
+  "3": {
+    "cause": "- وحدة التحكم في السرعات ليست جاهزة للتشغيل على السرعة الثابتة",
+    "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة"
+  },
+  "4": {
+    "cause": "- وجود مشكلة في مفتاح الوحدة وليست على الوضع المركزي",
+    "action": "- تغيير المفتاح الى الوضع التلقائي وإبلاغ مركز التحكم"
+  },
+  "5": {
+    "cause": "- حرارة خزان الزيت منخفضة الى أقل من 22 درجة مئوية",
+    "action": "- التحقق من المسخن المتصل بالخزان\n- تغيير SETPOINT لصمام التحكم بالحرارة ",
+    "images": []
+  },
+  "6": {
+    "cause": "- عطل في مانع التسرب الميكانيكي",
+    "action": "- التحقق من الموقع في حال وجود تسريب MECHANICAL SEAL ",
+    "dwg": "- قسم المكيانيكا",
+    "images": [
+      "https://cdn.phototourl.com/free/2026-05-24-d92f89fe-ddd7-4471-b209-374bc7fe7043.jpg"
+    ]
+  },
+  "7": {
+    "cause": "- ضغط الزيت منخفض قبل صمام التحكم بالحرارة",
+    "action": "- التحقق من مستوى الخزان\n- التحقق من مقياس الضغط قبل صمام التحكم بالحرارة",
+    "dwg": "قسم الأجهزة",
+    "images": []
+  },
+  "8": {
+    "cause": "دلالة على وجود إنذار في لوحة التحكم بالسرعات في SIC",
+    "action": "- التأكد من الإنذارات في لوحة التحكم بالسرعات SIC\n- عمل اعادة ضبط ( RESET ) لمرة واحدة فقط \n- تسجيل وكتابة الإنذار ",
+    "dwg": "قسم الكهرباء"
+  },
+  "9": {
+    "cause": "- وجود تآكل في الفرش الكربونية الى 50% ",
+    "action": "- إطفاء الوحدة وتبليغ القسم المختص\n- تشغيل الوحدة الإحتياطية ",
+    "dwg": "- قسم الكهرباء",
+    "images": []
+  },
+  "10": {
+    "cause": "- الوحدة ليست على الوضع التلقائي",
+    "action": "- التأكد من المفتاح على الوضع التلقائي AUTO",
+    "images": []
+  },
+  "11": {
+    "cause": "- وجود مشكلة في نظام التشغيل PLC ولا يؤثر على عملية التشغيل",
+    "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ",
+    "dwg": "- قسم الأجهزة",
+    "images": []
+  },
+  "12": {
+    "cause": "- فشل في أحد الصمامات الخاصة بالوحدة",
+    "action": "- التحقق من جميع الصمامات للوحدة أنها على الوضع الطبيعي\n- التحقق من قواطع الصمامات في غرفة الجهد المنخفض",
+    "images": []
+  },
+  "13": {
+    "cause": "- حرارة خزان الزيت مرتفعة",
+    "action": "- التأكد من دائرة التبريد في النظام \n- عمل تفريغ بسيط من نقطة التفريغ للمبادل الحراري",
+    "images": []
+  },
+  "14": {
+    "cause": "- مستوى الزيت في الخزان منخفض",
+    "action": "- التحقق في حالة وجود تسريب في النظام \n- تعبئة الخزان بالزيت T46",
+    "dwg": "- قسم الميكانيكا",
+    "images": []
+  },
+  "15": {
+    "cause": "- انسداد في الفلتر ووصول اختلاف الضغط الى 0.6بار ",
+    "action": "- يتم تغيير خدمة الفلتر CHANGE OIL FILTER DUTY\n- تأكد من خلو الفلتر من الهواء بواسطة صمام التنفيس\n- إبلاغ الصيانة لتغيير الفلاتر",
+    "dwg": "- قسم الميكانيكا",
+    "images": []
+  },
+  "16": {
+    "cause": "- وجود حرارة في غرفة الحقات المنزلقة ( SLIPRING )\n",
+    "action": "- التحقق من في المروحة SLIPR FAN في غرفة الحلقات المنزلقة\n- التحقق إن كانت الحرارة ارتفعت بشكل مفاجئ \"قسم الأجهزة\"\n",
+    "dwg": "- قسم الكهرباء\n- قسم الأجهزة",
+    "notes": "",
+    "images": []
+  },
+  "17": {
+    "cause": "- اختلاف ضغط الهواء داخل غرفة الحلقات المنزلقة",
+    "action": "- تنظيف الفلاتر التي بأعلى الغرفة كحل مؤقت\n- فتح الأبواب العلوية ليتساوى الضغط ",
+    "dwg": "- قسم الكهرباء"
+  },
+  "18": {
+    "cause": "- درجة حرارة الماطور مرتفعة الى 60 درجة مئوية\n- الهواء الداخل على الماطور ساخن",
+    "action": "- التحقق من نظام التبريد في المحطة\n- يتم زيادة كفاءة نظام التبريد ( تشغيل مضخات spray ) ( تشغيل المراوح )",
+    "images": []
+  },
+  "19": {
+    "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- وجود مشكلة في الحساس يتوجب إبلاغ قسم الأجهزة",
+    "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 90 درجة مئوية",
+    "dwg": "- قسم الأجهزة",
+    "notes": "",
+    "images": []
+  },
+  "20": {
+    "cause": "- ارتفاع في درجة حرارة الملفات الى 132 درجة مئوية",
+    "action": "- التحقق من حالة المبادل الحراري ووصول المياه إليه \n- التأكد من صمامات المبادل الحراري\n- التأكد من صمام التحكم بالحرارة الداخل على الماطور\n- التحقق من حالة نظام التبريد في المحطة",
+    "dwg": "- قسم الكهرباء"
+  },
+  "21": {
+    "cause": "- حرارة الزيت في كراسي التحميل للمضخة مرتفعة 80 درجة مئوية",
+    "action": "- التحقق من نظام التزييت بأنه في الخدمة والضغوطات سليمة\n- التحقق من دائرة التبريد في النظام"
+  },
+  "22": {
+    "cause": "- حرارة المياه في المضخة مرتفعة",
+    "action": "- عدم وجود كمية ماء كافية داخل المضخة \n- يتم فتح صمامات التفريغ للمضخة\n- مشكلة في الحساس"
+  },
+  "23": {
+    "cause": "- وجود اهتزاز عالي في المضخة\n- يأتي هذا الإنذار بسبب إختلاف الضغوط في حالة تشغيل وحدة أخرى ",
+    "action": "- التحقق من الموقع إن كان الاهتزاز فعلي\n- التحقق من الحساس من شاشة لوحة التحكم  بأن قراءاته طبيعية ولا يوجد تذبذب عالي ",
+    "images": [],
+    "notes": "",
+    "dwg": "- قسم الميكانيكا\n- قسم الأجهزة"
+  },
+  "24": {
+    "cause": "- وجود عطل في إحدى مرحلات المحرك",
+    "action": "- إعادة ضبط لقاطع الجهد المتوسط \"SAP\" \n- إبلاغ مركز التحكم",
+    "dwg": "- قسم الكهرباء",
+    "images": []
+  },
+  "25": {
+    "cause": "- زر الطوارئ للوحدة مضغوط ",
+    "action": "- التأكد من إعادته لوضعه ",
+    "images": [],
+    "dwg": ""
+  },
+  "26": {
+    "cause": "- خطأ في مراحل التشغيل",
+    "action": "- دلالة على وجود مشكلة في مراحل بدء الحركة او الإيقاف للوحدة \n- المحاولة بالتشغيل مرة واحدة فقط وبعد ذلك يتم إبلاغ القسم المختص",
+    "dwg": "- قسم الأجهزة",
+    "images": []
+  },
+  "27": {
+    "cause": "- وجود مشكلة in نظام التشغيل PLC يؤثر على عملية التشغيل",
+    "action": "- إبلاغ قسم الأجهزة ليتسنى لهم العمل على PLC ",
+    "dwg": "- قسم الأجهزة "
+  },
+  "28": {
+    "cause": "- ضغط الدخول للوحدة منخفض",
+    "action": "- التأكد من صمام الدخول بأنه على الوضع الطبيعي للتشغيل\n- التحقق من قراءة مقياس الضغط الداخل للمضخة\n",
+    "dwg": "- قسم الأجهزة",
+    "images": [],
+    "notes": "- التحقق بأن SETPOINT لمقياس الضغط هو 2 بار"
+  },
+  "29": {
+    "cause": "- ارتفاع ضغط الخروج من المضخة",
+    "action": "- التأكد من صمام الخروج بأنه مفتوح كامل \n- التأكد من مقياس الضغط للخروج ",
+    "dwg": "- قسم الأجهزة"
+  },
+  "30": {
+    "cause": "- ضغط الزيت منخفض بعد صمام التحكم بالحرارة",
+    "action": "- التحقق من مستوى الخزان\n- التحقق بأن الصمامات في الوضع الطبيعي \"قارن بين الوحدات الأخرى\"",
+    "dwg": "- قسم الأجهزة",
+    "images": []
+  },
+  "31": {
+    "cause": "- وجود عطل في وحدة التحكم بالسرعات SIC",
+    "action": "- التحقق من الإنذارات في لوحة التحكم بالسرعات \n- إعادة ضبط لمرة واحدة ",
+    "dwg": "- قسم الكهرباء"
+  },
+  "32": {
+    "cause": "- إنذار عند تشغيل الوحدة "
+  },
+  "33": {
+    "cause": "- دلالة على أن الوحدة متصلة مع القاطع في الجهد المتوسط",
+    "action": ""
+  },
+  "34": {
+    "cause": "- حرارة الزيت في النظام مرتفعة الى 75 درجة مئوية",
+    "action": "- التحقق بعلى دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في الحساس ",
+    "dwg": "- قسم الأجهزة"
+  },
+  "35": {
+    "cause": "- مستوى الزيت في الخزان منخفض جدًّا",
+    "action": "- التحقق في حالة وجود تسريب في النظام \n- تعبئة الخزان بالزيت T46",
+    "dwg": "- قسم الميكانيكا"
+  },
+  "36": {
+    "cause": "- إرتفاع حرارة غرفة الحلقات المنزلقة الى 65 درجة مئوية",
+    "action": "- وجود إشكالية في المروحة SLIPR FAN\n- وجود إشكالية in حساس الحرارة \n- التأكد بعد انطفاء الوحدة بأن الحرارة فعلية",
+    "dwg": "- قسم الكهرباء \n- قسم الأجهزة"
+  },
+  "37": {
+    "cause": "- درجة حرارة الماطور مرتفعة جدًّا الى 65 درجة مئوية\n- الهواء الداخل على الماطور ساخن",
+    "action": "- التحقق من نظام التبريد في المحطة\n- يتم زيادة كفاءة نظام التبريد ( تشغيل مضخات spray ) ( تشغيل المراوح )",
+    "images": []
+  },
+  "38": {
+    "cause": "- درجة حرارة كراسي التحميل مرتفعة الى 100 درجة مئوية",
+    "action": "- التحقق من نظام التزييت ( LUBE OIL ) \n- تشغيل الوحدة الإحتياطية\n- وجود مشكلة في الحساس ",
+    "notes": "- قسم الأجهزة عندما ترتفع درجة الحرارة بشكل مبالغ فيه بسرعة عالية.",
+    "dwg": "- قسم الأجهزة",
+    "images": []
+  },
+  "39": {
+    "cause": "- ارتفاع في درجة حرارة الملفات الى 137 درجة مئوية",
+    "action": "- التحقق من حالة المبادل الحراري ووصول المياه إليه \n- التأكد من صمامات المبادل الحراري\n- التأكد من صمام التحكم بالحرارة الداخل على الماطور\n- التحقق من حالة نظام التبريد في المحطة\n- تشغيل الوحدة الإحتياطية",
+    "dwg": "- قسم الكهرباء"
+  },
+  "40": {
+    "cause": "- حرارة الزيت في كراسي التحميل للمضخة مرتفعة 85 درجة مئوية",
+    "action": "- التحقق من نظام التزييت بأنه في الخدمة والضغوطات سليمة\n- التحقق من دائرة التبريد في النظام"
+  },
+  "41": {
+    "cause": "- حرارة المياه في المضخة مرتفعة جدًّا",
+    "action": "- عدم وجود كمية ماء كافية داخل المضخة \n- يتم فتح صمامات التفريغ للمضخة\n- مشكلة في الحساس",
+    "dwg": "- قسم الأجهزة"
+  },
+  "42": {
+    "cause": "- وجود اهتزاز عالي جدًّا في المضخة",
+    "action": "- التحقق من عدم وجود تهريب أثر على المضخة\n- لا يتم تشغيل المضخة حتى إبلاغ قسم الأجهزة \n- إبلاغ قسم الميكانيكا في حالة وجود اهتزاز فعلي عالي",
+    "dwg": "- قسم الأجهزة\n- قسم الميكانيكا",
+    "notes": "- إن كان الإنذار لا يقبل إعادة الضبط يتم التواصل مع قسم الأجهزة",
+    "images": []
+  }
 };
-
 
 // ============================================================
 // LINE AB ALARMS — نفس أسماء الإنذارات، قاعدة بيانات فارغة جاهزة للتعبئة
@@ -933,348 +1147,287 @@ const embeddedDBAB = {
   }
 };
 
-// ============================================================
-// STATE VARIABLES
-// ============================================================
-let currentLine = "C"; 
-let selectedAlarmIndex = null;
-let currentSearchQuery = "";
 
 // ============================================================
-// CORE APP LOGIC
+// CONSTANTS
 // ============================================================
-function selectLine(line) {
-  currentLine = line;
-  document.getElementById('welcomeStage').classList.add('hidden');
-  
-  var activePill = document.getElementById('activeLinePill');
-  if (activePill) {
-    activePill.innerText = "LINE " + line;
-    activePill.style.display = "block";
-  }
-  
-  var stage = document.getElementById('appStage');
-  if (stage) stage.classList.add('visible');
-  
-  switchLine(line);
-}
+var MY_NAME = "MAJED M.FALQI";
+var LOGO_URL = "https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png";
 
-function goHome() {
-  var stage = document.getElementById('appStage');
-  if (stage) stage.classList.remove('visible');
-  
-  var activePill = document.getElementById('activeLinePill');
-  if (activePill) activePill.style.display = "none";
-  
-  var welcome = document.getElementById('welcomeStage');
-  if (welcome) welcome.classList.remove('hidden');
-}
+// ============================================================
+// STATE
+// ============================================================
+var currentLine = 'C';
+var dbC = JSON.parse(JSON.stringify(embeddedDBC));
+var dbAB = JSON.parse(JSON.stringify(embeddedDBAB));
+var isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
 
-function switchLine(line) {
-  currentLine = line;
-  selectedAlarmIndex = null;
-  
-  const tabAB = document.getElementById('tabAB');
-  const tabC = document.getElementById('tabC');
-  const badge = document.getElementById('activeLineBadge');
-  
-  if(line === 'AB') {
-    if(tabAB) tabAB.classList.add('active');
-    if(tabC) tabC.classList.remove('active');
-    if(badge) {
-      badge.innerText = "LINE AB";
-      badge.className = "active-line-badge badge-ab";
+function getCurrentDB() { return currentLine === 'C' ? dbC : dbAB; }
+function getCurrentAlarmNames() { return currentLine === 'C' ? alarmNamesC : alarmNamesAB; }
+
+function buildGrid() {
+  var db = getCurrentDB();
+  var names = getCurrentAlarmNames();
+  var isAB = currentLine === 'AB';
+
+  var grid = document.getElementById('grid');
+  grid.innerHTML = '';
+  names.forEach(function (name, index) {
+    var cell = document.createElement('div');
+    cell.className = 'cell' + (name === "" ? ' empty' : '');
+    if (db[index] && (db[index].cause || db[index].action || db[index].dwg || db[index].notes)) {
+      cell.classList.add(isAB ? 'has-data-ab' : 'has-data');
     }
-  } else {
-    if(tabC) tabC.classList.add('active');
-    if(tabAB) tabAB.classList.remove('active');
-    if(badge) {
-      badge.innerText = "LINE C";
-      badge.className = "active-line-badge badge-c";
-    }
-  }
-  
-  renderGrid();
-  renderDetails();
-}
-
-function renderGrid() {
-  const grid = document.getElementById('grid');
-  if(!grid) return;
-  grid.innerHTML = "";
-  
-  const names = (currentLine === 'AB') ? alarmNamesAB : alarmNamesC;
-  const db = (currentLine === 'AB') ? embeddedDBAB : embeddedDBC;
-  
-  names.forEach((name, idx) => {
-    const cell = document.createElement('div');
-    const isSpare = name.toLowerCase().includes('spare');
-    
-    if(isSpare) {
-      cell.className = "cell empty";
-      cell.innerText = "-";
-    } else {
-      cell.className = "cell";
-      cell.innerText = name;
-      
-      const hasData = db[idx] && (db[idx].cause || db[idx].action || (db[idx].images && db[idx].images.length > 0));
-      if(hasData) {
-        cell.classList.add(currentLine === 'AB' ? 'has-data-ab' : 'has-data');
-      }
-      
-      if(selectedAlarmIndex === idx) {
-        cell.classList.add(currentLine === 'AB' ? 'active-ab' : 'active');
-      }
-      
-      if(currentSearchQuery) {
-        const q = currentSearchQuery.toLowerCase();
-        const matchesName = name.toLowerCase().includes(q);
-        const matchesCause = db[idx] && db[idx].cause && db[idx].cause.toLowerCase().includes(q);
-        const matchesAction = db[idx] && db[idx].action && db[idx].action.toLowerCase().includes(q);
-        const matchesDwg = db[idx] && db[idx].dwg && db[idx].dwg.toLowerCase().includes(q);
-        
-        if(!matchesName && !matchesCause && !matchesAction && !matchesDwg) {
-          cell.style.opacity = "0.2";
-        }
-      }
-      
-      cell.onclick = () => {
-        selectedAlarmIndex = idx;
-        const allCells = grid.querySelectorAll('.cell');
-        allCells.forEach(c => c.classList.remove('active', 'active-ab'));
-        cell.classList.add(currentLine === 'AB' ? 'active-ab' : 'active');
-        renderDetails();
-      };
-    }
+    cell.innerText = name;
+    cell.onclick = function () { showDetails(index, name); };
     grid.appendChild(cell);
   });
 }
 
-function filterAlarms(val) {
-  currentSearchQuery = val;
-  renderGrid();
+function showDetails(index, name) {
+  var isAB = currentLine === 'AB';
+  document.querySelectorAll('.cell').forEach(function (c) {
+    c.classList.remove('active'); c.classList.remove('active-ab');
+  });
+  var cells = document.querySelectorAll('.cell');
+  if (cells[index]) cells[index].classList.add(isAB ? 'active-ab' : 'active');
+
+  var db = getCurrentDB();
+  var data = db[index] || { cause: '', action: '', dwg: '', notes: '', images: [] };
+  if (!data.images) data.images = [];
+  var dis = isAdmin ? '' : 'disabled';
+
+  var adminHtml = isAdmin
+    ? '<div class="admin-controls">'
+    + '<span style="color:#f59e0b;font-size:12px;">⚠️ عدّل البيانات ثم اضغط الزر لتوليد الكود الجديد لحفظه في GitHub</span>'
+    + '<button class="btn btn-primary" onclick="exportDB()">📋 تصدير وتحديث الكود</button>'
+    + '</div>'
+    : '';
+
+  var titleClass = isAB ? 'alarm-header-title-ab' : 'alarm-header-title';
+  var lineTag = '<span style="font-size:13px; opacity:0.7; margin-right:10px;">[' + currentLine + ']</span>';
+  var imagesHtml = makeImagesSection(index, data.images);
+
+  document.getElementById('detailsSection').innerHTML =
+    '<div><h2 class="' + titleClass + '">' + lineTag + name + '</h2></div>'
+    + '<div class="info-cards-container">'
+    + makeCard('⚠️ أسباب الإنذار (Root Cause)', index, 'cause', data.cause, dis)
+    + makeCard('🛠️ عمل المشغل (Actions)', index, 'action', data.action, dis)
+    + makeCard('📑 القسم المسؤول (Depart Resp)', index, 'dwg', data.dwg, dis)
+    + makeCard('📝 ملاحظات إضافية', index, 'notes', data.notes, dis)
+    + '</div>'
+    + imagesHtml
+    + adminHtml;
+
+  if (window.innerWidth < 768) {
+    document.getElementById('detailsSection').scrollIntoView({ behavior: 'smooth' });
+  }
 }
 
-function renderDetails() {
-  const container = document.getElementById('detailsSection');
-  if(!container) return;
-  
-  if(selectedAlarmIndex === null) {
-    container.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
-    return;
-  }
-  
-  const names = (currentLine === 'AB') ? alarmNamesAB : alarmNamesC;
-  const db = (currentLine === 'AB') ? embeddedDBAB : embeddedDBC;
-  const alarmName = names[selectedAlarmIndex];
-  const data = db[selectedAlarmIndex] || { cause: "", action: "", dwg: "", notes: "", images: [] };
-  
-  let imagesHtml = "";
-  if(data.images && data.images.length > 0) {
-    let thumbs = data.images.map((img, i) => `
-      <div class="img-thumb-wrap" onclick="openLightbox('${img}')">
-        <img src="${img}" alt="مرفق">
-        ${isAdmin ? `<button class="img-delete-btn" onclick="event.stopPropagation(); deleteImage(${i})">✕</button>` : ''}
-      </div>
-    `).join('');
-    imagesHtml = `<div class="images-gallery">${thumbs}</div>`;
+function makeCard(title, index, field, value, dis) {
+  return '<div class="info-card">'
+    + '<h4>' + title + '</h4>'
+    + '<textarea ' + dis + ' placeholder="لا توجد بيانات مسجلة..." oninput="updateDB(' + index + ',\'' + field + '\',this.value)">' + (value || '') + '</textarea>'
+    + '</div>';
+}
+
+function makeImagesSection(index, images) {
+  var thumbsHtml = '';
+  if (images && images.length > 0) {
+    images.forEach(function (url, i) {
+      var delBtn = isAdmin
+        ? '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف الصورة">✕</button>'
+        : '';
+      thumbsHtml += '<div class="img-thumb-wrap">'
+        + delBtn
+        + '<img src="' + url + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + url.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">'
+        + '</div>';
+    });
   } else {
-    imagesHtml = `<div class="img-empty">📁 لا توجد صور فنية أو مخططات مرفوعة لهذا الإنذار حتى الآن.</div>`;
+    thumbsHtml = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
   }
-  
-  let adminRowHtml = "";
-  if(isAdmin) {
-    adminRowHtml = `
-      <div class="img-admin-row">
-        <input type="text" id="newImgUrl" class="img-url-input" placeholder="رابط الصورة (URL) من موقع الرفع...">
-        <button class="btn-add-img" onclick="addImage()">➕ إرفاق الصورة</button>
-      </div>
-    `;
-  }
-  
-  container.innerHTML = `
-    <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
-      <h2 class="${currentLine === 'AB' ? 'alarm-header-title-ab' : 'alarm-header-title'}">🚨 ${alarmName}</h2>
-    </div>
-    
-    <div class="info-cards-container">
-      <div class="info-card">
-        <h4>🔍 الأسباب الفنية المحتملة (Root Cause)</h4>
-        <textarea id="editCause" ${!isAdmin ? 'disabled' : ''}>${data.cause || ''}</textarea>
-      </div>
-      <div class="info-card">
-        <h4>🛠️ الإجراءات التصحيحية الفورية (Corrective Action)</h4>
-        <textarea id="editAction" ${!isAdmin ? 'disabled' : ''}>${data.action || ''}</textarea>
-      </div>
-    </div>
-    
-    <div class="info-cards-container">
-      <div class="info-card">
-        <h4>📐 القسم المختص / أرقام المخططات (DWG / Discipline)</h4>
-        <textarea id="editDwg" style="min-height:90px;" ${!isAdmin ? 'disabled' : ''}>${data.dwg || ''}</textarea>
-      </div>
-      <div class="info-card">
-        <h4>📝 ملاحظات هندسية إضافية (Engineering Notes)</h4>
-        <textarea id="editNotes" style="min-height:90px;" ${!isAdmin ? 'disabled' : ''}>${data.notes || ''}</textarea>
-      </div>
-    </div>
 
-    <div class="images-section">
-      <h4>🖼️ المرفقات الفنية والصور الحية من الموقع</h4>
-      ${imagesHtml}
-      ${adminRowHtml}
-    </div>
-    
-    ${isAdmin ? `
-    <div class="admin-controls">
-      <span style="font-size:12px; color:var(--text-dim);">⚙️ أنت في وضع المطور: يمكنك التعديل مباشرة على النصوص وإضافة الصور ثم الحفظ للتصدير.</span>
-      <button class="btn btn-primary" onclick="saveAlarmData()">💾 حفظ التعديلات مؤقتاً</button>
-    </div>
-    ` : ''}
-  `;
+  var addRowHtml = isAdmin
+    ? '<div class="img-admin-row">'
+    + '<input class="img-url-input" id="imgUrlInput_' + index + '" type="text" placeholder="أدخل رابط الصورة URL هنا..." />'
+    + '<button class="btn-add-img" onclick="addImage(' + index + ')">+ إضافة صورة</button>'
+    + '</div>'
+    : '';
+
+  return '<div class="images-section">'
+    + '<h4>🖼️ الصور المرفقة</h4>'
+    + addRowHtml
+    + '<div class="images-gallery" id="gallery_' + index + '">' + thumbsHtml + '</div>'
+    + '</div>';
 }
 
-// ============================================================
-// DATABASE ACTIONS (ADMIN)
-// ============================================================
-function saveAlarmData() {
-  if(selectedAlarmIndex === null) return;
-  const db = (currentLine === 'AB') ? embeddedDBAB : embeddedDBC;
-  
-  if(!db[selectedAlarmIndex]) {
-    db[selectedAlarmIndex] = { cause: "", action: "", dwg: "", notes: "", images: [] };
-  }
-  
-  db[selectedAlarmIndex].cause = document.getElementById('editCause').value;
-  db[selectedAlarmIndex].action = document.getElementById('editAction').value;
-  db[selectedAlarmIndex].dwg = document.getElementById('editDwg').value;
-  db[selectedAlarmIndex].notes = document.getElementById('editNotes').value;
-  
-  renderGrid();
-  alert("💾 تم حفظ النص مؤقتاً في المتصفح! اضغط على زر (حفظ وتصدير الكود) بالأسفل لنسخ الكود الكامل إلى جيت هاب.");
-}
-
-function addImage() {
-  if(selectedAlarmIndex === null) return;
-  const input = document.getElementById('newImgUrl');
-  if(!input || !input.value.trim()) return;
-  
-  const db = (currentLine === 'AB') ? embeddedDBAB : embeddedDBC;
-  if(!db[selectedAlarmIndex]) {
-    db[selectedAlarmIndex] = { cause: "", action: "", dwg: "", notes: "", images: [] };
-  }
-  if(!db[selectedAlarmIndex].images) {
-    db[selectedAlarmIndex].images = [];
-  }
-  
-  db[selectedAlarmIndex].images.push(input.value.trim());
-  renderDetails();
-  renderGrid();
-}
-
-function deleteImage(imgIdx) {
-  if(selectedAlarmIndex === null) return;
-  const db = (currentLine === 'AB') ? embeddedDBAB : embeddedDBC;
-  if(db[selectedAlarmIndex] && db[selectedAlarmIndex].images) {
-    db[selectedAlarmIndex].images.splice(imgIdx, 1);
-    renderDetails();
-    renderGrid();
+function addImage(index) {
+  var input = document.getElementById('imgUrlInput_' + index);
+  var url = input ? input.value.trim() : '';
+  if (!url) { alert('أدخل رابط الصورة أولاً'); return; }
+  var db = getCurrentDB();
+  if (!db[index]) db[index] = {};
+  if (!db[index].images) db[index].images = [];
+  db[index].images.push(url);
+  if (input) input.value = '';
+  var gallery = document.getElementById('gallery_' + index);
+  if (gallery) {
+    var imgs = db[index].images;
+    gallery.innerHTML = '';
+    imgs.forEach(function (u, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'img-thumb-wrap';
+      wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
+        + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+      gallery.appendChild(wrap);
+    });
   }
 }
 
-// ============================================================
-// LIGHTBOX IMAGES
-// ============================================================
+function deleteImage(index, imgIndex) {
+  if (!confirm('هل تريد حذف هذه الصورة؟')) return;
+  var db = getCurrentDB();
+  if (db[index] && db[index].images) {
+    db[index].images.splice(imgIndex, 1);
+    var gallery = document.getElementById('gallery_' + index);
+    if (gallery) {
+      var imgs = db[index].images;
+      if (imgs.length === 0) {
+        gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
+      } else {
+        gallery.innerHTML = '';
+        imgs.forEach(function (u, i) {
+          var wrap = document.createElement('div');
+          wrap.className = 'img-thumb-wrap';
+          wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
+            + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+          gallery.appendChild(wrap);
+        });
+      }
+    }
+  }
+}
+
 function openLightbox(url) {
-  const box = document.getElementById('lightbox');
-  const img = document.getElementById('lightbox-img');
-  if(box && img) {
-    img.src = url;
-    box.style.display = 'flex';
-  }
+  document.getElementById('lightbox-img').src = url;
+  document.getElementById('lightbox').style.display = 'flex';
 }
+
 function closeLightbox() {
-  const box = document.getElementById('lightbox');
-  if(box) box.style.display = 'none';
+  document.getElementById('lightbox').style.display = 'none';
+  document.getElementById('lightbox-img').src = '';
 }
 
-// ============================================================
-// NEW DEVELOPER CORE LOGIC FOR LIVE EXPORT (AUTOMATED CLEANUP)
-// ============================================================
+function updateDB(index, field, value) {
+  if (!isAdmin) return;
+  var db = getCurrentDB();
+  if (!db[index]) db[index] = {};
+  db[index][field] = value;
+  var cells = document.querySelectorAll('.cell');
+  if (cells[index]) cells[index].classList.add(currentLine === 'AB' ? 'has-data-ab' : 'has-data');
+}
+
+function filterAlarms(val) {
+  document.querySelectorAll('.cell').forEach(function (cell) {
+    cell.style.opacity = cell.innerText.toLowerCase().includes(val.toLowerCase()) ? '1' : '0.15';
+  });
+}
+
+function exportDB() {
+  var cleanDBC = JSON.stringify(dbC, null, 2);
+  var cleanDBAB = JSON.stringify(dbAB, null, 2);
+
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
+
+  var details = doc.getElementById('detailsSection');
+  if (details) {
+    details.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+  }
+
+  var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+  finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
+  finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
+
+  document.getElementById('codeOutputArea').value = finalHtml;
+  document.getElementById('exportModal').style.display = 'flex';
+}
+
 function closeExportModal() {
-  var modal = document.getElementById('exportModal');
-  if (modal) modal.style.display = 'none';
+  document.getElementById('exportModal').style.display = 'none';
 }
-
-// زر التصدير واستخراج الأكواد (حدث الضغط الشامل والمطور)
-var btnExport = document.getElementById('btnExport');
-if (!btnExport) {
-  // تفعيل ديناميكي احتياطي في حال عدم وجود العنصر في الواجهة القديمة
-  btnExport = document.createElement('button');
-  btnExport.id = "btnExport";
-  btnExport.className = "btn";
-  btnExport.style.cssText = "position:fixed; bottom:14px; right:14px; z-index:40000; background:linear-gradient(135deg, #1B8B8B, #156E6E); color:#050D1A; font-weight:bold; box-shadow:0 4px 15px rgba(0,0,0,0.5);";
-  btnExport.innerText = "⚙️ حفظ وتصدير الكود لـ GitHub";
-  document.body.appendChild(btnExport);
-}
-
-btnExport.onclick = function() {
-  // 1. أخذ نسخة حية ومباشرة من محتويات الأكواد الحالية لصفحة المشغل
-  let currentCode = document.documentElement.innerHTML;
-
-  // 2. تنظيف وإرجاع شاشة الـ Intro لوضعها الطبيعي النظيف (إلغاء أمر الإخفاء التلقائي)
-  currentCode = currentCode.replace(/id="introFeed"\s+style="[^"]*"/g, 'id="introFeed"');
-  currentCode = currentCode.replace(/id='introFeed'\s+style='[^']*'/g, "id='introFeed'");
-
-  // 3. إخفاء نافذة التصدير داخل الكود الجديد كلياً حتى لا تفتح تلقائياً للمشغل عند رفع الملف
-  currentCode = currentCode.replace(/id="exportModal"\s+class="export-modal"\s+style="[^"]*"/g, 'id="exportModal" class="export-modal" style="display: none;"');
-  currentCode = currentCode.replace(/id='exportModal'\s+class='export-modal'\s+style='[^']*'/g, "id='exportModal' class='export-modal' style='display: none;'");
-
-  // 4. تصفير الـ Scroll (موضع التمرير السفلي) لتبدأ الشاشة من الأعلى دائماً للمشغل
-  currentCode = currentCode.replace(/id="mainScreen"\s+style="[^"]*"/g, 'id="mainScreen"');
-  currentCode = currentCode.replace(/id='mainScreen'\s+style='[^']*'/g, "id='mainScreen'");
-  currentCode = currentCode.replace(/id="appStage"\s+style="[^"]*"/g, 'id="appStage"');
-  currentCode = currentCode.replace(/id='appStage'\s+style='[^']*'/g, "id='appStage'");
-
-  // 5. تجميع الملف النهائي النظيف والمصفّر هيكلياً
-  var fullCode = "<!DOCTYPE html>\n<html lang=\"ar\" dir=\"rtl\">\n" + currentCode + "\n</html>";
-
-  // 6. عرض الكود النظيف داخل صندوق النص المخصص للنسخ
-  var area = document.getElementById('codeOutputArea');
-  if (area) area.value = fullCode;
-  
-  // 7. فتح النافذة التصديرية أمامك الآن لتنسخ الكود بكل سهولة وبشكل فوري
-  var modal = document.getElementById('exportModal');
-  if (modal) modal.style.display = 'flex';
-};
 
 function copyGeneratedCode() {
-  var area = document.getElementById('codeOutputArea');
-  if (area) {
-    let cleanCode = area.value;
-
-    // تنظيفات إضافية تأكيدية للحافظة المنسوخة
-    cleanCode = cleanCode.replace(/id="introFeed"\s+style="[^"]*"/g, 'id="introFeed"');
-    cleanCode = cleanCode.replace(/id="exportModal"\s+class="export-modal"\s+style="[^"]*"/g, 'id="exportModal" class="export-modal" style="display: none;"');
-    cleanCode = cleanCode.replace(/id="mainScreen"\s+style="[^"]*"/g, 'id="mainScreen"');
-    cleanCode = cleanCode.replace(/id="appStage"\s+style="[^"]*"/g, 'id="appStage"');
-    area.value = cleanCode;
-
-    // تنفيذ أمر النسخ الفعلي لنظام التشغيل
-    area.select();
-    area.setSelectionRange(0, 99999);
-    navigator.clipboard.writeText(area.value);
-    
-    alert('📋 تم تنظيف ونسخ الكود المحدث بالكامل بنجاح! استبدله الآن في GitHub ليعمل من البداية وبشكل مباشر.');
-  }
+  var copyText = document.getElementById('codeOutputArea');
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(copyText.value).then(function () {
+    alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
+    closeExportModal();
+  });
 }
 
 // ============================================================
-// PROGRESS BAR & SYSTEM TIMERS
+// WELCOME → APP TRANSITION
 // ============================================================
-window.onload = function() {
+function selectLine(line) {
+  currentLine = line;
+  applyLineTheme(line);
   initApp();
-  
+
+  // Animate
+  var welcome = document.getElementById('welcomeStage');
+  var app = document.getElementById('appStage');
+  var pill = document.getElementById('activeLinePill');
+
+  welcome.classList.add('hidden');
+  setTimeout(function() {
+    app.classList.add('visible');
+  }, 200);
+
+  pill.textContent = 'LINE ' + line;
+  pill.style.display = 'flex';
+}
+
+function goHome() {
+  var welcome = document.getElementById('welcomeStage');
+  var app = document.getElementById('appStage');
+  var pill = document.getElementById('activeLinePill');
+
+  app.classList.remove('visible');
+  welcome.classList.remove('hidden');
+  pill.style.display = 'none';
+
+  document.getElementById('detailsSection').innerHTML =
+    '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+}
+
+function switchLine(line) {
+  currentLine = line;
+  applyLineTheme(line);
+  document.getElementById('detailsSection').innerHTML =
+    '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+  buildGrid();
+  document.getElementById('tabAB').classList.toggle('active', line === 'AB');
+  document.getElementById('tabC').classList.toggle('active', line === 'C');
+  var pill = document.getElementById('activeLinePill');
+  if (pill) pill.textContent = 'LINE ' + line;
+}
+
+function applyLineTheme(line) {
+  var badge = document.getElementById('activeLineBadge');
+  if (badge) {
+    badge.textContent = ' LINE ' + line;
+    badge.className = 'active-line-badge ' + (line === 'AB' ? 'badge-ab' : 'badge-c');
+  }
+  document.getElementById('tabAB').classList.toggle('active', line === 'AB');
+  document.getElementById('tabC').classList.toggle('active', line === 'C');
+}
+
+// ============================================================
+// INTRO FEED
+// ============================================================
+function startIntro() {
   var pct = 0;
   var el = document.getElementById('barPct');
   var timer = setInterval(function() {
@@ -1294,7 +1447,7 @@ window.onload = function() {
 }
 
 // ============================================================
-// INIT APP
+// INIT
 // ============================================================
 function initApp() {
   document.getElementById('designerName').innerText = MY_NAME;
@@ -1310,23 +1463,19 @@ function initApp() {
       badge.innerText = " (أدمن)";
       badge.style.color = "#5ECECE";
       badge.style.borderColor = "#1B8B8B";
+      badge.style.background = "rgba(27,139,139,0.15)";
     } else {
-      badge.innerText = " (مشغل)";
-      badge.style.color = "#8BA3C7";
-      badge.style.borderColor = "#1E3D6B";
+      badge.innerText = "view";
+      badge.style.color = '#5ECECE';
+      badge.style.borderColor = '#1B8B8B';
+      badge.style.background = 'rgba(27,139,139,0.1)';
     }
   }
-
-  // تحديث أعداد المصفوفات في الواجهة الترحيبية التلقائية
-  const cards = document.querySelectorAll('.line-card');
-  if(cards.length >= 2) {
-    cards[0].querySelector('.card-line-count').innerText = alarmNamesAB.length + " إنذار";
-    cards[1].querySelector('.card-line-count').innerText = alarmNamesC.length + " إنذار";
-  }
-
-  renderGrid();
-  renderDetails();
+  buildGrid();
 }
+
+currentLine = 'C';
+startIntro();
 </script>
 </body>
 </html>
