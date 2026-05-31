@@ -1359,13 +1359,29 @@ function closeExportModal() {
 }
 
 function copyGeneratedCode() {
-  var copyText = document.getElementById('codeOutputArea');
-  copyText.select();
-  copyText.setSelectionRange(0, 99999);
-  navigator.clipboard.writeText(copyText.value).then(function () {
-    alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
-    closeExportModal();
-  });
+  var area = document.getElementById('codeOutputArea');
+ if (area) {
+   // 1. قراءة الكود الخام الحالي الذي تم توليده
+   let cleanCode = area.value;
+   // 2. إرجاع شاشة الـ Intro لوضعها الطبيعي النظيف عبر إزالة أي Style مضاف لها
+   cleanCode = cleanCode.replace(/id="introFeed"\s+style="[^"]*"/g, 'id="introFeed"');
+   cleanCode = cleanCode.replace(/id='introFeed'\s+style='[^']*'/g, "id='introFeed'");
+   // 3. إخفاء نافذة التصدير المنبثقة من الكود المحفوظ حتى لا تفتح تلقائياً للمشغل
+   cleanCode = cleanCode.replace(/id="exportModal"\s+class="export-modal"\s+style="[^"]*"/g, 'id="exportModal" class="export-modal" style="display: none;"');
+   cleanCode = cleanCode.replace(/id='exportModal'\s+class='export-modal'\s+style='[^']*'/g, "id='exportModal' class='export-modal' style='display: none;'");
+   // 4. إزالة حالات السكرول من الشاشات الرئيسية لتبدأ من الأعلى تماماً
+   cleanCode = cleanCode.replace(/id="mainScreen"\s+style="[^"]*"/g, 'id="mainScreen"');
+   cleanCode = cleanCode.replace(/id='mainScreen'\s+style='[^']*'/g, "id='mainScreen'");
+   cleanCode = cleanCode.replace(/id="appStage"\s+style="[^"]*"/g, 'id="appStage"');
+   cleanCode = cleanCode.replace(/id='appStage'\s+style='[^']*'/g, "id='appStage'");
+   // 5. تحديث محتوى المربع بالكود النظيف المصفّر تماماً
+   area.value = cleanCode;
+   // 6. تنفيذ عملية النسخ للحافظة
+   area.select();
+   area.setSelectionRange(0, 99999);
+   navigator.clipboard.writeText(area.value);
+   alert('📋 تم تنظيف وتصفير الكود بنجاح! يمكنك الآن استبداله في ملف GitHub والتجربة.');
+ }
 }
 
 // ============================================================
