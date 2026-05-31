@@ -1350,19 +1350,43 @@ function exportDB() {
   var cleanDBC = JSON.stringify(dbC, null, 2);
   var cleanDBAB = JSON.stringify(dbAB, null, 2);
 
-  // استخدام الكود الأصلي المخزن عند التحميل
-  var finalHtml = window._originalHTML || ("<!DOCTYPE html>\n" + document.documentElement.outerHTML);
+  // نأخذ كود الصفحة الحالي من الـ script tags
+  var scripts = document.querySelectorAll('script');
+  var mainScript = '';
+  scripts.forEach(function(s) {
+    if (s.textContent.indexOf('embeddedDBC') !== -1) {
+      mainScript = s.textContent;
+    }
+  });
 
-  // استبدال قواعد البيانات
-  finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
-  finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
+  if (!mainScript) {
+    alert('⚠️ تعذّر توليد الكود. حاول تحديث الصفحة وحاول مجدداً.');
+    return;
+  }
 
-  // تنظيف قسم التفاصيل
-  finalHtml = finalHtml.replace(/<div id="detailsSection"[^>]*>[\s\S]*?(?=<div class="developer-signature)/, 
-    '<div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>\n    ');
+  // استبدال قواعد البيانات في الـ script
+  var newScript = mainScript
+    .replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBC = ' + cleanDBC + ';')
+    .replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBAB = ' + cleanDBAB + ';');
 
-  window._exportedCode = finalHtml;
-  document.getElementById('codeOutputArea').value = finalHtml;
+  // بناء الصفحة الكاملة
+  var fullHtml = document.documentElement.outerHTML;
+
+  // استبدال محتوى الـ script القديم بالجديد
+  var escaped = mainScript.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
+  try {
+    fullHtml = fullHtml.replace(mainScript, newScript);
+  } catch(e) {
+    // fallback: استبدال مباشر للبيانات
+    fullHtml = fullHtml
+      .replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBC = ' + cleanDBC + ';')
+      .replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBAB = ' + cleanDBAB + ';');
+  }
+
+  fullHtml = '<!DOCTYPE html>\n' + fullHtml;
+
+  window._exportedCode = fullHtml;
+  document.getElementById('codeOutputArea').value = fullHtml;
   document.getElementById('exportModal').style.display = 'flex';
 }
 
@@ -1497,14 +1521,8 @@ function initApp() {
 }
 
 currentLine = 'C';
-
-// تخزين الكود الأصلي للصفحة قبل أي تعديل
-fetch(window.location.href)
-  .then(function(r){ return r.text(); })
-  .then(function(html){ window._originalHTML = html; })
-  .catch(function(){ window._originalHTML = null; });
-
 startIntro();
+
 </script>
 </body>
 </html>
