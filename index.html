@@ -1,5 +1,4 @@
 
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -684,9 +683,6 @@ textarea:disabled {
   <img id="lightbox-img" src="" alt="">
 </div>
 
-
-
-
 <!-- EXPORT MODAL -->
 <div id="exportModal" class="export-modal" style="display: none;">
   <div class="export-box">
@@ -1253,8 +1249,8 @@ function makeImagesSection(index, images) {
 
   var addRowHtml = isAdmin
     ? '<div class="img-admin-row">'
-    + '<input type="file" id="imgFileInput_' + index + '" accept="image/*" multiple style="display:none" onchange="addImageFromFile(' + index + ',this)">'
-    + '<button class="btn-add-img" onclick="document.getElementById(\'imgFileInput_' + index + '\').click()">📁 رفع صورة من الجهاز</button>'
+    + '<input class="img-url-input" id="imgUrlInput_' + index + '" type="text" placeholder="أدخل رابط الصورة URL هنا..." />'
+    + '<button class="btn-add-img" onclick="addImage(' + index + ')">+ إضافة صورة</button>'
     + '</div>'
     : '';
 
@@ -1265,42 +1261,27 @@ function makeImagesSection(index, images) {
     + '</div>';
 }
 
-function addImageFromFile(index, input) {
-  var files = Array.from(input.files);
-  if (!files.length) return;
+function addImage(index) {
+  var input = document.getElementById('imgUrlInput_' + index);
+  var url = input ? input.value.trim() : '';
+  if (!url) { alert('أدخل رابط الصورة أولاً'); return; }
   var db = getCurrentDB();
   if (!db[index]) db[index] = {};
   if (!db[index].images) db[index].images = [];
-  var pending = files.length;
-  files.forEach(function(file) {
-    var reader = new FileReader();
-    reader.onload = function(e) {
-      db[index].images.push(e.target.result);
-      pending--;
-      if (pending === 0) refreshGallery(index);
-    };
-    reader.readAsDataURL(file);
-  });
-  input.value = '';
-}
-
-function refreshGallery(index) {
-  var db = getCurrentDB();
+  db[index].images.push(url);
+  if (input) input.value = '';
   var gallery = document.getElementById('gallery_' + index);
-  if (!gallery) return;
-  var imgs = db[index] && db[index].images ? db[index].images : [];
-  if (imgs.length === 0) {
-    gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
-    return;
+  if (gallery) {
+    var imgs = db[index].images;
+    gallery.innerHTML = '';
+    imgs.forEach(function (u, i) {
+      var wrap = document.createElement('div');
+      wrap.className = 'img-thumb-wrap';
+      wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
+        + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+      gallery.appendChild(wrap);
+    });
   }
-  gallery.innerHTML = '';
-  imgs.forEach(function(u, i) {
-    var wrap = document.createElement('div');
-    wrap.className = 'img-thumb-wrap';
-    wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
-      + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + (u.startsWith('data:') ? 'data_' + index + '_' + i : u.replace(/'/g, "\\'")) + '\')" onerror="this.parentElement.style.display=\'none\'">';
-    gallery.appendChild(wrap);
-  });
 }
 
 function deleteImage(index, imgIndex) {
@@ -1308,21 +1289,27 @@ function deleteImage(index, imgIndex) {
   var db = getCurrentDB();
   if (db[index] && db[index].images) {
     db[index].images.splice(imgIndex, 1);
-    refreshGallery(index);
+    var gallery = document.getElementById('gallery_' + index);
+    if (gallery) {
+      var imgs = db[index].images;
+      if (imgs.length === 0) {
+        gallery.innerHTML = '<div class="img-empty">لا توجد صور مضافة بعد</div>';
+      } else {
+        gallery.innerHTML = '';
+        imgs.forEach(function (u, i) {
+          var wrap = document.createElement('div');
+          wrap.className = 'img-thumb-wrap';
+          wrap.innerHTML = '<button class="img-delete-btn" onclick="deleteImage(' + index + ',' + i + ')" title="حذف">✕</button>'
+            + '<img src="' + u + '" alt="صورة ' + (i + 1) + '" onclick="openLightbox(\'' + u.replace(/'/g, "\\'") + '\')" onerror="this.parentElement.style.display=\'none\'">';
+          gallery.appendChild(wrap);
+        });
+      }
+    }
   }
 }
 
-function openLightbox(src) {
-  var imgEl = document.getElementById('lightbox-img');
-  if (src.startsWith('data_')) {
-    var parts = src.split('_');
-    var idx = parseInt(parts[1]);
-    var imgIdx = parseInt(parts[2]);
-    var db = getCurrentDB();
-    imgEl.src = db[idx] && db[idx].images ? db[idx].images[imgIdx] : '';
-  } else {
-    imgEl.src = src;
-  }
+function openLightbox(url) {
+  document.getElementById('lightbox-img').src = url;
   document.getElementById('lightbox').style.display = 'flex';
 }
 
@@ -1350,43 +1337,19 @@ function exportDB() {
   var cleanDBC = JSON.stringify(dbC, null, 2);
   var cleanDBAB = JSON.stringify(dbAB, null, 2);
 
-  // نأخذ كود الصفحة الحالي من الـ script tags
-  var scripts = document.querySelectorAll('script');
-  var mainScript = '';
-  scripts.forEach(function(s) {
-    if (s.textContent.indexOf('embeddedDBC') !== -1) {
-      mainScript = s.textContent;
-    }
-  });
+  var parser = new DOMParser();
+  var doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
 
-  if (!mainScript) {
-    alert('⚠️ تعذّر توليد الكود. حاول تحديث الصفحة وحاول مجدداً.');
-    return;
+  var details = doc.getElementById('detailsSection');
+  if (details) {
+    details.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
   }
 
-  // استبدال قواعد البيانات في الـ script
-  var newScript = mainScript
-    .replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBC = ' + cleanDBC + ';')
-    .replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBAB = ' + cleanDBAB + ';');
+  var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
+  finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
+  finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
 
-  // بناء الصفحة الكاملة
-  var fullHtml = document.documentElement.outerHTML;
-
-  // استبدال محتوى الـ script القديم بالجديد
-  var escaped = mainScript.replace(/[-[\]{}()*+?.,\\^$|#\s]/g, '\\$&');
-  try {
-    fullHtml = fullHtml.replace(mainScript, newScript);
-  } catch(e) {
-    // fallback: استبدال مباشر للبيانات
-    fullHtml = fullHtml
-      .replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBC = ' + cleanDBC + ';')
-      .replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, 'const embeddedDBAB = ' + cleanDBAB + ';');
-  }
-
-  fullHtml = '<!DOCTYPE html>\n' + fullHtml;
-
-  window._exportedCode = fullHtml;
-  document.getElementById('codeOutputArea').value = fullHtml;
+  document.getElementById('codeOutputArea').value = finalHtml;
   document.getElementById('exportModal').style.display = 'flex';
 }
 
@@ -1395,23 +1358,14 @@ function closeExportModal() {
 }
 
 function copyGeneratedCode() {
-  var code = window._exportedCode || document.getElementById('codeOutputArea').value;
-  navigator.clipboard.writeText(code).then(function () {
-    alert("✅ تم النسخ بنجاح!\n\nالصق الكود في GitHub لحفظ التعديلات.");
-    closeExportModal();
-  }).catch(function() {
-    // fallback قديم
-    var copyText = document.getElementById('codeOutputArea');
-    copyText.select();
-    copyText.setSelectionRange(0, 99999);
-    document.execCommand('copy');
-    alert("✅ تم النسخ بنجاح!");
+  var copyText = document.getElementById('codeOutputArea');
+  copyText.select();
+  copyText.setSelectionRange(0, 99999);
+  navigator.clipboard.writeText(copyText.value).then(function () {
+    alert("🎯 تم التطهير والنسخ بنجاح!\n\nالآن الكود مهيأ ليكون مغلقاً تلقائياً وبصفحة ترحيبية نظيفة عند المشغلين عند رفعه على GitHub.");
     closeExportModal();
   });
 }
-
-
-
 
 // ============================================================
 // WELCOME → APP TRANSITION
@@ -1522,7 +1476,6 @@ function initApp() {
 
 currentLine = 'C';
 startIntro();
-
 </script>
 </body>
 </html>
