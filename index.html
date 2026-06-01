@@ -1,4 +1,5 @@
 
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl">
 <head>
@@ -1340,17 +1341,40 @@ function exportDB() {
   var parser = new DOMParser();
   var doc = parser.parseFromString(document.documentElement.outerHTML, 'text/html');
 
+  // إعادة تعيين حالة التطبيق لتبدأ من الإنترو عند المشغل
   var details = doc.getElementById('detailsSection');
   if (details) {
     details.innerHTML = '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
   }
+  var welcomeStage = doc.getElementById('welcomeStage');
+  if (welcomeStage) welcomeStage.classList.remove('hidden');
+
+  var appStage = doc.getElementById('appStage');
+  if (appStage) appStage.classList.remove('visible');
+
+  var activeLinePill = doc.getElementById('activeLinePill');
+  if (activeLinePill) activeLinePill.style.display = 'none';
 
   var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
   finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
   finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
 
-  document.getElementById('codeOutputArea').value = finalHtml;
-  document.getElementById('exportModal').style.display = 'flex';
+  // نسخ الكود مباشرة بدون فتح نافذة
+  navigator.clipboard.writeText(finalHtml).then(function () {
+    // إظهار إشعار نجاح مؤقت بدلاً من النافذة
+    var notif = document.createElement('div');
+    notif.id = 'exportNotif';
+    notif.style.cssText = 'position:fixed;bottom:30px;left:50%;transform:translateX(-50%);background:linear-gradient(135deg,#0D2244,#0B1E3E);border:1px solid #1B8B8B;border-radius:14px;padding:16px 28px;color:#5ECECE;font-family:Tajawal,sans-serif;font-size:15px;font-weight:700;z-index:999999;box-shadow:0 8px 30px rgba(27,139,139,0.4);text-align:center;';
+    notif.innerHTML = '✅ تم نسخ الكود المحدث بنجاح!<br><span style="font-size:12px;color:#8BA3C7;font-weight:400;">الصق الكود في GitHub لحفظ التعديلات</span>';
+    document.body.appendChild(notif);
+    setTimeout(function() {
+      if (notif.parentNode) notif.parentNode.removeChild(notif);
+    }, 4000);
+  }).catch(function() {
+    // في حالة فشل النسخ التلقائي، نفتح النافذة كخيار احتياطي
+    document.getElementById('codeOutputArea').value = finalHtml;
+    document.getElementById('exportModal').style.display = 'flex';
+  });
 }
 
 function closeExportModal() {
