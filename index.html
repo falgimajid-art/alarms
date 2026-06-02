@@ -662,7 +662,7 @@ textarea:disabled {
       </div>
       <input type="text" class="app-search" placeholder="🔍 ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"><div class="cell has-data">Unit In Alarm</div><div class="cell has-data">SIC On Fixed Speed</div><div class="cell has-data">SIC Not Ready Auto</div><div class="cell has-data">SIC Not Ready Fix SP</div><div class="cell has-data">Control Mode Error</div><div class="cell has-data active">Lube Res Temp Low</div><div class="cell has-data">Pump Seal Fail</div><div class="cell has-data">Lube Pres Before TCV Low</div><div class="cell has-data">SIC MV Warning</div><div class="cell has-data">Brush Length</div><div class="cell has-data">Unit Not On Auto</div><div class="cell has-data">Uncon Non Urg Fail</div><div class="cell has-data">MOV Sequence Fail</div><div class="cell has-data">Lube Res Temp High</div><div class="cell has-data">Lube Res Level Low</div><div class="cell has-data">Filter Diff Pres High</div><div class="cell has-data">Slipr Case Temp High</div><div class="cell has-data">Cool Air Dif Press</div><div class="cell has-data">Motor Air Temp High</div><div class="cell has-data">Motor Bear Temp High</div><div class="cell has-data">Motor Wind Temp High</div><div class="cell has-data">Pump Bear Temp High</div><div class="cell has-data">Pump Water Temp High</div><div class="cell has-data">Pump Vibration High</div><div class="cell has-data">Unit Tripped</div><div class="cell has-data">Unit ESD</div><div class="cell has-data">Seq Fail</div><div class="cell has-data">Uncon Urg Fail</div><div class="cell has-data">Suction Press Low</div><div class="cell has-data">Discharge Press High</div><div class="cell has-data">Lube Pres After Low</div><div class="cell has-data">SIC MV Starter SD</div><div class="cell has-data">DREAV On Command</div><div class="cell has-data">MV Breaker Close</div><div class="cell has-data">Lube Temp High</div><div class="cell has-data">Lube Level Low Low</div><div class="cell has-data">Slipr Case Temp HH</div><div class="cell has-data">Motor Air Temp HH</div><div class="cell has-data">Motor Bear Temp HH</div><div class="cell has-data">Motor Wind Temp HH</div><div class="cell has-data">Pump Bear Temp HH</div><div class="cell has-data">Pump Water Temp HH</div><div class="cell has-data">Pump Vibration HH</div></div>
+        <div id="grid" class="annunciator-grid"><div class="cell has-data">Unit In Alarm</div><div class="cell has-data">SIC On Fixed Speed</div><div class="cell has-data">SIC Not Ready Auto</div><div class="cell has-data">SIC Not Ready Fix SP</div><div class="cell has-data">Control Mode Error</div><div class="cell has-data">Lube Res Temp Low</div><div class="cell has-data">Pump Seal Fail</div><div class="cell has-data">Lube Pres Before TCV Low</div><div class="cell has-data">SIC MV Warning</div><div class="cell has-data">Brush Length</div><div class="cell has-data">Unit Not On Auto</div><div class="cell has-data">Uncon Non Urg Fail</div><div class="cell has-data">MOV Sequence Fail</div><div class="cell has-data">Lube Res Temp High</div><div class="cell has-data">Lube Res Level Low</div><div class="cell has-data">Filter Diff Pres High</div><div class="cell has-data">Slipr Case Temp High</div><div class="cell has-data">Cool Air Dif Press</div><div class="cell has-data">Motor Air Temp High</div><div class="cell has-data">Motor Bear Temp High</div><div class="cell has-data">Motor Wind Temp High</div><div class="cell has-data">Pump Bear Temp High</div><div class="cell has-data">Pump Water Temp High</div><div class="cell has-data">Pump Vibration High</div><div class="cell has-data">Unit Tripped</div><div class="cell has-data">Unit ESD</div><div class="cell has-data">Seq Fail</div><div class="cell has-data">Uncon Urg Fail</div><div class="cell has-data">Suction Press Low</div><div class="cell has-data">Discharge Press High</div><div class="cell has-data">Lube Pres After Low</div><div class="cell has-data active">SIC MV Starter SD</div><div class="cell has-data">DREAV On Command</div><div class="cell has-data">MV Breaker Close</div><div class="cell has-data">Lube Temp High</div><div class="cell has-data">Lube Level Low Low</div><div class="cell has-data">Slipr Case Temp HH</div><div class="cell has-data">Motor Air Temp HH</div><div class="cell has-data">Motor Bear Temp HH</div><div class="cell has-data">Motor Wind Temp HH</div><div class="cell has-data">Pump Bear Temp HH</div><div class="cell has-data">Pump Water Temp HH</div><div class="cell has-data">Pump Vibration HH</div></div>
       </div>
     </div>
 
@@ -717,20 +717,26 @@ const embeddedDBC = {
   "1": {
     "cause": "- إنذار يؤكد بأن الوحدة على السرعة الثابتة",
     "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-dc577679-7e1d-4d8e-84f0-189ee6886514.jpg"
+    ]
   },
   "2": {
     "cause": "- وحدة التحكم بالسرعات ليست جاهزة على الوضع التلقائي",
     "action": "- التأكد من المفتاح على الوضع التلقائي\n- إعادة ضبط لوحة التحكم بالسرعات SIC",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-dc577679-7e1d-4d8e-84f0-189ee6886514.jpg"
+    ]
   },
   "3": {
     "cause": "- وحدة التحكم في السرعات ليست جاهزة للتشغيل على السرعة الثابتة",
-    "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة"
+    "action": "- التأكد بأن المفتاح من لوحة التحكم بالسرعات على وضع السرعة الثابتة",
+    "images": []
   },
   "4": {
     "cause": "- وجود مشكلة في مفتاح الوحدة وليست على الوضع المركزي",
-    "action": "- تغيير المفتاح الى الوضع التلقائي وإبلاغ مركز التحكم"
+    "action": "- تغيير المفتاح الى الوضع التلقائي وإبلاغ مركز التحكم",
+    "images": []
   },
   "5": {
     "cause": "- حرارة خزان الزيت منخفضة الى أقل من 22 درجة مئوية",
@@ -756,7 +762,10 @@ const embeddedDBC = {
   "8": {
     "cause": "دلالة على وجود إنذار في لوحة التحكم بالسرعات في SIC",
     "action": "- التأكد من الإنذارات في لوحة التحكم بالسرعات SIC\n- عمل اعادة ضبط ( RESET ) لمرة واحدة فقط \n- تسجيل وكتابة الإنذار ",
-    "dwg": "قسم الكهرباء"
+    "dwg": "قسم الكهرباء",
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-7ef67fe7-4081-4d45-bbcb-96787c8cf67a.jpg"
+    ]
   },
   "9": {
     "cause": "- وجود تآكل في الفرش الكربونية الى 50% ",
@@ -767,7 +776,9 @@ const embeddedDBC = {
   "10": {
     "cause": "- الوحدة ليست على الوضع التلقائي",
     "action": "- التأكد من المفتاح على الوضع التلقائي AUTO",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-cc2100dd-3d23-4791-aab2-3d6d6f9aacb6.jpg"
+    ]
   },
   "11": {
     "cause": "- وجود مشكلة في نظام التشغيل PLC ولا يؤثر على عملية التشغيل",
@@ -889,7 +900,10 @@ const embeddedDBC = {
   "31": {
     "cause": "- وجود عطل في وحدة التحكم بالسرعات SIC",
     "action": "- التحقق من الإنذارات في لوحة التحكم بالسرعات \n- إعادة ضبط لمرة واحدة ",
-    "dwg": "- قسم الكهرباء"
+    "dwg": "- قسم الكهرباء",
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-7ef67fe7-4081-4d45-bbcb-96787c8cf67a.jpg"
+    ]
   },
   "32": {
     "cause": "- إنذار عند تشغيل الوحدة "
@@ -904,7 +918,8 @@ const embeddedDBC = {
     "dwg": "- قسم الأجهزة",
     "images": [
       "https://cdn.phototourl.com/free/2026-06-02-5bd377a8-9949-4a67-bd2d-18748e19a581.jpg"
-    ]
+    ],
+    "notes": ""
   },
   "35": {
     "cause": "- مستوى الزيت في الخزان منخفض جدًّا",
@@ -1509,6 +1524,7 @@ function initApp() {
 currentLine = 'C';
 startIntro();
 </script>
+
 
 
 
