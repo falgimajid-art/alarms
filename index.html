@@ -662,7 +662,7 @@ textarea:disabled {
       </div>
       <input type="text" class="app-search" placeholder="🔍 ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"><div class="cell has-data">Unit In Alarm</div><div class="cell has-data">SIC On Fixed Speed</div><div class="cell has-data">SIC Not Ready Auto</div><div class="cell has-data">SIC Not Ready Fix SP</div><div class="cell has-data">Control Mode Error</div><div class="cell has-data">Lube Res Temp Low</div><div class="cell has-data">Pump Seal Fail</div><div class="cell has-data">Lube Pres Before TCV Low</div><div class="cell has-data">SIC MV Warning</div><div class="cell has-data">Brush Length</div><div class="cell has-data">Unit Not On Auto</div><div class="cell has-data">Uncon Non Urg Fail</div><div class="cell has-data">MOV Sequence Fail</div><div class="cell has-data">Lube Res Temp High</div><div class="cell has-data">Lube Res Level Low</div><div class="cell has-data">Filter Diff Pres High</div><div class="cell has-data">Slipr Case Temp High</div><div class="cell has-data">Cool Air Dif Press</div><div class="cell has-data">Motor Air Temp High</div><div class="cell has-data">Motor Bear Temp High</div><div class="cell has-data">Motor Wind Temp High</div><div class="cell has-data">Pump Bear Temp High</div><div class="cell has-data">Pump Water Temp High</div><div class="cell has-data">Pump Vibration High</div><div class="cell has-data">Unit Tripped</div><div class="cell has-data">Unit ESD</div><div class="cell has-data">Seq Fail</div><div class="cell has-data">Uncon Urg Fail</div><div class="cell has-data">Suction Press Low</div><div class="cell has-data">Discharge Press High</div><div class="cell has-data">Lube Pres After Low</div><div class="cell has-data">SIC MV Starter SD</div><div class="cell has-data">DREAV On Command</div><div class="cell has-data">MV Breaker Close</div><div class="cell has-data">Lube Temp High</div><div class="cell has-data">Lube Level Low Low</div><div class="cell has-data">Slipr Case Temp HH</div><div class="cell has-data">Motor Air Temp HH</div><div class="cell has-data active">Motor Bear Temp HH</div><div class="cell has-data">Motor Wind Temp HH</div><div class="cell has-data">Pump Bear Temp HH</div><div class="cell has-data">Pump Water Temp HH</div><div class="cell has-data">Pump Vibration HH</div></div>
+        <div id="grid" class="annunciator-grid"><div class="cell has-data">Unit In Alarm</div><div class="cell has-data">SIC On Fixed Speed</div><div class="cell has-data">SIC Not Ready Auto</div><div class="cell has-data">SIC Not Ready Fix SP</div><div class="cell has-data">Control Mode Error</div><div class="cell has-data active">Lube Res Temp Low</div><div class="cell has-data">Pump Seal Fail</div><div class="cell has-data">Lube Pres Before TCV Low</div><div class="cell has-data">SIC MV Warning</div><div class="cell has-data">Brush Length</div><div class="cell has-data">Unit Not On Auto</div><div class="cell has-data">Uncon Non Urg Fail</div><div class="cell has-data">MOV Sequence Fail</div><div class="cell has-data">Lube Res Temp High</div><div class="cell has-data">Lube Res Level Low</div><div class="cell has-data">Filter Diff Pres High</div><div class="cell has-data">Slipr Case Temp High</div><div class="cell has-data">Cool Air Dif Press</div><div class="cell has-data">Motor Air Temp High</div><div class="cell has-data">Motor Bear Temp High</div><div class="cell has-data">Motor Wind Temp High</div><div class="cell has-data">Pump Bear Temp High</div><div class="cell has-data">Pump Water Temp High</div><div class="cell has-data">Pump Vibration High</div><div class="cell has-data">Unit Tripped</div><div class="cell has-data">Unit ESD</div><div class="cell has-data">Seq Fail</div><div class="cell has-data">Uncon Urg Fail</div><div class="cell has-data">Suction Press Low</div><div class="cell has-data">Discharge Press High</div><div class="cell has-data">Lube Pres After Low</div><div class="cell has-data">SIC MV Starter SD</div><div class="cell has-data">DREAV On Command</div><div class="cell has-data">MV Breaker Close</div><div class="cell has-data">Lube Temp High</div><div class="cell has-data">Lube Level Low Low</div><div class="cell has-data">Slipr Case Temp HH</div><div class="cell has-data">Motor Air Temp HH</div><div class="cell has-data">Motor Bear Temp HH</div><div class="cell has-data">Motor Wind Temp HH</div><div class="cell has-data">Pump Bear Temp HH</div><div class="cell has-data">Pump Water Temp HH</div><div class="cell has-data">Pump Vibration HH</div></div>
       </div>
     </div>
 
@@ -674,7 +674,7 @@ textarea:disabled {
 </div>
 
 <!-- LIGHTBOX -->
-<div id="lightbox" onclick="closeLightbox()">
+<div id="lightbox" onclick="closeLightbox()" style="display: none;">
   <button id="lightbox-close" onclick="closeLightbox()">✕</button>
   <img id="lightbox-img" src="" alt="">
 </div>
@@ -735,7 +735,9 @@ const embeddedDBC = {
   "5": {
     "cause": "- حرارة خزان الزيت منخفضة الى أقل من 22 درجة مئوية",
     "action": "- التحقق من المسخن المتصل بالخزان\n- تغيير SETPOINT لصمام التحكم بالحرارة ",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-6a011110-c3c1-49d9-af0f-f1952f0e5d09.jpg"
+    ]
   },
   "6": {
     "cause": "- عطل في مانع التسرب الميكانيكي",
@@ -793,7 +795,9 @@ const embeddedDBC = {
     "cause": "- انسداد في الفلتر ووصول اختلاف الضغط الى 0.6بار ",
     "action": "- يتم تغيير خدمة الفلتر CHANGE OIL FILTER DUTY\n- تأكد من خلو الفلتر من الهواء بواسطة صمام التنفيس\n- إبلاغ الصيانة لتغيير الفلاتر",
     "dwg": "- قسم الميكانيكا",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-373ceb6e-4343-4d6a-beec-3472477411b7.jpg"
+    ]
   },
   "16": {
     "cause": "- وجود حرارة في غرفة الحقات المنزلقة ( SLIPRING )\n",
@@ -896,9 +900,11 @@ const embeddedDBC = {
   },
   "34": {
     "cause": "- حرارة الزيت في النظام مرتفعة الى 75 درجة مئوية",
-    "action": "- التحقق من دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في الحساس ",
+    "action": "- التحقق من دائرة التبريد في النظام\n- زيادة كفاءة نظام التبريد في المحطة \n- مشكلة في صمام التحكم بالحرارة",
     "dwg": "- قسم الأجهزة",
-    "images": []
+    "images": [
+      "https://cdn.phototourl.com/free/2026-06-02-5bd377a8-9949-4a67-bd2d-18748e19a581.jpg"
+    ]
   },
   "35": {
     "cause": "- مستوى الزيت في الخزان منخفض جدًّا",
@@ -1503,6 +1509,7 @@ function initApp() {
 currentLine = 'C';
 startIntro();
 </script>
+
 
 
 </body></html>
