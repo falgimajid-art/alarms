@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
@@ -620,7 +619,7 @@ textarea:disabled {
   <div id="appTopBar">
     <img class="top-logo" src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     <div class="top-sys-label">Water Transmission Company — Jubail</div>
-    <div id="activeLinePill" style="display: none;">LINE AB</div>
+    <div id="activeLinePill" style="display: none;">LINE C</div>
   </div>
 
   <!-- WELCOME STAGE -->
@@ -643,18 +642,9 @@ textarea:disabled {
   </div>
 
   <!-- ALARM TYPE STAGE (sub-menu) -->
-  <div id="alarmTypeStage" style="
-    position:absolute; inset:0;
-    padding:82px 14px 14px;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:20px;
-    opacity:0; pointer-events:none;
-    transform:translateY(24px);
-    transition:opacity 0.4s ease, transform 0.4s ease;
-    z-index:7;
-  ">
+  <div id="alarmTypeStage" style="position: absolute; inset: 0px; padding: 82px 14px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transform: translateY(24px); transition: opacity 0.4s, transform 0.4s; z-index: 7;">
     <div style="text-align:center; margin-bottom:6px;">
-      <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE AB</div>
+      <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE C</div>
       <div style="font-size:11px; color:#8BA3C7; letter-spacing:3px; margin-top:4px;">اختر نوع الإنذار</div>
     </div>
     <div style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
@@ -674,13 +664,7 @@ textarea:disabled {
         <div class="card-line-sub">ALARM</div>
       </div>
     </div>
-    <button onclick="backToWelcome()" style="
-      margin-top:10px; padding:8px 20px; border-radius:8px;
-      border:1px solid #1E3D6B; color:#8BA3C7;
-      background:rgba(30,61,107,0.2); cursor:pointer;
-      font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700;
-      transition:all 0.2s;
-    " onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
+    <button onclick="backToWelcome()" style="margin-top: 10px; padding: 8px 20px; border-radius: 8px; border: 1px solid rgb(30, 61, 107); color: rgb(139, 163, 199); background: rgba(30, 61, 107, 0.2); cursor: pointer; font-family: Tajawal, sans-serif; font-size: 13px; font-weight: 700; transition: 0.2s;" onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
   </div>
 
   <!-- APP STAGE -->
@@ -688,21 +672,21 @@ textarea:disabled {
     <div class="app-panel">
       <div class="app-panel-header">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span class="panel-label"> مصفوفة الإنذارات </span>
-          <span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
-          <span id="activeAlarmTypeBadge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1B8B8B44;color:#5ECECE;background:#1B8B8B0D;letter-spacing:1px;">UNIT ALARM</span>
+          <span class="panel-label">❄️ مصفوفة COOLING ALARM</span>
+          <span id="activeLineBadge" class="active-line-badge badge-c"> LINE C</span>
+          <span id="activeAlarmTypeBadge" style="font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 204, 255, 0.4); color: rgb(0, 204, 255); background: rgba(27, 139, 139, 0.05); letter-spacing: 1px;">COOLING ALARM</span>
         </div>
         <div class="ctrl-row">
           <button class="home-btn" onclick="goHome()">⌂ الرئيسية</button>
           <button class="home-btn" onclick="backToAlarmTypeMenu()" style="border-color:#1B8B8B44;">← نوع الإنذار</button>
-          <button class="mini-tab active" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
-          <button class="mini-tab" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
+          <button class="mini-tab" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
+          <button class="mini-tab active" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
           <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"></div>
         </div>
       </div>
       <input type="text" class="app-search" placeholder="🔍ابحث عن الإنذار..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"><div class="cell has-data-ab">Unit In Alarm</div><div class="cell has-data-ab">COOLING AIR SLIPRING CASE</div><div class="cell has-data-ab">COOLING AIR MOTOR COLD</div><div class="cell has-data-ab">COOLING AIR MOTOR WARM</div><div class="cell has-data-ab">COOLING AIR PRESSURE</div><div class="cell has-data-ab">Lube OIL TANK LOW TEMP</div><div class="cell has-data-ab">LUBE OIL TANK LOW LOW</div><div class="cell has-data-ab">LUBE OIL PRESS LOW</div><div class="cell has-data-ab">BRUSH LENGTH</div><div class="cell has-data-ab">BUNIT TRIPPED</div><div class="cell has-data-ab">WINDING TEMP.R</div><div class="cell has-data-ab">WINDING TEMP.S</div><div class="cell has-data-ab">WINDING TEMP.T</div><div class="cell has-data-ab">SEAL FAILURE</div><div class="cell has-data-ab">SUCTION PRESS LOW</div><div class="cell has-data-ab">DISCH PRESS High</div><div class="cell has-data-ab">VIBRATION</div><div class="cell has-data-ab">MOTOR TEMP IBB</div><div class="cell has-data-ab">MOTOR TEMP OBB</div><div class="cell has-data-ab">DISCH MOV FAIL</div><div class="cell has-data-ab">SUCTION PRESS S/D</div><div class="cell has-data-ab">PUMPE TEMP CASE</div><div class="cell has-data-ab">CASCADE NOT REMOTE</div><div class="cell has-data-ab">STARTER HIGH TEMP</div><div class="cell has-data-ab">STARTER LOW LEVEL</div><div class="cell has-data-ab">STARTER WARN</div><div class="cell has-data-ab">CASCADE WARN</div><div class="cell has-data-ab">LUBE OIL FILTER</div><div class="cell has-data-ab">SPEED NOT REACHED</div><div class="cell has-data-ab">UNIT E.SD</div><div class="cell has-data-ab">COOLING NOT STARTED</div><div class="cell has-data-ab">COLSED LOOP NOT REMOTE</div><div class="cell has-data-ab">UNIT SYST FAULT</div><div class="cell has-data-ab">PUMP TEMP IBBI</div><div class="cell has-data-ab">PUMP TEMP IBTR</div><div class="cell has-data-ab">PUMP TEMP OBBI</div><div class="cell has-data-ab">PUMP TEMP OBTR</div><div class="cell has-data-ab">DISCHARGE PRESS SD</div><div class="cell has-data-ab">LUBE OIL PRESS SD</div><div class="cell has-data-ab">LUBE OIL HIGH TEMP</div><div class="cell has-data-ab">STARTER SD</div><div class="cell has-data-ab">CASCADE SD</div><div class="cell has-data-ab">SEQ FAULT</div><div class="cell has-data-ab active-ab">PRE-START CONDITIONS INCOMPL</div></div>
+        <div id="grid" class="annunciator-grid"><div class="cell" title="CWS IN ALARM" style="border-right: 3px solid rgb(0, 204, 255);">CWS IN ALARM</div><div class="cell" title="CWS NOT AVAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS NOT AVAIL</div><div class="cell" title="COOL CAP NOT AVAIL" style="border-right: 3px solid rgb(0, 204, 255);">COOL CAP NOT AVAIL</div><div class="cell" title="CWS NOT AUTO" style="border-right: 3px solid rgb(0, 204, 255);">CWS NOT AUTO</div><div class="cell" title="POWER SUPPLY FAIL SUM" style="border-right: 3px solid rgb(0, 204, 255);">POWER SUPPLY FAIL SUM</div><div class="cell" title="CWS URG FAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS URG FAIL</div><div class="cell" title="CWS NON URG FAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS NON URG FAIL</div><div class="cell" title="CW LINE 1 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 1 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 01 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 01 SUM ALARM</div><div class="cell" title="CW LINE 2 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 2 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 02 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 02 SUM ALARM</div><div class="cell" title="CW LINE 3 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 3 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 03 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 03 SUM ALARM</div><div class="cell" title="CW LINE 4 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 4 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 04 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 04 SUM ALARM</div><div class="cell" title="CIRC PUMP 1 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 1 NOT REMOTE</div><div class="cell" title="MOV FAIL" style="border-right: 3px solid rgb(0, 204, 255);">MOV FAIL</div><div class="cell" title="CIRC PUMP 2 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 2 NOT REMOTE</div><div class="cell" title="FOAS FAIL" style="border-right: 3px solid rgb(0, 204, 255);">FOAS FAIL</div><div class="cell" title="CIRC PUMP 3 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 3 NOT REMOTE</div><div class="cell" title="CIRC PUMP 4 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 4 NOT REMOTE</div><div class="cell" title="ROOM TEMP-HI" style="border-right: 3px solid rgb(0, 204, 255);">ROOM TEMP-HI</div><div class="cell" title="FILTER 1 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 1 DIF PRES HIGH</div><div class="cell" title="FILTER 2 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 2 DIF PRES HIGH</div><div class="cell" title="FILTER 3 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 3 DIF PRES HIGH</div><div class="cell" title="FILTER 4 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 4 DIF PRES HIGH</div><div class="cell" title="CW TEMP PRE WARN" style="border-right: 3px solid rgb(0, 204, 255);">CW TEMP PRE WARN</div><div class="cell" title="SEQ FAIL" style="border-right: 3px solid rgb(0, 204, 255);">SEQ FAIL</div><div class="cell" title="OUTLET PRESSURE LOW" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">OUTLET PRESSURE LOW</div><div class="cell" title="CW TEMP HIGH" style="border-right: 3px solid rgb(0, 204, 255);">CW TEMP HIGH</div><div class="cell" title="LOCAL PANEL 00 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 00 SUM ALARM</div><div class="cell" title="CONDUCTIVITY LOW LOW" style="border-right: 3px solid rgb(0, 204, 255);">CONDUCTIVITY LOW LOW</div></div>
       </div>
     </div>
 
@@ -1271,7 +1255,12 @@ const coolingNamesC = [
   "CW TEMP HIGH","LOCAL PANEL 00 SUM ALARM","CONDUCTIVITY LOW LOW",
 ];
 
-const embeddedDBCoolingC = {};
+const embeddedDBCoolingC = {
+  "28": {
+    "cause": "- ضغط الخروج من نظام التبريد منخفض",
+    "action": "- التأكد من مضخات CLOSED SYSTEM وأن الضغط أكثر من 0.6 بار"
+  }
+};
 
 // ============================================================
 // CONSTANTS
@@ -1786,6 +1775,7 @@ currentLine = 'C';
 currentAlarmType = 'unit';
 startIntro();
 </script>
+
 
 
 
