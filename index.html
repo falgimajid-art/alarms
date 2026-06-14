@@ -629,19 +629,15 @@ textarea:disabled {
       <img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     </div>
     <div class="welcome-title">لوحة الإنذارات </div>
-    <div class="welcome-sub">UNITALARM SYSTEM · LINE AB &amp; LINE C</div>
+    <div class="welcome-sub">ALARMS SYSTEM · LINE AB &amp; LINE C</div>
     <div class="line-cards">
       <div class="line-card" onclick="showAlarmTypeMenu('AB')">
         <div class="card-dot"></div>
         <div class="card-line-name">LINE AB</div>
-        <div class="card-line-sub">UNIT · COOLING · STATION</div>
-        <div class="card-line-count"></div>
       </div>
       <div class="line-card" onclick="showAlarmTypeMenu('C')">
         <div class="card-dot"></div>
         <div class="card-line-name">LINE C</div>
-        <div class="card-line-sub">UNIT · COOLING · STATION</div>
-        <div class="card-line-count"></div>
       </div>
     </div>
   </div>
@@ -692,7 +688,7 @@ textarea:disabled {
     <div class="app-panel">
       <div class="app-panel-header">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span class="panel-label">🎛️ مصفوفة الإنذارات النشطة</span>
+          <span class="panel-label"> مصفوفة الإنذارات </span>
           <span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
           <span id="activeAlarmTypeBadge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1B8B8B44;color:#5ECECE;background:#1B8B8B0D;letter-spacing:1px;">UNIT ALARM</span>
         </div>
@@ -701,10 +697,10 @@ textarea:disabled {
           <button class="home-btn" onclick="backToAlarmTypeMenu()" style="border-color:#1B8B8B44;">← نوع الإنذار</button>
           <button class="mini-tab active" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
           <button class="mini-tab" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
-          <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"> (أدمن)</div>
+          <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"></div>
         </div>
       </div>
-      <input type="text" class="app-search" placeholder="🔍 ابحث عن إنذار فني..." onkeyup="filterAlarms(this.value)">
+      <input type="text" class="app-search" placeholder="🔍ابحث عن الإنذار..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
         <div id="grid" class="annunciator-grid"><div class="cell has-data-ab">Unit In Alarm</div><div class="cell has-data-ab">COOLING AIR SLIPRING CASE</div><div class="cell has-data-ab">COOLING AIR MOTOR COLD</div><div class="cell has-data-ab">COOLING AIR MOTOR WARM</div><div class="cell has-data-ab">COOLING AIR PRESSURE</div><div class="cell has-data-ab">Lube OIL TANK LOW TEMP</div><div class="cell has-data-ab">LUBE OIL TANK LOW LOW</div><div class="cell has-data-ab">LUBE OIL PRESS LOW</div><div class="cell has-data-ab">BRUSH LENGTH</div><div class="cell has-data-ab">BUNIT TRIPPED</div><div class="cell has-data-ab">WINDING TEMP.R</div><div class="cell has-data-ab">WINDING TEMP.S</div><div class="cell has-data-ab">WINDING TEMP.T</div><div class="cell has-data-ab">SEAL FAILURE</div><div class="cell has-data-ab">SUCTION PRESS LOW</div><div class="cell has-data-ab">DISCH PRESS High</div><div class="cell has-data-ab">VIBRATION</div><div class="cell has-data-ab">MOTOR TEMP IBB</div><div class="cell has-data-ab">MOTOR TEMP OBB</div><div class="cell has-data-ab">DISCH MOV FAIL</div><div class="cell has-data-ab">SUCTION PRESS S/D</div><div class="cell has-data-ab">PUMPE TEMP CASE</div><div class="cell has-data-ab">CASCADE NOT REMOTE</div><div class="cell has-data-ab">STARTER HIGH TEMP</div><div class="cell has-data-ab">STARTER LOW LEVEL</div><div class="cell has-data-ab">STARTER WARN</div><div class="cell has-data-ab">CASCADE WARN</div><div class="cell has-data-ab">LUBE OIL FILTER</div><div class="cell has-data-ab">SPEED NOT REACHED</div><div class="cell has-data-ab">UNIT E.SD</div><div class="cell has-data-ab">COOLING NOT STARTED</div><div class="cell has-data-ab">COLSED LOOP NOT REMOTE</div><div class="cell has-data-ab">UNIT SYST FAULT</div><div class="cell has-data-ab">PUMP TEMP IBBI</div><div class="cell has-data-ab">PUMP TEMP IBTR</div><div class="cell has-data-ab">PUMP TEMP OBBI</div><div class="cell has-data-ab">PUMP TEMP OBTR</div><div class="cell has-data-ab">DISCHARGE PRESS SD</div><div class="cell has-data-ab">LUBE OIL PRESS SD</div><div class="cell has-data-ab">LUBE OIL HIGH TEMP</div><div class="cell has-data-ab">STARTER SD</div><div class="cell has-data-ab">CASCADE SD</div><div class="cell has-data-ab">SEQ FAULT</div><div class="cell has-data-ab active-ab">PRE-START CONDITIONS INCOMPL</div></div>
       </div>
@@ -1267,12 +1263,12 @@ const embeddedDBAB = {
 // COOLING ALARM DB — LINE C (فارغة جاهزة للتعبئة)
 // ============================================================
 const coolingNamesC = [
-  "CWS IN ALARM","CWS NOT AVAIL","COOL CAP NOT AVAIL","CWS NOT AUTO","POWER SUPPLY FAIL SUM","CWS URG FAIL","CWS NON URG FAIL","",
+  "CWS IN ALARM","CWS NOT AVAIL","COOL CAP NOT AVAIL","CWS NOT AUTO","POWER SUPPLY FAIL SUM","CWS URG FAIL","CWS NON URG FAIL",
   "CW LINE 1 NOT REMOTE","LOCAL PANEL 01 SUM ALARM","CW LINE 2 NOT REMOTE","LOCAL PANEL 02 SUM ALARM","CW LINE 3 NOT REMOTE","LOCAL PANEL 03 SUM ALARM","CW LINE 4 NOT REMOTE","LOCAL PANEL 04 SUM ALARM",
-  "CIRC PUMP 1 NOT REMOTE","MOV FAIL","CIRC PUMP 2 NOT REMOTE","FOAS FAIL","CIRC PUMP 3 NOT REMOTE","","CIRC PUMP 4 NOT REMOTE","ROOM TEMP-HI",
-  "FILTER 1 DIF PRES HIGH","","FILTER 2 DIF PRES HIGH","","FILTER 3 DIF PRES HIGH","","FILTER 4 DIF PRES HIGH","",
-  "CW TEMP PRE WARN","SEQ FAIL","OUTLET PRESSURE LOW","","","","","",
-  "CW TEMP HIGH","LOCAL PANEL 00 SUM ALARM","CONDUCTIVITY LOW LOW","","","","",""
+  "CIRC PUMP 1 NOT REMOTE","MOV FAIL","CIRC PUMP 2 NOT REMOTE","FOAS FAIL","CIRC PUMP 3 NOT REMOTE","CIRC PUMP 4 NOT REMOTE","ROOM TEMP-HI",
+  "FILTER 1 DIF PRES HIGH","FILTER 2 DIF PRES HIGH","FILTER 3 DIF PRES HIGH","FILTER 4 DIF PRES HIGH",
+  "CW TEMP PRE WARN","SEQ FAIL","OUTLET PRESSURE LOW",
+  "CW TEMP HIGH","LOCAL PANEL 00 SUM ALARM","CONDUCTIVITY LOW LOW",
 ];
 
 const embeddedDBCoolingC = {};
@@ -1771,7 +1767,7 @@ function initApp() {
   var badge = document.getElementById('roleBadge');
   if (badge) {
     if (isAdmin) {
-      badge.innerText = " (أدمن)";
+      badge.innerText = " (ADMIN)";
       badge.style.color = "#5ECECE";
       badge.style.borderColor = "#1B8B8B";
       badge.style.background = "rgba(27,139,139,0.15)";
