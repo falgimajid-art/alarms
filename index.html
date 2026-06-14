@@ -1,3 +1,4 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
@@ -630,19 +631,60 @@ textarea:disabled {
     <div class="welcome-title">لوحة الإنذارات </div>
     <div class="welcome-sub">UNITALARM SYSTEM · LINE AB &amp; LINE C</div>
     <div class="line-cards">
-      <div class="line-card" onclick="selectLine('AB')">
+      <div class="line-card" onclick="showAlarmTypeMenu('AB')">
         <div class="card-dot"></div>
         <div class="card-line-name">LINE AB</div>
-        <div class="card-line-sub">UNIT ALARM</div>
+        <div class="card-line-sub">UNIT · COOLING · STATION</div>
         <div class="card-line-count"></div>
       </div>
-      <div class="line-card" onclick="selectLine('C')">
+      <div class="line-card" onclick="showAlarmTypeMenu('C')">
         <div class="card-dot"></div>
         <div class="card-line-name">LINE C</div>
-        <div class="card-line-sub">UNIT ALARM</div>
+        <div class="card-line-sub">UNIT · COOLING · STATION</div>
         <div class="card-line-count"></div>
       </div>
     </div>
+  </div>
+
+  <!-- ALARM TYPE STAGE (sub-menu) -->
+  <div id="alarmTypeStage" style="
+    position:absolute; inset:0;
+    padding:82px 14px 14px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:20px;
+    opacity:0; pointer-events:none;
+    transform:translateY(24px);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+    z-index:7;
+  ">
+    <div style="text-align:center; margin-bottom:6px;">
+      <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE AB</div>
+      <div style="font-size:11px; color:#8BA3C7; letter-spacing:3px; margin-top:4px;">اختر نوع الإنذار</div>
+    </div>
+    <div style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
+      <div class="line-card" onclick="selectLineAndType(null,'unit')" style="border-color:#1B8B8B44;">
+        <div class="card-dot"></div>
+        <div style="font-size:18px; font-weight:900; letter-spacing:2px; color:#5ECECE;">UNIT</div>
+        <div class="card-line-sub">ALARM</div>
+      </div>
+      <div class="line-card" onclick="selectLineAndType(null,'cooling')" style="border-color:#00ccff44;">
+        <div class="card-dot" style="background:#00ccff; box-shadow:0 0 10px #00ccff;"></div>
+        <div style="font-size:18px; font-weight:900; letter-spacing:2px; color:#00ccff;">COOLING</div>
+        <div class="card-line-sub">ALARM</div>
+      </div>
+      <div class="line-card" onclick="selectLineAndType(null,'station')" style="border-color:#a78bfa44;">
+        <div class="card-dot" style="background:#a78bfa; box-shadow:0 0 10px #a78bfa;"></div>
+        <div style="font-size:18px; font-weight:900; letter-spacing:2px; color:#a78bfa;">STATION</div>
+        <div class="card-line-sub">ALARM</div>
+      </div>
+    </div>
+    <button onclick="backToWelcome()" style="
+      margin-top:10px; padding:8px 20px; border-radius:8px;
+      border:1px solid #1E3D6B; color:#8BA3C7;
+      background:rgba(30,61,107,0.2); cursor:pointer;
+      font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700;
+      transition:all 0.2s;
+    " onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
   </div>
 
   <!-- APP STAGE -->
@@ -652,11 +694,13 @@ textarea:disabled {
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
           <span class="panel-label">🎛️ مصفوفة الإنذارات النشطة</span>
           <span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
+          <span id="activeAlarmTypeBadge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1B8B8B44;color:#5ECECE;background:#1B8B8B0D;letter-spacing:1px;">UNIT ALARM</span>
         </div>
         <div class="ctrl-row">
           <button class="home-btn" onclick="goHome()">⌂ الرئيسية</button>
-          <button class="mini-tab active" id="tabAB" onclick="switchLine('AB')">LINE AB</button>
-          <button class="mini-tab" id="tabC" onclick="switchLine('C')">LINE C</button>
+          <button class="home-btn" onclick="backToAlarmTypeMenu()" style="border-color:#1B8B8B44;">← نوع الإنذار</button>
+          <button class="mini-tab active" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
+          <button class="mini-tab" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
           <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"> (أدمن)</div>
         </div>
       </div>
@@ -1220,6 +1264,20 @@ const embeddedDBAB = {
 
 
 // ============================================================
+// COOLING ALARM DB — LINE C (فارغة جاهزة للتعبئة)
+// ============================================================
+const coolingNamesC = [
+  "CWS IN ALARM","CWS NOT AVAIL","COOL CAP NOT AVAIL","CWS NOT AUTO","POWER SUPPLY FAIL SUM","CWS URG FAIL","CWS NON URG FAIL","",
+  "CW LINE 1 NOT REMOTE","LOCAL PANEL 01 SUM ALARM","CW LINE 2 NOT REMOTE","LOCAL PANEL 02 SUM ALARM","CW LINE 3 NOT REMOTE","LOCAL PANEL 03 SUM ALARM","CW LINE 4 NOT REMOTE","LOCAL PANEL 04 SUM ALARM",
+  "CIRC PUMP 1 NOT REMOTE","MOV FAIL","CIRC PUMP 2 NOT REMOTE","FOAS FAIL","CIRC PUMP 3 NOT REMOTE","","CIRC PUMP 4 NOT REMOTE","ROOM TEMP-HI",
+  "FILTER 1 DIF PRES HIGH","","FILTER 2 DIF PRES HIGH","","FILTER 3 DIF PRES HIGH","","FILTER 4 DIF PRES HIGH","",
+  "CW TEMP PRE WARN","SEQ FAIL","OUTLET PRESSURE LOW","","","","","",
+  "CW TEMP HIGH","LOCAL PANEL 00 SUM ALARM","CONDUCTIVITY LOW LOW","","","","",""
+];
+
+const embeddedDBCoolingC = {};
+
+// ============================================================
 // CONSTANTS
 // ============================================================
 var MY_NAME = "MAJED M.FALQI";
@@ -1229,39 +1287,114 @@ var LOGO_URL = "https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91
 // STATE
 // ============================================================
 var currentLine = 'C';
+var currentAlarmType = 'unit'; // 'unit' | 'cooling' | 'station'
 var dbC = JSON.parse(JSON.stringify(embeddedDBC));
 var dbAB = JSON.parse(JSON.stringify(embeddedDBAB));
+var dbCoolingC = JSON.parse(JSON.stringify(embeddedDBCoolingC));
 var isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
 
-function getCurrentDB() { return currentLine === 'C' ? dbC : dbAB; }
+function getCurrentDB() {
+  if (currentAlarmType === 'cooling' && currentLine === 'C') return dbCoolingC;
+  return currentLine === 'C' ? dbC : dbAB;
+}
 function getCurrentAlarmNames() { return currentLine === 'C' ? alarmNamesC : alarmNamesAB; }
 
 function buildGrid() {
   var db = getCurrentDB();
   var names = getCurrentAlarmNames();
   var isAB = currentLine === 'AB';
+  var type = currentAlarmType;
 
   var grid = document.getElementById('grid');
   grid.innerHTML = '';
-  names.forEach(function (name, index) {
-    var cell = document.createElement('div');
-    cell.className = 'cell' + (name === "" ? ' empty' : '');
-    if (db[index] && (db[index].cause || db[index].action || db[index].dwg || db[index].notes)) {
-      cell.classList.add(isAB ? 'has-data-ab' : 'has-data');
+
+  // Update panel label based on type
+  var panelLabel = document.querySelector('.panel-label');
+  if (panelLabel) {
+    var typeIcons = { unit: '🎛️', cooling: '❄️', station: '🏭' };
+    var typeNames = { unit: 'مصفوفة UNIT ALARM', cooling: 'مصفوفة COOLING ALARM', station: 'مصفوفة STATION ALARM' };
+    panelLabel.textContent = (typeIcons[type] || '🎛️') + ' ' + (typeNames[type] || 'مصفوفة الإنذارات النشطة');
+  }
+
+  if (type === 'unit') {
+    // Normal unit alarm grid with data
+    names.forEach(function (name, index) {
+      var cell = document.createElement('div');
+      cell.className = 'cell' + (name === "" ? ' empty' : '');
+      if (db[index] && (db[index].cause || db[index].action || db[index].dwg || db[index].notes)) {
+        cell.classList.add(isAB ? 'has-data-ab' : 'has-data');
+      }
+      cell.innerText = name;
+      cell.onclick = function () { showDetails(index, name); };
+      grid.appendChild(cell);
+    });
+  } else if (type === 'cooling') {
+    var coolingNamesAB = [];
+    var cNames = (currentLine === 'C') ? coolingNamesC : coolingNamesAB;
+    var cDB = (currentLine === 'C') ? dbCoolingC : {};
+
+    if (currentLine === 'AB' || cNames.length === 0) {
+      var count = names.length;
+      for (var i = 0; i < count; i++) {
+        var cell = document.createElement('div');
+        cell.className = 'cell empty';
+        cell.style.opacity = '0.18';
+        cell.style.pointerEvents = 'none';
+        grid.appendChild(cell);
+      }
+    } else {
+      cNames.forEach(function(name, index) {
+        var cell = document.createElement('div');
+        if (!name) {
+          cell.className = 'cell empty';
+          cell.style.opacity = '0.18';
+          cell.style.pointerEvents = 'none';
+        } else {
+          cell.className = 'cell';
+          cell.style.borderRight = '3px solid #00ccff';
+          if (cDB[index] && (cDB[index].cause || cDB[index].action || cDB[index].dwg || cDB[index].notes)) {
+            cell.style.borderRight = '3px solid #00ccff';
+            cell.style.boxShadow = '0 0 6px #00ccff44';
+          }
+          cell.innerText = name;
+          cell.title = name;
+          cell.onclick = (function(idx, n) {
+            return function() { showDetails(idx, n); };
+          })(index, name);
+        }
+        grid.appendChild(cell);
+      });
     }
-    cell.innerText = name;
-    cell.onclick = function () { showDetails(index, name); };
-    grid.appendChild(cell);
-  });
+  } else {
+    // Station: empty cells same count as unit alarms
+    var count = names.length;
+    for (var i = 0; i < count; i++) {
+      var cell = document.createElement('div');
+      cell.className = 'cell empty';
+      cell.style.opacity = '0.18';
+      cell.style.pointerEvents = 'none';
+      grid.appendChild(cell);
+    }
+  }
 }
 
 function showDetails(index, name) {
   var isAB = currentLine === 'AB';
+  var isCooling = currentAlarmType === 'cooling';
+  var isStation = currentAlarmType === 'station';
+
   document.querySelectorAll('.cell').forEach(function (c) {
     c.classList.remove('active'); c.classList.remove('active-ab');
   });
   var cells = document.querySelectorAll('.cell');
-  if (cells[index]) cells[index].classList.add(isAB ? 'active-ab' : 'active');
+  if (cells[index]) {
+    if (isCooling) {
+      cells[index].style.boxShadow = '0 0 14px #00ccff88';
+      cells[index].style.borderColor = '#00ccff';
+    } else {
+      cells[index].classList.add(isAB ? 'active-ab' : 'active');
+    }
+  }
 
   var db = getCurrentDB();
   var data = db[index] || { cause: '', action: '', dwg: '', notes: '', images: [] };
@@ -1275,12 +1408,13 @@ function showDetails(index, name) {
     + '</div>'
     : '';
 
+  var titleColor = isCooling ? '#00ccff' : (isAB ? '#5ECECE' : '#1B8B8B');
   var titleClass = isAB ? 'alarm-header-title-ab' : 'alarm-header-title';
-  var lineTag = '<span style="font-size:13px; opacity:0.7; margin-right:10px;">[' + currentLine + ']</span>';
+  var lineTag = '<span style="font-size:13px; opacity:0.7; margin-right:10px;">[' + currentLine + ' · ' + (isCooling ? 'COOLING' : isStation ? 'STATION' : 'UNIT') + ']</span>';
   var imagesHtml = makeImagesSection(index, data.images);
 
   document.getElementById('detailsSection').innerHTML =
-    '<div><h2 class="' + titleClass + '">' + lineTag + name + '</h2></div>'
+    '<div><h2 class="' + titleClass + '" style="color:' + titleColor + '">' + lineTag + name + '</h2></div>'
     + '<div class="info-cards-container">'
     + makeCard('⚠️ أسباب الإنذار (Root Cause)', index, 'cause', data.cause, dis)
     + makeCard('🛠️ عمل المشغل (Actions)', index, 'action', data.action, dis)
@@ -1395,7 +1529,14 @@ function updateDB(index, field, value) {
   if (!db[index]) db[index] = {};
   db[index][field] = value;
   var cells = document.querySelectorAll('.cell');
-  if (cells[index]) cells[index].classList.add(currentLine === 'AB' ? 'has-data-ab' : 'has-data');
+  if (cells[index]) {
+    if (currentAlarmType === 'cooling') {
+      cells[index].style.boxShadow = '0 0 10px #00ccff66';
+      cells[index].style.borderRight = '3px solid #00ccff';
+    } else {
+      cells[index].classList.add(currentLine === 'AB' ? 'has-data-ab' : 'has-data');
+    }
+  }
 }
 
 function filterAlarms(val) {
@@ -1428,6 +1569,8 @@ function exportDB() {
   var finalHtml = "<!DOCTYPE html>\n" + doc.documentElement.outerHTML;
   finalHtml = finalHtml.replace(/const embeddedDBC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBC = " + cleanDBC + ";");
   finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
+  var cleanDBCoolingC = JSON.stringify(dbCoolingC, null, 2);
+  finalHtml = finalHtml.replace(/const embeddedDBCoolingC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBCoolingC = " + cleanDBCoolingC + ";");
 
   // نسخ الكود مباشرة بدون فتح نافذة
   navigator.clipboard.writeText(finalHtml).then(function () {
@@ -1462,33 +1605,95 @@ function copyGeneratedCode() {
 }
 
 // ============================================================
-// WELCOME → APP TRANSITION
+// WELCOME → ALARM TYPE MENU → APP TRANSITION
 // ============================================================
-function selectLine(line) {
-  currentLine = line;
-  applyLineTheme(line);
-  initApp();
 
-  // Animate
+function showAlarmTypeMenu(line) {
+  currentLine = line;
+  // Update sub-menu label
+  document.getElementById('alarmTypeLineLabel').textContent = 'LINE ' + line;
+
   var welcome = document.getElementById('welcomeStage');
+  var typeStage = document.getElementById('alarmTypeStage');
+
+  welcome.classList.add('hidden');
+  setTimeout(function() {
+    typeStage.style.opacity = '1';
+    typeStage.style.pointerEvents = 'all';
+    typeStage.style.transform = 'translateY(0)';
+  }, 200);
+}
+
+function backToWelcome() {
+  var welcome = document.getElementById('welcomeStage');
+  var typeStage = document.getElementById('alarmTypeStage');
+  var pill = document.getElementById('activeLinePill');
+
+  typeStage.style.opacity = '0';
+  typeStage.style.pointerEvents = 'none';
+  typeStage.style.transform = 'translateY(24px)';
+  welcome.classList.remove('hidden');
+  pill.style.display = 'none';
+}
+
+function selectLineAndType(line, type) {
+  if (line) currentLine = line;
+  currentAlarmType = type;
+
+  applyLineTheme(currentLine);
+  updateAlarmTypeBadge(type);
+  buildGrid();
+
+  document.getElementById('detailsSection').innerHTML =
+    '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+
+  // Hide alarm type stage, show app
+  var typeStage = document.getElementById('alarmTypeStage');
   var app = document.getElementById('appStage');
   var pill = document.getElementById('activeLinePill');
 
-  welcome.classList.add('hidden');
+  typeStage.style.opacity = '0';
+  typeStage.style.pointerEvents = 'none';
+  typeStage.style.transform = 'translateY(24px)';
+
   setTimeout(function() {
     app.classList.add('visible');
   }, 200);
 
-  pill.textContent = 'LINE ' + line;
+  pill.textContent = 'LINE ' + currentLine;
   pill.style.display = 'flex';
+}
+
+function selectLine(line) {
+  // kept for backward compat - goes to unit alarm
+  showAlarmTypeMenu(line);
+}
+
+function backToAlarmTypeMenu() {
+  var app = document.getElementById('appStage');
+  var typeStage = document.getElementById('alarmTypeStage');
+
+  app.classList.remove('visible');
+  document.getElementById('detailsSection').innerHTML =
+    '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
+
+  setTimeout(function() {
+    typeStage.style.opacity = '1';
+    typeStage.style.pointerEvents = 'all';
+    typeStage.style.transform = 'translateY(0)';
+  }, 200);
 }
 
 function goHome() {
   var welcome = document.getElementById('welcomeStage');
   var app = document.getElementById('appStage');
+  var typeStage = document.getElementById('alarmTypeStage');
   var pill = document.getElementById('activeLinePill');
 
   app.classList.remove('visible');
+  typeStage.style.opacity = '0';
+  typeStage.style.pointerEvents = 'none';
+  typeStage.style.transform = 'translateY(24px)';
   welcome.classList.remove('hidden');
   pill.style.display = 'none';
 
@@ -1496,16 +1701,28 @@ function goHome() {
     '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
 }
 
-function switchLine(line) {
+function switchLineKeepType(line) {
   currentLine = line;
   applyLineTheme(line);
   document.getElementById('detailsSection').innerHTML =
     '<div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div>';
   buildGrid();
-  document.getElementById('tabAB').classList.toggle('active', line === 'AB');
-  document.getElementById('tabC').classList.toggle('active', line === 'C');
   var pill = document.getElementById('activeLinePill');
   if (pill) pill.textContent = 'LINE ' + line;
+}
+
+function switchLine(line) {
+  switchLineKeepType(line);
+}
+
+function updateAlarmTypeBadge(type) {
+  var badge = document.getElementById('activeAlarmTypeBadge');
+  if (!badge) return;
+  var labels = { unit: 'UNIT ALARM', cooling: 'COOLING ALARM', station: 'STATION ALARM' };
+  var colors = { unit: '#5ECECE', cooling: '#00ccff', station: '#a78bfa' };
+  badge.textContent = labels[type] || 'UNIT ALARM';
+  badge.style.color = colors[type] || '#5ECECE';
+  badge.style.borderColor = (colors[type] || '#5ECECE') + '66';
 }
 
 function applyLineTheme(line) {
@@ -1565,10 +1782,12 @@ function initApp() {
       badge.style.background = 'rgba(27,139,139,0.1)';
     }
   }
+  updateAlarmTypeBadge(currentAlarmType);
   buildGrid();
 }
 
 currentLine = 'C';
+currentAlarmType = 'unit';
 startIntro();
 </script>
 
