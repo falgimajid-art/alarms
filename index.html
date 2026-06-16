@@ -1,8 +1,9 @@
+
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
-<title>لوحة الإنذارات - LINE AB &amp; LINE C</title>
+<title>- LINE AB &amp; LINE C</title>
 <link href="https://fonts.googleapis.com/css2?family=Tajawal:wght@300;400;500;700;800;900&amp;display=swap" rel="stylesheet">
 <style>
 /* ======================================================
@@ -597,7 +598,7 @@ textarea:disabled {
         <img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="شعار شركة نقل المياه">
       </div>
       <div class="intro-system-label">WATER TRANSMISSION COMPANY — JUBAIL</div>
-      <div class="intro-title">لوحة <span>الإنذارات</span><br></div>
+      <div class="intro-title"> <span>الإنذارات</span><br></div>
       <div class="intro-subtitle">UNIT ALARMS LINE AB &amp; LINE C</div>
       <div class="intro-bar-wrap">
         <div class="intro-bar-track">
@@ -619,7 +620,7 @@ textarea:disabled {
   <div id="appTopBar">
     <img class="top-logo" src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     <div class="top-sys-label">Water Transmission Company — Jubail</div>
-    <div id="activeLinePill" style="display: none;">LINE C</div>
+    <div id="activeLinePill" style="display: none;">LINE AB</div>
   </div>
 
   <!-- WELCOME STAGE -->
@@ -628,7 +629,7 @@ textarea:disabled {
       <img src="https://cdn.phototourl.com/free/2026-05-23-2192b393-f768-4ce8-91f9-9ac769f0a19d.png" alt="WTCO" onerror="this.style.display='none'">
     </div>
     <div class="welcome-title">لوحة الإنذارات </div>
-    <div class="welcome-sub">ALARMS SYSTEM · LINE AB &amp; LINE C</div>
+    <div class="welcome-sub">UNITALARM SYSTEM · LINE AB &amp; LINE C</div>
     <div class="line-cards">
       <div class="line-card" onclick="showAlarmTypeMenu('AB')">
         <div class="card-dot"></div>
@@ -642,9 +643,18 @@ textarea:disabled {
   </div>
 
   <!-- ALARM TYPE STAGE (sub-menu) -->
-  <div id="alarmTypeStage" style="position: absolute; inset: 0px; padding: 82px 14px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transform: translateY(24px); transition: opacity 0.4s, transform 0.4s; z-index: 7;">
+  <div id="alarmTypeStage" style="
+    position:absolute; inset:0;
+    padding:82px 14px 14px;
+    display:flex; flex-direction:column;
+    align-items:center; justify-content:center; gap:20px;
+    opacity:0; pointer-events:none;
+    transform:translateY(24px);
+    transition:opacity 0.4s ease, transform 0.4s ease;
+    z-index:7;
+  ">
     <div style="text-align:center; margin-bottom:6px;">
-      <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE C</div>
+      <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE AB</div>
       <div style="font-size:11px; color:#8BA3C7; letter-spacing:3px; margin-top:4px;">اختر نوع الإنذار</div>
     </div>
     <div style="display:flex; gap:14px; flex-wrap:wrap; justify-content:center;">
@@ -664,7 +674,13 @@ textarea:disabled {
         <div class="card-line-sub">ALARM</div>
       </div>
     </div>
-    <button onclick="backToWelcome()" style="margin-top: 10px; padding: 8px 20px; border-radius: 8px; border: 1px solid rgb(30, 61, 107); color: rgb(139, 163, 199); background: rgba(30, 61, 107, 0.2); cursor: pointer; font-family: Tajawal, sans-serif; font-size: 13px; font-weight: 700; transition: 0.2s;" onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
+    <button onclick="backToWelcome()" style="
+      margin-top:10px; padding:8px 20px; border-radius:8px;
+      border:1px solid #1E3D6B; color:#8BA3C7;
+      background:rgba(30,61,107,0.2); cursor:pointer;
+      font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700;
+      transition:all 0.2s;
+    " onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
   </div>
 
   <!-- APP STAGE -->
@@ -672,25 +688,25 @@ textarea:disabled {
     <div class="app-panel">
       <div class="app-panel-header">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span class="panel-label">❄️ مصفوفة COOLING ALARM</span>
-          <span id="activeLineBadge" class="active-line-badge badge-c"> LINE C</span>
-          <span id="activeAlarmTypeBadge" style="font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 204, 255, 0.4); color: rgb(0, 204, 255); background: rgba(27, 139, 139, 0.05); letter-spacing: 1px;">COOLING ALARM</span>
+          <span class="panel-label">  الإنذارات </span>
+          <span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
+          <span id="activeAlarmTypeBadge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1B8B8B44;color:#5ECECE;background:#1B8B8B0D;letter-spacing:1px;">UNIT ALARM</span>
         </div>
         <div class="ctrl-row">
           <button class="home-btn" onclick="goHome()">⌂ الرئيسية</button>
           <button class="home-btn" onclick="backToAlarmTypeMenu()" style="border-color:#1B8B8B44;">← نوع الإنذار</button>
-          <button class="mini-tab" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
-          <button class="mini-tab active" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
+          <button class="mini-tab active" id="tabAB" onclick="switchLineKeepType('AB')">LINE AB</button>
+          <button class="mini-tab" id="tabC" onclick="switchLineKeepType('C')">LINE C</button>
           <div id="roleBadge" class="status-badge" style="color: rgb(94, 206, 206); border-color: rgb(27, 139, 139); background: rgba(27, 139, 139, 0.15);"></div>
         </div>
       </div>
-      <input type="text" class="app-search" placeholder="🔍ابحث عن الإنذار..." onkeyup="filterAlarms(this.value)">
+      <input type="text" class="app-search" placeholder="🔍 ابحث عن الإنذار ..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"><div class="cell" title="CWS IN ALARM" style="border-right: 3px solid rgb(0, 204, 255);">CWS IN ALARM</div><div class="cell" title="CWS NOT AVAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS NOT AVAIL</div><div class="cell" title="COOL CAP NOT AVAIL" style="border-right: 3px solid rgb(0, 204, 255);">COOL CAP NOT AVAIL</div><div class="cell" title="CWS NOT AUTO" style="border-right: 3px solid rgb(0, 204, 255);">CWS NOT AUTO</div><div class="cell" title="POWER SUPPLY FAIL SUM" style="border-right: 3px solid rgb(0, 204, 255);">POWER SUPPLY FAIL SUM</div><div class="cell" title="CWS URG FAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS URG FAIL</div><div class="cell" title="CWS NON URG FAIL" style="border-right: 3px solid rgb(0, 204, 255);">CWS NON URG FAIL</div><div class="cell" title="CW LINE 1 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 1 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 01 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 01 SUM ALARM</div><div class="cell" title="CW LINE 2 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 2 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 02 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 02 SUM ALARM</div><div class="cell" title="CW LINE 3 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 3 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 03 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 03 SUM ALARM</div><div class="cell" title="CW LINE 4 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CW LINE 4 NOT REMOTE</div><div class="cell" title="LOCAL PANEL 04 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 04 SUM ALARM</div><div class="cell" title="CIRC PUMP 1 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 1 NOT REMOTE</div><div class="cell" title="MOV FAIL" style="border-right: 3px solid rgb(0, 204, 255);">MOV FAIL</div><div class="cell" title="CIRC PUMP 2 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 2 NOT REMOTE</div><div class="cell" title="FOAS FAIL" style="border-right: 3px solid rgb(0, 204, 255);">FOAS FAIL</div><div class="cell" title="CIRC PUMP 3 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 3 NOT REMOTE</div><div class="cell" title="CIRC PUMP 4 NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255);">CIRC PUMP 4 NOT REMOTE</div><div class="cell" title="ROOM TEMP-HI" style="border-right: 3px solid rgb(0, 204, 255);">ROOM TEMP-HI</div><div class="cell" title="FILTER 1 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 1 DIF PRES HIGH</div><div class="cell" title="FILTER 2 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 2 DIF PRES HIGH</div><div class="cell" title="FILTER 3 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 3 DIF PRES HIGH</div><div class="cell" title="FILTER 4 DIF PRES HIGH" style="border-right: 3px solid rgb(0, 204, 255);">FILTER 4 DIF PRES HIGH</div><div class="cell" title="CW TEMP PRE WARN" style="border-right: 3px solid rgb(0, 204, 255);">CW TEMP PRE WARN</div><div class="cell" title="SEQ FAIL" style="border-right: 3px solid rgb(0, 204, 255);">SEQ FAIL</div><div class="cell" title="OUTLET PRESSURE LOW" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">OUTLET PRESSURE LOW</div><div class="cell" title="CW TEMP HIGH" style="border-right: 3px solid rgb(0, 204, 255);">CW TEMP HIGH</div><div class="cell" title="LOCAL PANEL 00 SUM ALARM" style="border-right: 3px solid rgb(0, 204, 255);">LOCAL PANEL 00 SUM ALARM</div><div class="cell" title="CONDUCTIVITY LOW LOW" style="border-right: 3px solid rgb(0, 204, 255);">CONDUCTIVITY LOW LOW</div></div>
+        <div id="grid" class="annunciator-grid"><div class="cell has-data-ab">Unit In Alarm</div><div class="cell has-data-ab">COOLING AIR SLIPRING CASE</div><div class="cell has-data-ab">COOLING AIR MOTOR COLD</div><div class="cell has-data-ab">COOLING AIR MOTOR WARM</div><div class="cell has-data-ab">COOLING AIR PRESSURE</div><div class="cell has-data-ab">Lube OIL TANK LOW TEMP</div><div class="cell has-data-ab">LUBE OIL TANK LOW LOW</div><div class="cell has-data-ab">LUBE OIL PRESS LOW</div><div class="cell has-data-ab">BRUSH LENGTH</div><div class="cell has-data-ab">BUNIT TRIPPED</div><div class="cell has-data-ab">WINDING TEMP.R</div><div class="cell has-data-ab">WINDING TEMP.S</div><div class="cell has-data-ab">WINDING TEMP.T</div><div class="cell has-data-ab">SEAL FAILURE</div><div class="cell has-data-ab">SUCTION PRESS LOW</div><div class="cell has-data-ab">DISCH PRESS High</div><div class="cell has-data-ab">VIBRATION</div><div class="cell has-data-ab">MOTOR TEMP IBB</div><div class="cell has-data-ab">MOTOR TEMP OBB</div><div class="cell has-data-ab">DISCH MOV FAIL</div><div class="cell has-data-ab">SUCTION PRESS S/D</div><div class="cell has-data-ab">PUMPE TEMP CASE</div><div class="cell has-data-ab">CASCADE NOT REMOTE</div><div class="cell has-data-ab">STARTER HIGH TEMP</div><div class="cell has-data-ab">STARTER LOW LEVEL</div><div class="cell has-data-ab">STARTER WARN</div><div class="cell has-data-ab">CASCADE WARN</div><div class="cell has-data-ab">LUBE OIL FILTER</div><div class="cell has-data-ab">SPEED NOT REACHED</div><div class="cell has-data-ab">UNIT E.SD</div><div class="cell has-data-ab">COOLING NOT STARTED</div><div class="cell has-data-ab">COLSED LOOP NOT REMOTE</div><div class="cell has-data-ab">UNIT SYST FAULT</div><div class="cell has-data-ab">PUMP TEMP IBBI</div><div class="cell has-data-ab">PUMP TEMP IBTR</div><div class="cell has-data-ab">PUMP TEMP OBBI</div><div class="cell has-data-ab">PUMP TEMP OBTR</div><div class="cell has-data-ab">DISCHARGE PRESS SD</div><div class="cell has-data-ab">LUBE OIL PRESS SD</div><div class="cell has-data-ab">LUBE OIL HIGH TEMP</div><div class="cell has-data-ab">STARTER SD</div><div class="cell has-data-ab">CASCADE SD</div><div class="cell has-data-ab">SEQ FAULT</div><div class="cell has-data-ab active-ab">PRE-START CONDITIONS INCOMPL</div></div>
       </div>
     </div>
 
-    <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>
+    <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على الإنذار أعلاه لعرض أسبابه والإجراءات الفنية.</div></div>
 
     <div class="developer-signature">By: <span id="designerName">MAJED M.FALQI</span></div>
   </div>
@@ -719,7 +735,7 @@ textarea:disabled {
 <script>
 
 // ============================================================
-// LINE C ALARMS (الكود الأصلي)
+// LINE C ALARMS 
 // ============================================================
 const alarmNamesC = [
 "Unit In Alarm","SIC On Fixed Speed","SIC Not Ready Auto","SIC Not Ready Fix SP","Control Mode Error","Lube Res Temp Low","Pump Seal Fail","Lube Pres Before TCV Low",
@@ -1244,7 +1260,7 @@ const embeddedDBAB = {
 
 
 // ============================================================
-// COOLING ALARM DB — LINE C (فارغة جاهزة للتعبئة)
+// COOLING ALARM DB — LINE C 
 // ============================================================
 const coolingNamesC = [
   "CWS IN ALARM","CWS NOT AVAIL","COOL CAP NOT AVAIL","CWS NOT AUTO","POWER SUPPLY FAIL SUM","CWS URG FAIL","CWS NON URG FAIL",
@@ -1255,12 +1271,62 @@ const coolingNamesC = [
   "CW TEMP HIGH","LOCAL PANEL 00 SUM ALARM","CONDUCTIVITY LOW LOW",
 ];
 
-const embeddedDBCoolingC = {
-  "28": {
-    "cause": "- ضغط الخروج من نظام التبريد منخفض",
-    "action": "- التأكد من مضخات CLOSED SYSTEM وأن الضغط أكثر من 0.6 بار"
-  }
-};
+const embeddedDBCoolingC = {};
+
+// ============================================================
+// COOLING ALARM DB — LINE AB (MAIN — General Alarms A & B)
+// ============================================================
+const coolingNamesAB = [
+  // General Alarms COOLING — A
+  "CWS NOT REMOTE","SYSTEM FAIL","RETURN TEMP HIGH","LEVEL ALARMS","PRES. LOW",
+  "MOV FAILURE","PUMP FAILURE","MIN. COOLW CIRC.","FILTER SKID","FAN FAILURE",
+  // General Alarms COOLING — B
+
+];
+
+const embeddedDBCoolingAB = {};
+
+// ============================================================
+// STATION ALARM DB — LINE C 
+// ============================================================
+const stationNamesC = [
+  // صورة 1 — Station Alarms (8 أعمدة × 6 صفوف)
+  "STATION IN ALARM","STATION NOT AVAIL","STATION BYPASS NOT AVAIL","STAT NOT CENTRAL","SUC STRAINER DIFF PRESS HIGH","SPDS URG FAIL","STATCON I URG FAIL","STATCON II URG FAIL",
+  "STATION ESD","STATION SHUT DOWN LO","STATION SHUT DOWN NLO","PUMPS CAP FLOW OVER MAX","PUMPS CAP FLOW BELOW MIN","SPDS NON URG FAIL","STATCON I NON URG FAIL","STATCON II NON URG FAIL",
+  "SAFETY SEQ 1","SAFETY SEQ 2","SAFETY SEQ 3","SSS BLOCK TIME RUNNING","SSS-VERIF NEG","STATCON I BUS FAIL","STATCON II BUS FAIL",
+  "PRES INLET LOW","PRES BEFORE PCV HIGH","PRES AFTER PCV HIGH","MOV SEQ FAIL","SCRAPER ACTION ON","LOSS OF TELECON","SYS I TELECON FAIL","SYS II TELECON FAIL",
+  "LV-STAT 4 IN ALARM","LV-STAT 4 NOT AVAIL","LV-STAT 4 NOT REMOTE","LV-STAT 4 LOGIC FAIL","STATION OFF LINE","LV-STAT 4 LOSS OF TELECON","LV-STAT 4 FIRE ALARM",
+  "LV-STAT 5 IN ALARM","LV-STAT 5 NOT AVAIL","LV-STAT 5 NOT REMOTE","LV-STAT 5 LOGIC FAIL","LV-STAT 5 LOSS OF TELECON","LV-STAT 5 FIRE ALARM",
+  // صورة 2 — PS3 Station Alarms (8 أعمدة × 6 صفوف)
+  "SEC MAIN SUB TRANSF URG ALARM","OTN FAIL MAJOR","LV-STAT 4 POWER SUPL SYS FAIL","MV 13.8kV CB A TRIPPED","PCB 1 CB A TRIPPED","ASB 1 CB A TRIPPED","RECTIFIER A FAIL / EARTH FAULT","INVERTER A CHANGE OVER TO INVERTER B",
+  "SEC MAIN SUB CB URG ALARM","OTN FAIL MINOR","LV-STAT 5 POWER SUPL SYS FAIL","MV 13.8kV CB B TRIPPED","PCB 1 CB B TRIPPED","ASB 1 CB B TRIPPED","RECTIFIER B FAIL / EARTH FAULT","INVERTER B CHANGE OVER TO INVERTER A",
+  "TELEPHONE SYS FAIL","RELIEF SYS NOT AVAIL","RELIEF BASIN LEVEL HIGH","MV 13.8kV SYS A FAIL","PCB 1 SYS A FAIL","ASB 1 SYS A FAIL","DC SYS A LOW VOLTAGE","EMERGENCY GENERATOR FAIL",
+  "S W S IN ALARM","RELIEF SYS IN ALARM","OTN B MAJOR","MV 13.8kV SYS B FAIL","PCB 1 SYS B FAIL","ASB 1 SYS B FAIL","DC SYS B LOW VOLTAGE","EMERGENCY GENERATOR BLOCKED",
+  "SERVICE RADIO FAIL","FCV FAIL","OTN B MINOR","MV 13.8kV CHANGE OVER FAIL","PCB 1 CHANGE OVER FAIL","ASB 1 CHANGE OVER FAIL","INVERTER A FAIL","DIESEL FUEL TANK LEVEL LOW",
+  "HVAC FAIL","PCV FAIL","INVERTER B FAIL","DELUGE OPERATED"
+];
+
+const embeddedDBStationC = {};
+
+// ============================================================
+// STATION ALARM DB — LINE AB 
+// ============================================================
+const stationNamesAB = [
+  // صورة 1 — GENERAL ALARMS MAIN A (11 أعمدة × 4 صفوف)
+  "STATION IN ALARM","STATION SD LO","STATION SD NLO","COMMON SSS","STATION SSS 1","STATION SSS 2","STATION SSS 3","STATION NOT AVAIL","STATION BY PASS NOT AVAIL","STATION NOT REMOTE","STATION PRESS","STATION DISCH PRESS","FCV FAIL","PCV FAIL","FLOW CONTR MAX","FLOW CONTR MIN","SURGE SYSTEM NOT AVAIL","SURGE SYSTEM FAIL","SURGE LINE NOT OPEN","LOCAL OPER LAUNCHER","SCRAPER ARRIVING","SCRAPER IN TRAP","MV FAILURE","CLOSED LOOP NOT REMOTE","FUSE ALARM HWI","STATION LOGIC FAIL","BUS FAULT","HH LEVEL DRAIN",
+  "UTILITY WATER FAIL","DRINKING WATER FAIL","EMG FAIL","WATER QUALITY","LOST OF TELEC","AIR COND FAIL","FIRE SYSTEM FAIL",
+  // صورة 2 — ELECTR. ALARMS MAIN A (11 أعمدة × 3 صفوف)
+  "TELECOM FAIL URGENT","TELECOM FAIL","","TELEX FAIL","TELEPHONE FAIL","MOBILE RADIO FAIL","230kV TRIPPED","HV FAIL","13.8kV INC A LO","230kV A FAIL","13.8kV IN PARALLEL",
+  "13.8kV NOT REMOTE","PCB 1 TRIPPED","PCB 1 FAIL LO","PCB 1 CHANGE OVER FAIL","ASB 1 TRIPPED","ASB 1 FAIL LO","ASB 1 CHANGE OVER FAIL","DC-110V RECT FAIL","DC-110V LOW VOLTAGE","INVERT FAIL","NO-BREAK SYSTEM FAIL",
+  "SF 6 FAIL","","","","ASB2 TRIPPED","ASB2 FAIL LO","ASB2 CHANGE OVER FAIL","CC RECT FAIL","CC LOW VOLTAGE","CC INVERT FAIL","CC NO-BREAK SYSTEM FAIL",
+  // صورة 3 — STATION PS1 — BOOSTER A (10 أعمدة × 2 صفوف)
+  "BP STATION IN ALARM (A)","BP STATION SD LOC LO (A)","BP STATION SD REM NLO (A)","STATION NOT AVAIL (A)","","STATION NOT REMOTE (A)",
+  "BP STATION INLET LEVEL (A)","FCV FAIL (A)","","FLOW CONTR MAX (A)","FLOW CONTR MIN (A)","STATION LOGIC FAIL (A)","CLOSED LOOP NOT REMOTE (A)","BUS FAULT (A)",
+  "BP STATION IN ALARM (B)","BP STATION SD LOC LO (B)","BP STATION SD REM NLO (B)","STATION NOT AVAIL (B)","STATION NOT REMOTE (B)",
+  "BP STATION INLET LEVEL (B)","FCV FAIL (B)","FLOW CONTR MAX (B)","FLOW CONTR MIN (B)","STATION LOGIC FAIL (B)","CLOSED LOOP NOT REMOTE (B)","BUS FAULT (B)",
+];
+
+const embeddedDBStationAB = {};
 
 // ============================================================
 // CONSTANTS
@@ -1276,10 +1342,16 @@ var currentAlarmType = 'unit'; // 'unit' | 'cooling' | 'station'
 var dbC = JSON.parse(JSON.stringify(embeddedDBC));
 var dbAB = JSON.parse(JSON.stringify(embeddedDBAB));
 var dbCoolingC = JSON.parse(JSON.stringify(embeddedDBCoolingC));
+var dbCoolingAB = JSON.parse(JSON.stringify(embeddedDBCoolingAB));
+var dbStationC = JSON.parse(JSON.stringify(embeddedDBStationC));
+var dbStationAB = JSON.parse(JSON.stringify(embeddedDBStationAB));
 var isAdmin = new URLSearchParams(window.location.search).get('edit') === 'majid99';
 
 function getCurrentDB() {
   if (currentAlarmType === 'cooling' && currentLine === 'C') return dbCoolingC;
+  if (currentAlarmType === 'cooling' && currentLine === 'AB') return dbCoolingAB;
+  if (currentAlarmType === 'station' && currentLine === 'C') return dbStationC;
+  if (currentAlarmType === 'station' && currentLine === 'AB') return dbStationAB;
   return currentLine === 'C' ? dbC : dbAB;
 }
 function getCurrentAlarmNames() { return currentLine === 'C' ? alarmNamesC : alarmNamesAB; }
@@ -1296,9 +1368,9 @@ function buildGrid() {
   // Update panel label based on type
   var panelLabel = document.querySelector('.panel-label');
   if (panelLabel) {
-    var typeIcons = { unit: '🎛️', cooling: '❄️', station: '🏭' };
-    var typeNames = { unit: 'مصفوفة UNIT ALARM', cooling: 'مصفوفة COOLING ALARM', station: 'مصفوفة STATION ALARM' };
-    panelLabel.textContent = (typeIcons[type] || '🎛️') + ' ' + (typeNames[type] || 'مصفوفة الإنذارات النشطة');
+    var typeIcons = { unit: '', cooling: '', station: '' };
+    var typeNames = { unit: ' UNIT ALARM', cooling: ' COOLING ALARM', station: ' STATION ALARM' };
+    panelLabel.textContent = (typeIcons[type] || '🎛️') + ' ' + (typeNames[type] || 'مصفوفة الإنذارات ');
   }
 
   if (type === 'unit') {
@@ -1314,11 +1386,10 @@ function buildGrid() {
       grid.appendChild(cell);
     });
   } else if (type === 'cooling') {
-    var coolingNamesAB = [];
     var cNames = (currentLine === 'C') ? coolingNamesC : coolingNamesAB;
-    var cDB = (currentLine === 'C') ? dbCoolingC : {};
+    var cDB = (currentLine === 'C') ? dbCoolingC : dbCoolingAB;
 
-    if (currentLine === 'AB' || cNames.length === 0) {
+    if (cNames.length === 0) {
       var count = names.length;
       for (var i = 0; i < count; i++) {
         var cell = document.createElement('div');
@@ -1351,14 +1422,40 @@ function buildGrid() {
       });
     }
   } else {
-    // Station: empty cells same count as unit alarms
-    var count = names.length;
-    for (var i = 0; i < count; i++) {
-      var cell = document.createElement('div');
-      cell.className = 'cell empty';
-      cell.style.opacity = '0.18';
-      cell.style.pointerEvents = 'none';
-      grid.appendChild(cell);
+    // Station
+    var sNames = (currentLine === 'C') ? stationNamesC : stationNamesAB;
+    var sDB = (currentLine === 'C') ? dbStationC : dbStationAB;
+
+    if (sNames.length === 0) {
+      var count = names.length;
+      for (var i = 0; i < count; i++) {
+        var cell = document.createElement('div');
+        cell.className = 'cell empty';
+        cell.style.opacity = '0.18';
+        cell.style.pointerEvents = 'none';
+        grid.appendChild(cell);
+      }
+    } else {
+      sNames.forEach(function(name, index) {
+        var cell = document.createElement('div');
+        if (!name) {
+          cell.className = 'cell empty';
+          cell.style.opacity = '0.18';
+          cell.style.pointerEvents = 'none';
+        } else {
+          cell.className = 'cell';
+          cell.style.borderRight = '3px solid #a78bfa';
+          if (sDB[index] && (sDB[index].cause || sDB[index].action || sDB[index].dwg || sDB[index].notes)) {
+            cell.style.boxShadow = '0 0 6px #a78bfa44';
+          }
+          cell.innerText = name;
+          cell.title = name;
+          cell.onclick = (function(idx, n) {
+            return function() { showDetails(idx, n); };
+          })(index, name);
+        }
+        grid.appendChild(cell);
+      });
     }
   }
 }
@@ -1376,6 +1473,9 @@ function showDetails(index, name) {
     if (isCooling) {
       cells[index].style.boxShadow = '0 0 14px #00ccff88';
       cells[index].style.borderColor = '#00ccff';
+    } else if (isStation) {
+      cells[index].style.boxShadow = '0 0 14px #a78bfa88';
+      cells[index].style.borderColor = '#a78bfa';
     } else {
       cells[index].classList.add(isAB ? 'active-ab' : 'active');
     }
@@ -1393,7 +1493,7 @@ function showDetails(index, name) {
     + '</div>'
     : '';
 
-  var titleColor = isCooling ? '#00ccff' : (isAB ? '#5ECECE' : '#1B8B8B');
+  var titleColor = isCooling ? '#00ccff' : isStation ? '#a78bfa' : (isAB ? '#5ECECE' : '#1B8B8B');
   var titleClass = isAB ? 'alarm-header-title-ab' : 'alarm-header-title';
   var lineTag = '<span style="font-size:13px; opacity:0.7; margin-right:10px;">[' + currentLine + ' · ' + (isCooling ? 'COOLING' : isStation ? 'STATION' : 'UNIT') + ']</span>';
   var imagesHtml = makeImagesSection(index, data.images);
@@ -1518,6 +1618,9 @@ function updateDB(index, field, value) {
     if (currentAlarmType === 'cooling') {
       cells[index].style.boxShadow = '0 0 10px #00ccff66';
       cells[index].style.borderRight = '3px solid #00ccff';
+    } else if (currentAlarmType === 'station') {
+      cells[index].style.boxShadow = '0 0 10px #a78bfa66';
+      cells[index].style.borderRight = '3px solid #a78bfa';
     } else {
       cells[index].classList.add(currentLine === 'AB' ? 'has-data-ab' : 'has-data');
     }
@@ -1556,6 +1659,12 @@ function exportDB() {
   finalHtml = finalHtml.replace(/const embeddedDBAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBAB = " + cleanDBAB + ";");
   var cleanDBCoolingC = JSON.stringify(dbCoolingC, null, 2);
   finalHtml = finalHtml.replace(/const embeddedDBCoolingC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBCoolingC = " + cleanDBCoolingC + ";");
+  var cleanDBCoolingAB = JSON.stringify(dbCoolingAB, null, 2);
+  finalHtml = finalHtml.replace(/const embeddedDBCoolingAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBCoolingAB = " + cleanDBCoolingAB + ";");
+  var cleanDBStationC = JSON.stringify(dbStationC, null, 2);
+  finalHtml = finalHtml.replace(/const embeddedDBStationC\s*=\s*\{[\s\S]*?\};/, "const embeddedDBStationC = " + cleanDBStationC + ";");
+  var cleanDBStationAB = JSON.stringify(dbStationAB, null, 2);
+  finalHtml = finalHtml.replace(/const embeddedDBStationAB\s*=\s*\{[\s\S]*?\};/, "const embeddedDBStationAB = " + cleanDBStationAB + ";");
 
   // نسخ الكود مباشرة بدون فتح نافذة
   navigator.clipboard.writeText(finalHtml).then(function () {
@@ -1756,12 +1865,12 @@ function initApp() {
   var badge = document.getElementById('roleBadge');
   if (badge) {
     if (isAdmin) {
-      badge.innerText = " (ADMIN)";
+      badge.innerText = "";
       badge.style.color = "#5ECECE";
       badge.style.borderColor = "#1B8B8B";
       badge.style.background = "rgba(27,139,139,0.15)";
     } else {
-      badge.innerText = "view";
+      badge.innerText = "";
       badge.style.color = '#5ECECE';
       badge.style.borderColor = '#1B8B8B';
       badge.style.background = 'rgba(27,139,139,0.1)';
@@ -1775,7 +1884,6 @@ currentLine = 'C';
 currentAlarmType = 'unit';
 startIntro();
 </script>
-
 
 
 
