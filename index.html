@@ -1,4 +1,3 @@
-
 <!DOCTYPE html>
 <html lang="ar" dir="rtl"><head>
 <meta charset="UTF-8">
@@ -643,16 +642,7 @@ textarea:disabled {
   </div>
 
   <!-- ALARM TYPE STAGE (sub-menu) -->
-  <div id="alarmTypeStage" style="
-    position:absolute; inset:0;
-    padding:82px 14px 14px;
-    display:flex; flex-direction:column;
-    align-items:center; justify-content:center; gap:20px;
-    opacity:0; pointer-events:none;
-    transform:translateY(24px);
-    transition:opacity 0.4s ease, transform 0.4s ease;
-    z-index:7;
-  ">
+  <div id="alarmTypeStage" style="position: absolute; inset: 0px; padding: 82px 14px 14px; display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 20px; opacity: 0; pointer-events: none; transform: translateY(24px); transition: opacity 0.4s, transform 0.4s; z-index: 7;">
     <div style="text-align:center; margin-bottom:6px;">
       <div id="alarmTypeLineLabel" style="font-size:28px; font-weight:900; color:#5ECECE; letter-spacing:3px;">LINE AB</div>
       <div style="font-size:11px; color:#8BA3C7; letter-spacing:3px; margin-top:4px;">اختر نوع الإنذار</div>
@@ -674,13 +664,7 @@ textarea:disabled {
         <div class="card-line-sub">ALARM</div>
       </div>
     </div>
-    <button onclick="backToWelcome()" style="
-      margin-top:10px; padding:8px 20px; border-radius:8px;
-      border:1px solid #1E3D6B; color:#8BA3C7;
-      background:rgba(30,61,107,0.2); cursor:pointer;
-      font-family:'Tajawal',sans-serif; font-size:13px; font-weight:700;
-      transition:all 0.2s;
-    " onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
+    <button onclick="backToWelcome()" style="margin-top: 10px; padding: 8px 20px; border-radius: 8px; border: 1px solid rgb(30, 61, 107); color: rgb(139, 163, 199); background: rgba(30, 61, 107, 0.2); cursor: pointer; font-family: Tajawal, sans-serif; font-size: 13px; font-weight: 700; transition: 0.2s;" onmouseover="this.style.borderColor='#1B8B8B';this.style.color='#5ECECE'" onmouseout="this.style.borderColor='#1E3D6B';this.style.color='#8BA3C7'">⌂ الرئيسية</button>
   </div>
 
   <!-- APP STAGE -->
@@ -688,9 +672,9 @@ textarea:disabled {
     <div class="app-panel">
       <div class="app-panel-header">
         <div style="display:flex;align-items:center;gap:10px;flex-wrap:wrap;">
-          <span class="panel-label">  الإنذارات </span>
+          <span class="panel-label">🎛️  COOLING ALARM</span>
           <span id="activeLineBadge" class="active-line-badge badge-ab"> LINE AB</span>
-          <span id="activeAlarmTypeBadge" style="font-size:11px;font-weight:700;padding:4px 10px;border-radius:20px;border:1px solid #1B8B8B44;color:#5ECECE;background:#1B8B8B0D;letter-spacing:1px;">UNIT ALARM</span>
+          <span id="activeAlarmTypeBadge" style="font-size: 11px; font-weight: 700; padding: 4px 10px; border-radius: 20px; border: 1px solid rgba(0, 204, 255, 0.4); color: rgb(0, 204, 255); background: rgba(27, 139, 139, 0.05); letter-spacing: 1px;">COOLING ALARM</span>
         </div>
         <div class="ctrl-row">
           <button class="home-btn" onclick="goHome()">⌂ الرئيسية</button>
@@ -702,11 +686,11 @@ textarea:disabled {
       </div>
       <input type="text" class="app-search" placeholder="🔍 ابحث عن الإنذار ..." onkeyup="filterAlarms(this.value)">
       <div style="margin-top:12px;">
-        <div id="grid" class="annunciator-grid"><div class="cell has-data-ab">Unit In Alarm</div><div class="cell has-data-ab">COOLING AIR SLIPRING CASE</div><div class="cell has-data-ab">COOLING AIR MOTOR COLD</div><div class="cell has-data-ab">COOLING AIR MOTOR WARM</div><div class="cell has-data-ab">COOLING AIR PRESSURE</div><div class="cell has-data-ab">Lube OIL TANK LOW TEMP</div><div class="cell has-data-ab">LUBE OIL TANK LOW LOW</div><div class="cell has-data-ab">LUBE OIL PRESS LOW</div><div class="cell has-data-ab">BRUSH LENGTH</div><div class="cell has-data-ab">BUNIT TRIPPED</div><div class="cell has-data-ab">WINDING TEMP.R</div><div class="cell has-data-ab">WINDING TEMP.S</div><div class="cell has-data-ab">WINDING TEMP.T</div><div class="cell has-data-ab">SEAL FAILURE</div><div class="cell has-data-ab">SUCTION PRESS LOW</div><div class="cell has-data-ab">DISCH PRESS High</div><div class="cell has-data-ab">VIBRATION</div><div class="cell has-data-ab">MOTOR TEMP IBB</div><div class="cell has-data-ab">MOTOR TEMP OBB</div><div class="cell has-data-ab">DISCH MOV FAIL</div><div class="cell has-data-ab">SUCTION PRESS S/D</div><div class="cell has-data-ab">PUMPE TEMP CASE</div><div class="cell has-data-ab">CASCADE NOT REMOTE</div><div class="cell has-data-ab">STARTER HIGH TEMP</div><div class="cell has-data-ab">STARTER LOW LEVEL</div><div class="cell has-data-ab">STARTER WARN</div><div class="cell has-data-ab">CASCADE WARN</div><div class="cell has-data-ab">LUBE OIL FILTER</div><div class="cell has-data-ab">SPEED NOT REACHED</div><div class="cell has-data-ab">UNIT E.SD</div><div class="cell has-data-ab">COOLING NOT STARTED</div><div class="cell has-data-ab">COLSED LOOP NOT REMOTE</div><div class="cell has-data-ab">UNIT SYST FAULT</div><div class="cell has-data-ab">PUMP TEMP IBBI</div><div class="cell has-data-ab">PUMP TEMP IBTR</div><div class="cell has-data-ab">PUMP TEMP OBBI</div><div class="cell has-data-ab">PUMP TEMP OBTR</div><div class="cell has-data-ab">DISCHARGE PRESS SD</div><div class="cell has-data-ab">LUBE OIL PRESS SD</div><div class="cell has-data-ab">LUBE OIL HIGH TEMP</div><div class="cell has-data-ab">STARTER SD</div><div class="cell has-data-ab">CASCADE SD</div><div class="cell has-data-ab">SEQ FAULT</div><div class="cell has-data-ab active-ab">PRE-START CONDITIONS INCOMPL</div></div>
+        <div id="grid" class="annunciator-grid"><div class="cell" title="CWS NOT REMOTE" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">CWS NOT REMOTE</div><div class="cell" title="SYSTEM FAIL" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">SYSTEM FAIL</div><div class="cell" title="RETURN TEMP HIGH" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">RETURN TEMP HIGH</div><div class="cell" title="LEVEL ALARMS" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.4) 0px 0px 10px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">LEVEL ALARMS</div><div class="cell" title="PRES. LOW" style="border-right: 3px solid rgb(0, 204, 255); box-shadow: rgba(0, 204, 255, 0.533) 0px 0px 14px; border-top-color: rgb(0, 204, 255); border-bottom-color: rgb(0, 204, 255); border-left-color: rgb(0, 204, 255);">PRES. LOW</div><div class="cell" title="MOV FAILURE" style="border-right: 3px solid rgb(0, 204, 255);">MOV FAILURE</div><div class="cell" title="PUMP FAILURE" style="border-right: 3px solid rgb(0, 204, 255);">PUMP FAILURE</div><div class="cell" title="MIN. COOLW CIRC." style="border-right: 3px solid rgb(0, 204, 255);">MIN. COOLW CIRC.</div><div class="cell" title="FILTER SKID" style="border-right: 3px solid rgb(0, 204, 255);">FILTER SKID</div><div class="cell" title="FAN FAILURE" style="border-right: 3px solid rgb(0, 204, 255);">FAN FAILURE</div></div>
       </div>
     </div>
 
-    <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على الإنذار أعلاه لعرض أسبابه والإجراءات الفنية.</div></div>
+    <div id="detailsSection" class="details-section"><div class="placeholder-text">💡 اضغط على أي إنذار في المصفوفة أعلاه لعرض أسبابه والإجراءات الفنية المطلوبة فوراً.</div></div>
 
     <div class="developer-signature">By: <span id="designerName">MAJED M.FALQI</span></div>
   </div>
@@ -1284,7 +1268,24 @@ const coolingNamesAB = [
 
 ];
 
-const embeddedDBCoolingAB = {};
+const embeddedDBCoolingAB = {
+  "0": {
+    "cause": "- إنذار يبين أن المفتاح ليس على الوضع الاوتوماتيكي",
+    "action": "- التأكد من وضع المفتاح على الوضع الاوتوماتيكي"
+  },
+  "1": {
+    "cause": "- عطل في الأجهزة الدقيقة في لوحة التحكم",
+    "action": "- اذا كان النظام على الوضع الاوتوماتيكي سوف يتوقف النظام حتى تلغى الانذارات ويعطي اشارة الى تحكم المحطة غير جاهزة ( STATION NOT AVAIL ) ويؤثر على عدم القدرة للتشغيل الاوتوماتيكي\n- يجب فورًا تشغيل النظام يدويا ( LOCAL ) "
+  },
+  "2": {
+    "cause": "- خلل في أجهزة نظام التحكم للتبريد\n- خلل في أجهزة التحكم الكهربائية",
+    "action": "- التحقق من الحرارة الداخلة والخارجة في غرفة التحكم ومحليا"
+  },
+  "3": {
+    "cause": "- انخفاض المستوى في خزان الرش أو خزان المعالجة أو خزان التعويض",
+    "action": "- يجب التحقق من مستوى الخزانات "
+  }
+};
 
 // ============================================================
 // STATION ALARM DB — LINE C 
@@ -1882,6 +1883,7 @@ currentLine = 'C';
 currentAlarmType = 'unit';
 startIntro();
 </script>
+
 
 
 
